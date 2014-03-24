@@ -40,21 +40,20 @@
     ; Regarding the status of the book button.
     (b/bind
       (b/funnel flight-type start-date return-date)
-      (b/transform  
-        (fn [[flight-type start-date return-date]] 
-          (cond (= flight-type "one-way flight")  
-            (date-str? start-date) 
-            (= flight-type "return flight")
-            (and (date-str? start-date) 
-              (date-str? return-date)
-              (>= 0 (compare  
-                      (str->date start-date)  
-                      (str->date return-date)))))))
+      (b/transform (fn [[flight-type start-date return-date]] 
+        (cond (= flight-type "one-way flight")  
+                (date-str? start-date) 
+              (= flight-type "return flight")
+                (and (date-str? start-date) 
+                  (date-str? return-date)
+                  (>= 0 (compare  
+                    (str->date start-date)  
+                    (str->date return-date)))))))
       (b/property book :enabled?))
     (listen book :action (fn [_]
-                           (if (= "one-way flight" (selection flight-type))
-                             (alert (str "You have booked a one-way flight on " (value start-date)))
-                             (alert (str "You have booked a return flight on " (value start-date) " and " (value return-date))))))
+      (if (= "one-way flight" (selection flight-type))
+        (alert (str "You have booked a one-way flight on " (value start-date)))
+        (alert (str "You have booked a return flight on " (value start-date) " and " (value return-date))))))
     ; "Initialize" the bindings.
     (config! [start-date return-date] :text (date->str (java.util.Date.)))
     (selection! flight-type "one-way flight") 
