@@ -46,7 +46,7 @@ class CircleDrawCanvas extends JPanel {
         diameterItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int oldDiameter = hoveredCircle.getDiameter();
-                new DiameterDialog(CircleDrawCanvas.this, hoveredCircle);
+                new DiameterDialog(hoveredCircle);
                 undoManager.addEdit(new ChangeDiameterEdit(
                         hoveredCircle, oldDiameter, hoveredCircle.getDiameter()));
             }
@@ -168,19 +168,19 @@ class CircleDrawCanvas extends JPanel {
         public boolean canRedo() { return true; }
     }
 
-    private static class DiameterDialog {
-        DiameterDialog(final JComponent parent, final Circle selected) {
+    private class DiameterDialog {
+        DiameterDialog(final Circle selected) {
             String message = "Adjust diameter of circle at (" 
                     + selected.getX() + ", " + selected.getY() + ").";
             final JSlider slider = new JSlider(10, 50, selected.getDiameter());
             slider.addChangeListener(new ChangeListener() {
                 public void stateChanged(ChangeEvent e) {
                     selected.setDiameter(slider.getValue());
-                    parent.repaint();
+                    CircleDrawCanvas.this.repaint();
                 }
             });
             final JComponent[] inputs = new JComponent[] {new JLabel(message), slider};
-            JOptionPane.showMessageDialog(parent, inputs, "Adjusting diameter", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(CircleDrawCanvas.this, inputs, "Adjusting diameter", JOptionPane.PLAIN_MESSAGE);
         }
     }
 }
