@@ -149,7 +149,7 @@ public class BookFlight extends JFrame {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                BookFlight frame = new BookFlight("Search Box");
+                BookFlight frame = new BookFlight("Book Flight");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);

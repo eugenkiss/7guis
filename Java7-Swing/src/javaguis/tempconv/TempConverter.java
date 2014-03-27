@@ -1,7 +1,7 @@
 package javaguis.tempconv;
 
 import java.awt.Container;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,15 +20,16 @@ public class TempConverter extends JFrame {
     }
     
     private void initGUI() {
-	    celsiusField = new JTextField();
-	    fahrenheitField = new JTextField();
+	    celsiusField = new JTextField(5);
+	    fahrenheitField = new JTextField(5);
 	    JLabel celsiusLabel = new JLabel("Celsius");
 	    JLabel fahrenheitLabel = new JLabel("Fahrenheit");
 
 	    Container pane = this.getContentPane();
-	    pane.setLayout(new GridLayout(0, 2));
+	    pane.setLayout(new FlowLayout());
 	    pane.add(celsiusField);
 	    pane.add(celsiusLabel);
+	    pane.add(new JLabel("="));
 	    pane.add(fahrenheitField);
 	    pane.add(fahrenheitLabel);
     }
@@ -44,7 +45,7 @@ public class TempConverter extends JFrame {
                         !isNumeric(celsiusField.getText())) return;
                 double celsius = Double.parseDouble(celsiusField.getText().trim());
                 double fahrenheit = celsiusToFahrenheit(celsius);
-                fahrenheitField.setText(Double.toString(Math.round(fahrenheit)));
+                fahrenheitField.setText(String.valueOf(Math.round(fahrenheit)));
             }
         });
         fahrenheitField.getDocument().addDocumentListener(new DocumentListener() {
@@ -57,7 +58,7 @@ public class TempConverter extends JFrame {
                         !isNumeric(fahrenheitField.getText())) return;
                 double fahrenheit = Double.parseDouble(fahrenheitField.getText().trim());
                 double celsius = fahrenheitToCelsius(fahrenheit);
-                celsiusField.setText(Double.toString(Math.round(celsius)));
+                celsiusField.setText(String.valueOf(Math.round(celsius)));
             }
         });
     }

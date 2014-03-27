@@ -22,20 +22,20 @@
   (str (Math/round (float n))))
 
 (defn convert-panel []
-  (let [celsius-input (text) 
-        fahrenheit-input (text)]
-    (b/bind celsius-input 
-            (b/filter #(and (.isFocusOwner celsius-input) (numeric? %)))
-            (b/transform #(-> % parse-temp c-to-f display-temp))
-            fahrenheit-input)
-    (b/bind fahrenheit-input 
-            (b/filter #(and (.isFocusOwner fahrenheit-input) (numeric? %)))
-            (b/transform #(-> % parse-temp f-to-c display-temp))
-            celsius-input)
-    (grid-panel 
-        :columns 2
-        :items [celsius-input    "Celsius" 
-                fahrenheit-input "Fahrenheit" ])))
+  (let [celsius    (text :columns 5) 
+        fahrenheit (text :columns 5)]
+    (b/bind  
+      celsius 
+      (b/filter #(and (.isFocusOwner celsius) (numeric? %)))
+      (b/transform #(-> % parse-temp c-to-f display-temp))
+      fahrenheit)
+    (b/bind 
+      fahrenheit 
+      (b/filter #(and (.isFocusOwner fahrenheit) (numeric? %)))
+      (b/transform #(-> % parse-temp f-to-c display-temp))
+      celsius)
+    (flow-panel 
+      :items [celsius "Celsius" "=" fahrenheit "Fahrenheit"])))
 
 (defn -main [& args] 
   (invoke-later    (-> (frame :title "TempConv" :content (convert-panel) :on-close :exit)      pack!     show!)))
