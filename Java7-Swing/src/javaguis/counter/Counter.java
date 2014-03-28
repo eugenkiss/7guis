@@ -11,47 +11,24 @@ import javax.swing.JTextField;
 
 public class Counter extends JFrame {
     JTextField counterField;
-    JButton countUpButton;
-    JButton countDownButton;
-    JButton resetButton;
+    JButton countButton;
     
     public Counter(String name) {
         super(name);
-        initGUI();
-        initListeners();
-    }
-    
-    private void initGUI() {
+
         counterField = new JTextField("0", 5);
         counterField.setEditable(false);
-        countUpButton = new JButton("Count Up");
-        countDownButton = new JButton("Count Down");
-        resetButton = new JButton("Reset");
+        countButton = new JButton("Count");
 
         Container pane = this.getContentPane();
         pane.setLayout(new FlowLayout());
         pane.add(counterField);
-        pane.add(countUpButton);
-        pane.add(countDownButton);
-        pane.add(resetButton);
-    }
-    
-    private void initListeners() {
-        countUpButton.addActionListener(new ActionListener() {
+        pane.add(countButton);
+
+        countButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 counterField.setText(String.valueOf(
                         Integer.parseInt(counterField.getText()) + 1));
-            }
-        });
-        countDownButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                counterField.setText(String.valueOf(
-                        Integer.parseInt(counterField.getText()) - 1));
-            }
-        });
-        resetButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                counterField.setText("0");
             }
         });
     }
