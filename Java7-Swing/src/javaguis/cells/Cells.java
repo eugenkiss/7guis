@@ -5,10 +5,12 @@ import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.TableCellEditor;
+import javax.swing.event.ChangeEvent;
+import javax.swing.table.TableCellRenderer;
 
 public class Cells extends JTable {
     private JList<Integer> rowHeader;
@@ -41,12 +43,30 @@ public class Cells extends JTable {
         rowHeader.setFixedCellHeight(getRowHeight());
     }
     
-    public Component prepareEditor(TableCellEditor editor, int row, int column) {
-        Formula f = cellModel.getCells()[row][column].getFormula();
-        String prefix = "=";
-        if (f instanceof Number || f instanceof Textual) prefix = "";
-        Object value = prefix + f.toString();
-        return editor.getTableCellEditorComponent(this, value, true, row, column);
+    public TableCellRenderer getCellRenderer(int row, int column) {
+        return new TableCellRenderer() {
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                return new JLabel(cellModel.getCells()[row][column].toString()) {
+                    public int getHorizontalAlignment() {return JLabel.RIGHT;};
+                };
+            }
+        };
+    }
+    
+    public void editingStopped(ChangeEvent ev) {
+        int row = getEditingRow();
+        int col = getEditingColumn();
+        super.editingStopped(ev);
+        Object val = getValueAt(row, col);
+        String userData = val == null ? "" : (String) val;
+        Formula formula = null;
+        try {
+            formula = Parser.parse(userData);
+        } catch (Exception e) {
+            formula = new Textual(e.getMessage());
+        }
+        cellModel.getCells()[row][col].setFormula(formula);
     }
     
     public static void main(String[] args) {

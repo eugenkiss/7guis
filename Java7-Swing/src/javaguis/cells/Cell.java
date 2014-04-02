@@ -4,19 +4,20 @@ import java.util.Observable;
 import java.util.Observer;
 
 class Cell extends Observable implements Observer {
-    private int row, column;
     private Formula formula = Formula.Empty;
     private double value = 0;
     private Model modelReference;
 
-    Cell(int row, int column, Model reference) {
-        this.row = row;
-        this.column = column;
+    Cell(Model reference) {
         this.modelReference = reference;
     }
 
     public String toString() {
-        return "Cell(" + row + "," + column + ")";
+        if (formula instanceof Textual) {
+            Textual textual = (Textual) formula;
+            return textual.value;
+        }
+        return String.valueOf(value);
     }
 
     public Formula getFormula() {
