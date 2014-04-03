@@ -8,4 +8,5 @@
                           (use 'seesaw.dev))}
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [seesaw "1.4.4"]                 
+                 [instaparse "1.3.1"]
                  ])
