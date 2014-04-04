@@ -1,4 +1,4 @@
-package javaguis.tempconv;
+package javaguis.temperatureconverter;
 
 import java.awt.Container;
 import java.awt.FlowLayout;
@@ -9,11 +9,11 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class TempConverter extends JFrame {
+public class TemperatureConverter extends JFrame {
     JTextField celsiusField;
     JTextField fahrenheitField;
     
-    public TempConverter(String name) {
+    public TemperatureConverter(String name) {
         super(name);
         initGUI();
         initListeners();
@@ -83,7 +83,7 @@ public class TempConverter extends JFrame {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                TempConverter frame = new TempConverter("TempConv");
+                TemperatureConverter frame = new TemperatureConverter("Temperature Converter");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);

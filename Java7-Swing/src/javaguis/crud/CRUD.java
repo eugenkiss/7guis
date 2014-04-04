@@ -1,5 +1,3 @@
-// Adapted from http://apfelmus.nfshost.com/blog/2012/03/29-frp-three-principles-bidirectional-gui.html
-    
 package javaguis.crud;
 
 import java.awt.BorderLayout;

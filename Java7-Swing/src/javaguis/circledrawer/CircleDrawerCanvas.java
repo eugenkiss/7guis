@@ -1,4 +1,4 @@
-package javaguis.circledraw;
+package javaguis.circledrawer;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -25,14 +25,14 @@ import javax.swing.event.ChangeListener;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.UndoManager;
 
-class CircleDrawCanvas extends JPanel {
+class CircleDrawerCanvas extends JPanel {
     private List<Circle> circles;
     private Circle hoveredCircle;
     private JPopupMenu popupMenu;
     private JMenuItem diameterItem;
     private UndoManager undoManager;
 
-    public CircleDrawCanvas() {
+    public CircleDrawerCanvas() {
         hoveredCircle = null;
         undoManager = new UndoManager();
         circles = new ArrayList<Circle>();
@@ -176,11 +176,11 @@ class CircleDrawCanvas extends JPanel {
             slider.addChangeListener(new ChangeListener() {
                 public void stateChanged(ChangeEvent e) {
                     selected.setDiameter(slider.getValue());
-                    CircleDrawCanvas.this.repaint();
+                    CircleDrawerCanvas.this.repaint();
                 }
             });
             final JComponent[] inputs = new JComponent[] {new JLabel(message), slider};
-            JOptionPane.showMessageDialog(CircleDrawCanvas.this, inputs, "Adjusting diameter", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(CircleDrawerCanvas.this, inputs, "Adjusting diameter", JOptionPane.PLAIN_MESSAGE);
         }
     }
 }

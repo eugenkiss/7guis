@@ -1,4 +1,4 @@
-(ns cljguis.circledraw
+(ns cljguis.circledrawer
   (:use [seesaw core border graphics color]
     cljguis.core)
   (:require [seesaw.bind :as b] [seesaw.mouse :as mouse]))
@@ -102,6 +102,6 @@
 
 (defn -main [& args] 
   (invoke-later
-    (-> (frame :title "CircleDraw" :content (circledraw-panel) :on-close :exit) 
+    (-> (frame :title "Circle Drawer" :content (circledraw-panel) :on-close :exit) 
       pack!
       show!)))

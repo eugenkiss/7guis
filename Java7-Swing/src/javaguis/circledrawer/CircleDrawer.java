@@ -1,4 +1,4 @@
-package javaguis.circledraw;
+package javaguis.circledrawer;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -10,17 +10,17 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class CircleDraw extends JFrame {
+public class CircleDrawer extends JFrame {
     JButton undoButton;
     JButton redoButton;
-    CircleDrawCanvas canvas;
+    CircleDrawerCanvas canvas;
     
-    public CircleDraw(String name) {
+    public CircleDrawer(String name) {
         super(name);
 
         undoButton = new JButton("Undo");
         redoButton = new JButton("Redo");
-        canvas = new CircleDrawCanvas();
+        canvas = new CircleDrawerCanvas();
 
         JPanel pane = new JPanel(new BorderLayout());
         pane.setPreferredSize(new Dimension(400, 400));
@@ -47,7 +47,7 @@ public class CircleDraw extends JFrame {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                CircleDraw frame = new CircleDraw("CircleDraw");
+                CircleDrawer frame = new CircleDrawer("Circle Drawer");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);

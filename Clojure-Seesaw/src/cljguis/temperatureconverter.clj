@@ -1,6 +1,4 @@
-; Adapted from https://github.com/daveray/seesaw/blob/develop/test/seesaw/test/examples/temp.clj
-
-(ns cljguis.temp
+(ns cljguis.temperatureconverter
   (:use [seesaw core]
         cljguis.core)
   (:require [seesaw.bind :as b]))
@@ -38,4 +36,4 @@
       :items [celsius "Celsius" "=" fahrenheit "Fahrenheit"])))
 
 (defn -main [& args] 
-  (invoke-later    (-> (frame :title "TempConv" :content (convert-panel) :on-close :exit)      pack!     show!)))
+  (invoke-later    (-> (frame :title "Temperature Converter" :content (convert-panel) :on-close :exit)      pack!     show!)))

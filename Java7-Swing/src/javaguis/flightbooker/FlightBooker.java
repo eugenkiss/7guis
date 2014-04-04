@@ -1,5 +1,4 @@
-// Adapted from http://blog.reactiveprogramming.org/?p=21
-package javaguis.bookflight;
+package javaguis.flightbooker;
 
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -19,13 +18,13 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
-public class BookFlight extends JFrame {
+public class FlightBooker extends JFrame {
     JComboBox<String> flightTypeBox;
     JTextField startDateField;
     JTextField returnDateField;
     JButton bookButton;
     
-    public BookFlight(String name) {
+    public FlightBooker(String name) {
         super(name);
         initGUI();
         initListeners();
@@ -86,10 +85,10 @@ public class BookFlight extends JFrame {
                 String startDate = startDateField.getText();
                 String returnDate = returnDateField.getText();
                 if (flightType.equals("one-way flight")) {
-                    JOptionPane.showMessageDialog(BookFlight.this, 
+                    JOptionPane.showMessageDialog(FlightBooker.this, 
                             "You have booked a one-way flight on " + startDate);
                 } else {
-                    JOptionPane.showMessageDialog(BookFlight.this, 
+                    JOptionPane.showMessageDialog(FlightBooker.this, 
                             "You have booked a return flight on " 
                             + startDate + " and " + returnDate);
                 }
@@ -149,7 +148,7 @@ public class BookFlight extends JFrame {
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                BookFlight frame = new BookFlight("Book Flight");
+                FlightBooker frame = new FlightBooker("Flight Booker");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);

@@ -1,4 +1,3 @@
-// Adapted from https://www.artima.com/pins1ed/the-scells-spreadsheet.html
 package javaguis.cells;
 
 import java.awt.Color;

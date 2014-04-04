@@ -1,4 +1,4 @@
-package javaguis.circledraw;
+package javaguis.circledrawer;
 
 public class Circle {
     private int x, y, d;

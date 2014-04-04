@@ -1,6 +1,4 @@
-; Adapted from http://blog.reactiveprogramming.org/?p=21
-
-(ns cljguis.bookflight
+(ns cljguis.flightbooker
   (:use [seesaw core]
     cljguis.core)
   (:require [seesaw.bind :as b]))
@@ -65,6 +63,6 @@
 
 (defn -main [& args] 
   (invoke-later
-    (-> (frame :title "Book Flight" :content (bookflight-panel) :on-close :exit) 
+    (-> (frame :title "Flight Booker" :content (bookflight-panel) :on-close :exit) 
       pack!
       show!)))

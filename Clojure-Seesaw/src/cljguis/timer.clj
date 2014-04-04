@@ -1,5 +1,3 @@
-; Adapted from http://cs.brown.edu/~sk/Publications/Papers/Published/ick-adapt-oo-fwk-frp/paper.pdf
-
 (ns cljguis.timer
   (:use [seesaw core border]
     cljguis.core)
