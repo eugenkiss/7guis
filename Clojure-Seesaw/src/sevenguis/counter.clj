@@ -1,6 +1,6 @@
-(ns cljguis.counter
+(ns sevenguis.counter
   (:use [seesaw core]
-        cljguis.core))
+        sevenguis.core))
 
 (defn counter-panel []
   (let [counter (text :text "0" :columns 5 :editable? false) 

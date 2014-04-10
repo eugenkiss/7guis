@@ -1,6 +1,6 @@
-(ns cljguis.flightbooker
+(ns sevenguis.flightbooker
   (:use [seesaw core]
-    cljguis.core)
+    sevenguis.core)
   (:require [seesaw.bind :as b]))
 
 (defn date->str [date]

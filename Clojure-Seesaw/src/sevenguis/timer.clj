@@ -1,6 +1,6 @@
-(ns cljguis.timer
+(ns sevenguis.timer
   (:use [seesaw core border]
-    cljguis.core)
+    sevenguis.core)
   (:require [seesaw.bind :as b]))
 
 (defn format-elapsed [elapsed]

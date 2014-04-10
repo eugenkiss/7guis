@@ -1,6 +1,6 @@
-(ns cljguis.circledrawer
+(ns sevenguis.circledrawer
   (:use [seesaw core border graphics color]
-    cljguis.core)
+    sevenguis.core)
   (:require [seesaw.bind :as b] [seesaw.mouse :as mouse]))
 
 

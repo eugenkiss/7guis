@@ -1,7 +1,7 @@
-(ns cljguis.cells
+(ns sevenguis.cells
   (:use [seesaw core color]
     clojure.data
-    cljguis.core)
+    sevenguis.core)
   (:require [seesaw.bind :as b]
             [instaparse.core :as insta]))
 

@@ -1,6 +1,6 @@
-(ns cljguis.temperatureconverter
+(ns seveguis.temperature
   (:use [seesaw core]
-        cljguis.core)
+        sevenguis.core)
   (:require [seesaw.bind :as b]))
 
 (defn numeric? [s]

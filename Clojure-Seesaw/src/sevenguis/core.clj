@@ -1,4 +1,4 @@
-(ns cljguis.core)
+(ns sevenguis.core)
 (use 'clojure.repl)
 (use 'seesaw.core)
 (use 'seesaw.dev)

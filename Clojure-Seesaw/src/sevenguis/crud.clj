@@ -1,7 +1,7 @@
-(ns cljguis.crud
+(ns sevenguis.crud
   (:use [seesaw core border mig]
     [clojure.string :only [split trim]]
-    cljguis.core)
+    sevenguis.core)
   (:require [seesaw.bind :as b]))
 
 (def database
