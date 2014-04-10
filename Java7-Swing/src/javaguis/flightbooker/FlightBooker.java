@@ -65,9 +65,9 @@ public class FlightBooker extends JFrame {
                     bookButton.setEnabled(isDateString(startDate));
                 case "return flight":
                     bookButton.setEnabled(
-					    isDateString(startDate) &&
-					    isDateString(returnDate) &&
-					    stringToDate(startDate).compareTo(stringToDate(returnDate)) <= 0
+                                            isDateString(startDate) &&
+                                            isDateString(returnDate) &&
+                                            stringToDate(startDate).compareTo(stringToDate(returnDate)) <= 0
                     );
                 }
             }
@@ -137,8 +137,8 @@ public class FlightBooker extends JFrame {
     
     private static boolean isDateString(String string) {
         try {
-		    Date date = dateFormat.parse(string);
-		    if (!string.equals(dateFormat.format(date))) throw new ParseException("Incorrect Date", 0);
+                    Date date = dateFormat.parse(string);
+                    if (!string.equals(dateFormat.format(date))) throw new ParseException("Incorrect Date", 0);
             return true;
         } catch (Exception e) {
             return false;
