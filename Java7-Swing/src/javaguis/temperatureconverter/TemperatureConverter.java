@@ -22,16 +22,14 @@ public class TemperatureConverter extends JFrame {
     private void initGUI() {
 	    celsiusField = new JTextField(5);
 	    fahrenheitField = new JTextField(5);
-	    JLabel celsiusLabel = new JLabel("Celsius");
-	    JLabel fahrenheitLabel = new JLabel("Fahrenheit");
 
 	    Container pane = this.getContentPane();
 	    pane.setLayout(new FlowLayout());
 	    pane.add(celsiusField);
-	    pane.add(celsiusLabel);
+	    pane.add(new JLabel("Celsius"));
 	    pane.add(new JLabel("="));
 	    pane.add(fahrenheitField);
-	    pane.add(fahrenheitLabel);
+	    pane.add(new JLabel("Fahrenheit"));
     }
     
     private void initListeners() {
