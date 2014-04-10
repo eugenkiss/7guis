@@ -62,11 +62,11 @@ public class FlightBooker extends JFrame {
                 String returnDate = returnDateField.getText();
                 switch(flightTypeBox.getSelectedItem().toString()) {
                 case "one-way flight":
-                    bookButton.setEnabled(isDateString(startDateField.getText()));
+                    bookButton.setEnabled(isDateString(startDate));
                 case "return flight":
                     bookButton.setEnabled(
-					    isDateString(startDateField.getText()) &&
-					    isDateString(returnDateField.getText()) &&
+					    isDateString(startDate) &&
+					    isDateString(returnDate) &&
 					    stringToDate(startDate).compareTo(stringToDate(returnDate)) <= 0
                     );
                 }
