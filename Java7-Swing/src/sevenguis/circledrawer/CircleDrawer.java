@@ -1,4 +1,4 @@
-package javaguis.circledrawer;
+package sevenguis.circledrawer;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

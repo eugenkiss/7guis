@@ -1,4 +1,4 @@
-package javaguis.crud;
+package sevenguis.crud;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

@@ -1,4 +1,4 @@
-package javaguis.cells;
+package sevenguis.cells;
 
 import javax.swing.table.DefaultTableModel;
 

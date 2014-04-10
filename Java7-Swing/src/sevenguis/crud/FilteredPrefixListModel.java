@@ -1,4 +1,4 @@
-package javaguis.crud;
+package sevenguis.crud;
 
 import java.util.ArrayList;
 import java.util.List;

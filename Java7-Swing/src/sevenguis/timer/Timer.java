@@ -1,4 +1,4 @@
-package javaguis.timer;
+package sevenguis.timer;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;

@@ -1,4 +1,4 @@
-package javaguis.counter;
+package sevenguis.counter;
 
 import java.awt.Container;
 import java.awt.FlowLayout;

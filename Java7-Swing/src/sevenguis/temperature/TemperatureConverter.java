@@ -1,4 +1,4 @@
-package javaguis.temperatureconverter;
+package sevenguis.temperature;
 
 import java.awt.Container;
 import java.awt.FlowLayout;

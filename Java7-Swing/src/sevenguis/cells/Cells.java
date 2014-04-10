@@ -1,4 +1,4 @@
-package javaguis.cells;
+package sevenguis.cells;
 
 import java.awt.Color;
 import java.awt.Component;

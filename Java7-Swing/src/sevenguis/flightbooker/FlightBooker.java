@@ -1,4 +1,4 @@
-package javaguis.flightbooker;
+package sevenguis.flightbooker;
 
 import java.awt.Color;
 import java.awt.GridLayout;

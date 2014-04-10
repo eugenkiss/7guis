@@ -1,4 +1,4 @@
-package javaguis.cells;
+package sevenguis.cells;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

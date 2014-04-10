@@ -1,4 +1,4 @@
-package javaguis.cells;
+package sevenguis.cells;
 
 import java.util.Observable;
 import java.util.Observer;
