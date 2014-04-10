@@ -11,16 +11,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class CircleDrawer extends JFrame {
-    JButton undoButton;
-    JButton redoButton;
-    CircleDrawerCanvas canvas;
-    
     public CircleDrawer(String name) {
         super(name);
 
-        undoButton = new JButton("Undo");
-        redoButton = new JButton("Redo");
-        canvas = new CircleDrawerCanvas();
+        JButton undoButton = new JButton("Undo");
+        JButton redoButton = new JButton("Redo");
+        final CircleDrawerCanvas canvas = new CircleDrawerCanvas();
 
         JPanel pane = new JPanel(new BorderLayout());
         pane.setPreferredSize(new Dimension(400, 400));
