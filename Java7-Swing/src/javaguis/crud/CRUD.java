@@ -123,7 +123,7 @@ public class CRUD extends JFrame {
         ActionListener cudListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int index = entryList.getSelectedIndex();
-                String fullName = nameField.getText() + ", " + surnameField.getText();
+                String fullName = surnameField.getText() + ", " + nameField.getText();
                 FilteredPrefixListModel model = ((FilteredPrefixListModel) entryList.getModel());
                 if (e.getSource().equals(createButton)) model.create(fullName);
                 if (e.getSource().equals(updateButton)) model.update(fullName, index);

@@ -29,7 +29,6 @@ public class FilteredPrefixListModel extends AbstractListModel<String> {
         }
         filteredDataBase.clear();
         filteredOriginalMap.clear();
-        System.out.println(dataBase.size());
         for (int i = 0; i < dataBase.size(); i++) {
             String entry = dataBase.get(i);
             if (entry.startsWith(prefix)) {
@@ -42,12 +41,14 @@ public class FilteredPrefixListModel extends AbstractListModel<String> {
         }
     }
     
-    public void create(String entry) {
-        dataBase.add(entry);
-        filteredDataBase.add(entry);
-        int newLastIndex = dataBase.size() - 1;
-        filteredOriginalMap.add(newLastIndex);
-        fireIntervalAdded(this, newLastIndex, newLastIndex);
+    public void create(String newEntry) {
+        dataBase.add(newEntry);
+        if (newEntry.startsWith(cachedPrefix)) {
+            filteredDataBase.add(newEntry);
+            int newLastIndex = dataBase.size() - 1;
+            filteredOriginalMap.add(newLastIndex);
+            fireIntervalAdded(this, newLastIndex, newLastIndex);
+        }
     }
     
     public void update(String newEntry, int index) {
