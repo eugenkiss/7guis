@@ -1,0 +1,21 @@
+package sevenguis.cells;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+class Cells extends Application {
+
+    public void start(Stage stage) throws Exception {
+        stage.setScene(new Scene(new SpreadSheet(100, 26)));
+        stage.setTitle("Cells");
+        stage.setWidth(400);
+        stage.setHeight(400);
+        stage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+}
