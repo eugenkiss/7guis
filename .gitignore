@@ -41,3 +41,8 @@ local.properties
 
 # TeXlipse plugin
 .texlipse
+
+
+### Elm
+Elm/cache
+Elm/build
