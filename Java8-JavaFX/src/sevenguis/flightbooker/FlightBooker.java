@@ -1,6 +1,8 @@
 package sevenguis.flightbooker;
 
 import javafx.application.Application;
+import javafx.beans.binding.When;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -23,11 +25,19 @@ public class FlightBooker extends Application {
         TextField returnDate = new TextField(dateToString(LocalDate.now()));
         Button book = new Button("Book");
 
+        returnDate.disableProperty().bind(flightType.valueProperty().isEqualTo("one-way flight"));
+        // Ideally:
+        //startDate.styleProperty().bind(
+        //        new When(isDateString(startDate.getText())).then("")
+        //                .otherwise("-fx-background-color: lightcoral"));
         startDate.textProperty().addListener((v, o, n) ->
                 startDate.setStyle(isDateString(n) ? "" : "-fx-background-color: lightcoral"));
         returnDate.textProperty().addListener((v, o, n) ->
                 returnDate.setStyle(isDateString(n) ? "" : "-fx-background-color: lightcoral"));
-        flightType.valueProperty().addListener((v, o, n) -> returnDate.setDisable(n.equals("one-way flight")));
+        // Ideally, I would describe a binding expression such that 'book.disableProperty'
+        // would be on the left side and the switch condition on the right side and the system
+        // would figure out when and how to update the enabled status of 'book' (see reactive
+        // programming). The current version blurs the data flow with imperative details.
         ChangeListener bookEnabledAction = (v, o, n) -> {
             switch (flightType.getValue()) {
             case "one-way flight": book.setDisable(!isDateString(startDate.getText()));

@@ -23,13 +23,13 @@ public class FlightBooker extends JFrame {
     JTextField startDateField;
     JTextField returnDateField;
     JButton bookButton;
-    
+
     public FlightBooker(String name) {
         super(name);
         initGUI();
         initListeners();
     }
-    
+
     private void initGUI() {
         String[] flightTypes = {"one-way flight", "return flight"};
         flightTypeBox = new JComboBox<String>(flightTypes);
@@ -43,7 +43,7 @@ public class FlightBooker extends JFrame {
         this.add(returnDateField);
         this.add(bookButton);
     }
-    
+
     private void initListeners() {
         // Regarding the color of the text fields.
         checkDateString(startDateField);
@@ -65,9 +65,9 @@ public class FlightBooker extends JFrame {
                     bookButton.setEnabled(isDateString(startDate));
                 case "return flight":
                     bookButton.setEnabled(
-                                            isDateString(startDate) &&
-                                            isDateString(returnDate) &&
-                                            stringToDate(startDate).compareTo(stringToDate(returnDate)) <= 0
+                            isDateString(startDate) &&
+                            isDateString(returnDate) &&
+                            stringToDate(startDate).compareTo(stringToDate(returnDate)) <= 0
                     );
                 }
             }
@@ -85,11 +85,11 @@ public class FlightBooker extends JFrame {
                 String startDate = startDateField.getText();
                 String returnDate = returnDateField.getText();
                 if (flightType.equals("one-way flight")) {
-                    JOptionPane.showMessageDialog(FlightBooker.this, 
+                    JOptionPane.showMessageDialog(FlightBooker.this,
                             "You have booked a one-way flight on " + startDate);
                 } else {
-                    JOptionPane.showMessageDialog(FlightBooker.this, 
-                            "You have booked a return flight on " 
+                    JOptionPane.showMessageDialog(FlightBooker.this,
+                            "You have booked a return flight on "
                             + startDate + " and " + returnDate);
                 }
             }
@@ -97,7 +97,7 @@ public class FlightBooker extends JFrame {
         // "Initialize" the listeners.
         flightTypeBox.setSelectedIndex(0);
     }
-    
+
     private static void checkDateString(final JTextField field) {
         addSimpleDocumentListener(field, new Runnable() {
             public void run() {
@@ -109,42 +109,42 @@ public class FlightBooker extends JFrame {
             }
         });
     }
-    
+
     private static void addSimpleDocumentListener(JTextComponent field, final Runnable action) {
         field.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) { update(); }
             public void removeUpdate(DocumentEvent e) { update(); }
             public void changedUpdate(DocumentEvent e) { update(); }
-            
+
             private void update() {
                 action.run();
             }
         });
     }
-    
+
     private static final DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-    
+
     private static String dateToString(Date date) {
         return dateFormat.format(date);
     }
-    
+
     private static Date stringToDate(String string) {
         Date date = null;
-        try { date = dateFormat.parse(string); } 
+        try { date = dateFormat.parse(string); }
         catch (ParseException e) { /* Will not happen */ }
         return date;
     }
-    
+
     private static boolean isDateString(String string) {
         try {
-                    Date date = dateFormat.parse(string);
-                    if (!string.equals(dateFormat.format(date))) throw new ParseException("Incorrect Date", 0);
+            Date date = dateFormat.parse(string);
+            if (!string.equals(dateFormat.format(date))) throw new ParseException("Incorrect Date", 0);
             return true;
         } catch (Exception e) {
             return false;
         }
     }
-    
+
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
