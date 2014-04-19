@@ -73,6 +73,19 @@ object FlightBookerRx extends JFXApp {
   // would be a real win in code clarity as the constraints are specified fully declaratively
   // and with all the familiar language constructs and operators (inside the Rx blocks).
 
+  // So, let's pretend an ideal world. Then all that would be needed to specify the constraints is:
+  //returnDate.disable = Rx{ flightType.value == "one-way flight" }
+  //startDate.style = Rx{ if (isDateString(startDate.text)) "" else "-fx-background-color: lightcoral" }
+  //returnDate.style = Rx{ if (isDateString(returnDate.text)) "" else "-fx-background-color: lightcoral" }
+  //book.disable = Rx {
+  //  flightType.value match {
+  //    case "one-way flight" => !isDateString(startDate.text)
+  //    case "return flight" =>
+  //      !isDateString(startDate.text) || !isDateString(returnDate.text) ||
+  //        stringToDate(startDate.text).compareTo(stringToDate(returnDate.text)) > 0
+  //  }
+  //}
+
   stage = new PrimaryStage {
     title = "FlightBooker"
     scene = new Scene {
