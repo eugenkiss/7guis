@@ -30,9 +30,9 @@ object FlightBookerRx extends JFXApp {
   // Although this seems like a lot boilerplate, the boilerplate needed in pure JavaFX or ScalaFX
   // to achieve the same declarative effect would be much more and one would need to use new
   // operators/constructs for the binding declarations (see e.g. the use of 'when' in ScalaFX
-  // and the use of the class 'When' in JavaFX instead of reusing the familiar 'if'). That's
-  // why I chose to use ScalaRx as this seems to be the first reactive library that makes
-  // reactive declarations look really easy.
+  // and the use of the class 'When' in JavaFX instead of reusing the native and familiar 'if').
+  // That's why I chose to use ScalaRx as this seems to be the first reactive library that makes
+  // reactive declarations look really easy and native.
 
   val flightType_value = Var("one-way flight")
           val o0 = Obs(flightType_value) { flightType.value = flightType_value() }
