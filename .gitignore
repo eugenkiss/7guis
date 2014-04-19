@@ -41,7 +41,11 @@ local.properties
 # TeXlipse plugin
 .texlipse
 
-# Scala/sbt
+### Intellij
+**/.idea/workspace.xml
+**/.idea/tasks.xml
+
+### Scala/sbt
 .cache/
 .history/
 .lib/
