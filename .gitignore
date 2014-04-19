@@ -9,7 +9,6 @@
 *.war
 *.ear
 
-
 ### Eclipse
 *.pydevproject
 .metadata
@@ -42,6 +41,16 @@ local.properties
 # TeXlipse plugin
 .texlipse
 
+# Scala/sbt
+.cache/
+.history/
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
 
 ### Elm
 Elm/cache
