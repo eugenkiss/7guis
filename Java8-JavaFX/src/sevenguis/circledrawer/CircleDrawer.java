@@ -15,15 +15,15 @@ public class CircleDrawer extends Application {
         Button redo = new Button("Redo");
         CircleDrawerCanvas canvas = new CircleDrawerCanvas();
 
+        undo.setOnAction(e -> canvas.undo());
+        redo.setOnAction(e -> canvas.redo());
+
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(10));
         HBox top = new HBox(10, undo, redo);
         top.setPadding(new Insets(0, 0, 10, 0));
         root.setTop(top);
         root.setCenter(canvas);
-
-        undo.setOnAction(e -> canvas.undo());
-        redo.setOnAction(e -> canvas.redo());
 
         stage.setScene(new Scene(root));
         stage.setTitle("Counter");

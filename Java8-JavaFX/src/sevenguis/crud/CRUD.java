@@ -38,6 +38,16 @@ public class CRUD extends Application {
         FilterableView filterableView = new FilterableView(database);
         entries.setItems(filterableView);
 
+        prefix.textProperty().addListener((v, o, n) -> filterableView.filterByPrefix(n));
+        StringExpression fullname = surname.textProperty().concat(", ").concat(name.textProperty());
+        create.setOnAction(e -> filterableView.create(fullname.get()));
+        delete.setOnAction(e -> filterableView.delete(entries.getSelectionModel().getSelectedIndex()));
+        update.setOnAction(e -> filterableView.update(fullname.get(), entries.getSelectionModel().getSelectedIndex()));
+        entries.getSelectionModel().selectedIndexProperty().addListener((v, o, n) -> {
+            update.setDisable(n.equals(-1));
+            delete.setDisable(n.equals(-1));
+        });
+
         BorderPane root = new BorderPane();
         root.setPrefSize(400, 400);
         root.setPadding(new Insets(10));
@@ -56,16 +66,6 @@ public class CRUD extends Application {
         HBox bottom = new HBox(10, create, update, delete);
         bottom.setPadding(new Insets(10, 0, 0, 0));
         root.setBottom(bottom);
-
-        prefix.textProperty().addListener((v, o, n) -> filterableView.filterByPrefix(n));
-        StringExpression fullname = surname.textProperty().concat(", ").concat(name.textProperty());
-        create.setOnAction(e -> filterableView.create(fullname.get()));
-        delete.setOnAction(e -> filterableView.delete(entries.getSelectionModel().getSelectedIndex()));
-        update.setOnAction(e -> filterableView.update(fullname.get(), entries.getSelectionModel().getSelectedIndex()));
-        entries.getSelectionModel().selectedIndexProperty().addListener((v, o, n) -> {
-            update.setDisable(n.equals(-1));
-            delete.setDisable(n.equals(-1));
-        });
 
         stage.setScene(new Scene(root));
         stage.setTitle("CRUD");

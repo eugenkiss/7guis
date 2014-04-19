@@ -17,11 +17,11 @@ public class Counter extends Application {
         count.setPrefWidth(50);
         Button countUp = new Button("Count");
 
-        HBox root = new HBox(10, count, countUp);
-        root.setPadding(new Insets(10));
-
         countUp.setOnAction((ActionEvent e) ->
                 count.setText(1+Integer.parseInt(count.getText())+""));
+
+        HBox root = new HBox(10, count, countUp);
+        root.setPadding(new Insets(10));
 
         stage.setScene(new Scene(root));
         stage.setTitle("Counter");
