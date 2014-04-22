@@ -2,6 +2,7 @@ package sevenguis.crud;
 
 import javafx.application.Application;
 import javafx.beans.binding.StringExpression;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -42,11 +43,9 @@ public class CRUD extends Application {
         StringExpression fullname = surname.textProperty().concat(", ").concat(name.textProperty());
         create.setOnAction(e -> filterableView.create(fullname.get()));
         delete.setOnAction(e -> filterableView.delete(entries.getSelectionModel().getSelectedIndex()));
+        delete.disableProperty().bind(entries.getSelectionModel().selectedIndexProperty().isEqualTo(-1));
         update.setOnAction(e -> filterableView.update(fullname.get(), entries.getSelectionModel().getSelectedIndex()));
-        entries.getSelectionModel().selectedIndexProperty().addListener((v, o, n) -> {
-            update.setDisable(n.equals(-1));
-            delete.setDisable(n.equals(-1));
-        });
+        update.disableProperty().bind(entries.getSelectionModel().selectedIndexProperty().isEqualTo(-1));
 
         BorderPane root = new BorderPane();
         root.setPrefSize(400, 400);
