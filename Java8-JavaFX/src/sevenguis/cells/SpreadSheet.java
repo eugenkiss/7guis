@@ -7,6 +7,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
 
+// Although Swing is worse in almost every respect compared to JavaFX its TableView
+// was easier to customize to a spreadsheet than JavaFX's TableView.
+// Caveat: You must never cancel an edit, i.e. always commit with enter. I tried and
+// tried to make it work but its seems to me that there is a bug in JavaFX somewhere.
 public class SpreadSheet extends HBox {
 
     public SpreadSheet(int height, int width) {
@@ -17,37 +21,47 @@ public class SpreadSheet extends HBox {
         table.setEditable(true);
         table.setItems(model.getCellsAsObservableList());
 
+        // The following is very very JavaFX specific.
+
         for (char w = 'A'; w < 'A'+width; w++) {
             TableColumn<ObservableList<Cell>, String> column = new TableColumn<>(w+"");
             column.setSortable(false);
             column.setMinWidth(50);
             column.setCellFactory(TextFieldTableCell.forTableColumn());
             final char w0 = w;
-            column.setCellValueFactory(param -> param.getValue().get(w0-'A').textProperty());
+            column.setCellValueFactory(param -> param.getValue().get(w0-'A').text);
+            column.setOnEditStart(event -> {
+                int row = event.getTablePosition().getRow();
+                int col = event.getTablePosition().getColumn();
+                Cell c = model.getCells()[row][col];
+                c.setShowUserData(true);
+            });
+            // A minefield of weird behavior...
+            // Somehow changing the value of the text property of a cell here destroys the table.
+//            column.setOnEditCancel(event -> {
+//                Cell c = model.getCells()[ro][co];
+//                c.setShowUserData(false);
+//            });
             column.setOnEditCommit(event -> {
-                event.getNewValue();
+                int row = event.getTablePosition().getRow();
+                int col = event.getTablePosition().getColumn();
+                Cell c = model.getCells()[row][col];
+                c.setUserData(event.getNewValue());
                 Formula formula = null;
                 try {
                     formula = Parser.parse(event.getNewValue());
                 } catch (Exception e) {
                     formula = new Textual(e.getMessage());
                 }
-                int row = event.getTablePosition().getRow();
-                int col = event.getTablePosition().getColumn();
-                model.getCells()[row][col].setFormula(formula);
+                c.setFormula(formula);
             });
             table.getColumns().add(column);
         }
 
         ListView<String> rowHeaders = new ListView<>();
         rowHeaders.getItems().add("");
-        for (int i = 0; i < height; i++) {
-            rowHeaders.getItems().add(i+"");
-        }
-        rowHeaders.setMinWidth(60);
+        for (int i = 0; i < height; i++) rowHeaders.getItems().add(i+"");
         ScrollPane scrolledRowHeaders = new ScrollPane(rowHeaders);
-        scrolledRowHeaders.setFitToHeight(true);
-        scrolledRowHeaders.setFitToWidth(true);
         scrolledRowHeaders.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrolledRowHeaders.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 

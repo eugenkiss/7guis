@@ -8,11 +8,12 @@ import java.util.Observer;
 
 class Cell extends Observable implements Observer {
 
+    private String userData = "";
     private Formula formula = Formula.Empty;
     private double value = 0;
     private Model modelReference;
 
-    private final StringProperty text = new SimpleStringProperty("");
+    public final StringProperty text = new SimpleStringProperty("");
     public StringProperty textProperty() {return text;}
 
     Cell(Model reference) {
@@ -25,6 +26,19 @@ class Cell extends Observable implements Observer {
             return textual.value;
         }
         return String.valueOf(value);
+    }
+
+    public void setUserData(String s) {
+        userData = s;
+    }
+
+    public String getUserDate() {
+        return userData;
+    }
+
+    public void setShowUserData(Boolean b) {
+        if (b)  text.setValue(userData);
+        else text.setValue(this.toString());
     }
 
     public Formula getFormula() {

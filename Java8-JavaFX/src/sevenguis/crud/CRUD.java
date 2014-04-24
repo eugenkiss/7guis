@@ -1,8 +1,8 @@
 package sevenguis.crud;
 
 import javafx.application.Application;
+import javafx.beans.binding.IntegerExpression;
 import javafx.beans.binding.StringExpression;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -39,13 +39,14 @@ public class CRUD extends Application {
         FilterableView filterableView = new FilterableView(database);
         entries.setItems(filterableView);
 
-        prefix.textProperty().addListener((v, o, n) -> filterableView.filterByPrefix(n));
         StringExpression fullname = surname.textProperty().concat(", ").concat(name.textProperty());
+        IntegerExpression selectedIndex = entries.getSelectionModel().selectedIndexProperty();
+        prefix.textProperty().addListener((v, o, n) -> filterableView.filterByPrefix(n));
         create.setOnAction(e -> filterableView.create(fullname.get()));
-        delete.setOnAction(e -> filterableView.delete(entries.getSelectionModel().getSelectedIndex()));
-        delete.disableProperty().bind(entries.getSelectionModel().selectedIndexProperty().isEqualTo(-1));
-        update.setOnAction(e -> filterableView.update(fullname.get(), entries.getSelectionModel().getSelectedIndex()));
-        update.disableProperty().bind(entries.getSelectionModel().selectedIndexProperty().isEqualTo(-1));
+        delete.setOnAction(e -> filterableView.delete(selectedIndex.get()));
+        update.setOnAction(e -> filterableView.update(fullname.get(), selectedIndex.get()));
+        delete.disableProperty().bind(selectedIndex.isEqualTo(-1));
+        update.disableProperty().bind(selectedIndex.isEqualTo(-1));
 
         BorderPane root = new BorderPane();
         root.setPrefSize(400, 400);

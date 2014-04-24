@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-class Cells extends Application {
+public class Cells extends Application {
 
     public void start(Stage stage) throws Exception {
         stage.setScene(new Scene(new SpreadSheet(100, 26)));

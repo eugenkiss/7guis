@@ -66,7 +66,6 @@ class CircleDrawerCanvas extends Canvas {
             if (c.equals(hovered)) {
                 g.setFill(Color.LIGHTGRAY);
                 g.fillOval(c.getX() - offset, c.getY() - offset, c.getDiameter(), c.getDiameter());
-                g.setFill(Color.WHITE);
             }
             g.strokeOval(c.getX() - offset, c.getY() - offset, c.getDiameter(), c.getDiameter());
         }
