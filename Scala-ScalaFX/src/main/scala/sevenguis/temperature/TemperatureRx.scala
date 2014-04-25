@@ -43,9 +43,9 @@ object TemperatureRx extends JFXApp {
   }}
 
   // In an ideal world this is all that would be needed for the dataflow declaration:
-  //celsius.text = Rx{ if (isNumeric(fahrenheit.text)) fToC(fahrenheit.text) else celsius.text }
-  //fahrenheit.text = Rx{ if (isNumeric(celsius.text)) cToF(celsius.text) else fahrenheit.text }
-  // Or if it would make it easier to have cyclic dependencies without feedback loops:
+  //celsius.text = Rx{ if (isNumeric(fahrenheit.text())) fToC(fahrenheit.text()) else celsius.text() }
+  //fahrenheit.text = Rx{ if (isNumeric(celsius.text())) cToF(celsius.text()) else fahrenheit.text() }
+  // Or, if it would make it easier to have cyclic dependencies without feedback loops:
   //Rxbi(celsius.text, fahrenheit.text,
   //  { (c, f) => if (isNumeric(c)) cToF(c) else f },
   //  { (f, c) => if (isNumeric(f)) fToC(f) else c })

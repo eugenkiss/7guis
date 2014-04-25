@@ -29,6 +29,8 @@
     <orderEntry type="library" name="SBT: org.scala-lang:scala-library:2.10.3" level="project" />
     <orderEntry type="library" name="SBT: org.scalafx:scalafx_2.10:8.0.0-R4" level="project" />
     <orderEntry type="library" name="SBT: com.scalarx:scalarx_2.10:0.2.3" level="project" />
+    <orderEntry type="library" name="SBT: com.typesafe:config:1.2.0" level="project" />
+    <orderEntry type="library" name="SBT: com.typesafe.akka:akka-actor_2.10:2.3.2" level="project" />
   </component>
 </module>
 
