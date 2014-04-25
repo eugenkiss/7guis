@@ -7,7 +7,7 @@ one or more Java files. Each package has a class with a main method so you can
 see the resulting GUI application by running the corresponding file.
 The solutions follow the object-oriented paradigm.
 
-Compared to JavaFX 8 -- Swing's spiritual succesor -- this solution needs *a
+Compared to JavaFX 8 — Swing's spiritual succesor — this solution needs *a
 lot* of boilerplate. The role of the toolkit in terms of programming usability
 for the creation of GUI applications is therefore obviously very important.
 
@@ -23,15 +23,15 @@ the main window frame) which hold other containers. These containers in turn
 hold still other containers or components whose layout is determined by the
 respective layout manager attached to the holding container. Swing's
 concurrency model is event-based with a special *event dispatch
-thread*[^dispatch] where event-handling code is executed and *worker threads*
+thread\** where event-handling code is executed and *worker threads*
 for long running tasks. A user must be aware of this concurrency model so as
 to not freeze the GUI with longer running computations or create thread-
 related bugs by accident.
 
-  [^dispatch]: Interestingly, in the beginning it was tried to make Swing a
-  multi-threaded toolkit without the need for an event dispatch thread. This
-  attempt proved to be futile due to implementation complexities. For more
-  information see [this article](https://weblogs.java.net/blog/kgh/archive/2004/10/multithreaded_t.html).
+<sup>\*Interestingly, in the beginning it was tried to make Swing a multi-threaded
+toolkit without the need for an event dispatch thread. This attempt proved to be
+futile due to implementation complexities. For more information see
+[this article](https://weblogs.java.net/blog/kgh/archive/2004/10/multithreaded_t.html).</sup>
 
 In order to separate domain-specific from GUI-specific concerns, Swing uses a
 practical variation of the MVC pattern by the name of [*separable model architecture*][mvc].
