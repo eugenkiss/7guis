@@ -55,6 +55,7 @@ lib_managed/
 src_managed/
 project/boot/
 project/plugins/project/
+Scala-ScalaFX/.idea/
 
 ### Elm
 Elm/cache
