@@ -31,6 +31,15 @@
     <orderEntry type="library" name="SBT: com.scalarx:scalarx_2.10:0.2.3" level="project" />
     <orderEntry type="library" name="SBT: com.typesafe:config:1.2.0" level="project" />
     <orderEntry type="library" name="SBT: com.typesafe.akka:akka-actor_2.10:2.3.2" level="project" />
+    <orderEntry type="module-library">
+      <library name="SBT: unmanaged-jars">
+        <CLASSES>
+          <root url="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0.jdk/Contents/Home/jre/lib/jfxrt.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 
