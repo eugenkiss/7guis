@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>scala-scalafx</groupId>
+    <artifactId>scala-scalafx_2.10</artifactId>
+    <packaging>jar</packaging>
+    <description>Scala-ScalaFX</description>
+    <version>1.0</version>
+    <name>Scala-ScalaFX</name>
+    <organization>
+        <name>scala-scalafx</name>
+    </organization>
+    <dependencies>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>2.10.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.scalafx</groupId>
+            <artifactId>scalafx_2.10</artifactId>
+            <version>8.0.0-R4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.scalarx</groupId>
+            <artifactId>scalarx_2.10</artifactId>
+            <version>0.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-actor_2.10</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+    </dependencies>
+    <repositories>
+        <repository>
+            <id>TypesafeRepository</id>
+            <name>Typesafe Repository</name>
+            <url>http://repo.typesafe.com/typesafe/releases/</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
+</project>
