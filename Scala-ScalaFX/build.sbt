@@ -5,11 +5,11 @@ version := "1.0"
 scalaVersion := "2.10.3"
 
 // http://stackoverflow.com/questions/19208942/enforcing-java-version-for-scala-project-in-sbt
-initialize := {
-   val _ = initialize.value // run the previous initialization
-   val specVersion = sys.props("java.specification.version").toDouble
-   assert(specVersion >= 1.8, "Java 8 or above required")
-}
+//initialize := {
+//   val _ = initialize.value // run the previous initialization
+//   val specVersion = sys.props("java.specification.version").toDouble
+//   assert(specVersion >= 1.8, "Java 8 or above required")
+//}
 
 libraryDependencies += "org.scalafx" %% "scalafx" % "8.0.0-R4"
 
