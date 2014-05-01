@@ -21,7 +21,8 @@ you can run a file.
 You can import the project into Intellij IDEA or Netbeans as both these
 IDEs natively support sbt Scala projects.
 
-To import the project into Eclipse or Scala IDE execute `sbt eclipse`.
+To import the project into Eclipse or Scala IDE execute `sbt eclipse`
+(uncomment the corresponding line in `project/plugins.sbt`).
 This command will create Eclipse project files. After that you should
 be able to import the project into Eclipse.
 
