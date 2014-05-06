@@ -40,11 +40,11 @@ public class FlightBooker extends Application {
         // programming). The current version blurs the data flow with imperative details.
         ChangeListener bookEnabledAction = (v, o, n) -> {
             switch (flightType.getValue()) {
-            case "one-way flight": book.setDisable(!isDateString(startDate.getText()));
+            case "one-way flight": book.setDisable(!isDateString(startDate.getText())); break;
             case "return flight":  book.setDisable(
                     !isDateString(startDate.getText()) ||
                     !isDateString(returnDate.getText()) ||
-                    stringToDate(startDate.getText()).compareTo(stringToDate(returnDate.getText())) > 0);
+                    stringToDate(startDate.getText()).compareTo(stringToDate(returnDate.getText())) > 0); break;
             }
         };
         flightType.valueProperty().addListener(bookEnabledAction);
