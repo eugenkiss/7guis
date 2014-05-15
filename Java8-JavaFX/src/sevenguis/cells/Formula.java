@@ -1,11 +1,13 @@
 package sevenguis.cells;
 
+import javafx.scene.control.Cell;
+
 import java.util.*;
 
 abstract class Formula {
     public static final Formula Empty = new Textual("");
     public double eval(Model env) { return 0.0; }
-    public List<Cell> getReferences(Model env) { return Collections.emptyList(); }
+    public List<Model.Cell> getReferences(Model env) { return Collections.emptyList(); }
 }
 
 class Textual extends Formula {
@@ -52,8 +54,8 @@ class Coord extends Formula {
         return env.getCells()[row][column].getValue();
     }
 
-    public List<Cell> getReferences(Model env) {
-        List<Cell> result = new ArrayList<>(1);
+    public List<Model.Cell> getReferences(Model env) {
+        List<Model.Cell> result = new ArrayList<>(1);
         result.add(env.getCells()[row][column]);
         return result;
     }
@@ -74,8 +76,8 @@ class Range extends Formula {
         throw new RuntimeException("Range cannot be evaluated!");
     }
 
-    public List<Cell> getReferences(Model env) {
-        List<Cell> result = new ArrayList<>();
+    public List<Model.Cell> getReferences(Model env) {
+        List<Model.Cell> result = new ArrayList<>();
         for (int r = coord1.row; r <= coord2.row; r++) {
             for (int c = coord1.column; c <= coord2.column; c++) {
                 result.add(env.getCells()[r][c]);
@@ -116,8 +118,8 @@ class Application extends Formula {
         }
     }
 
-    public List<Cell> getReferences(Model env) {
-        List<Cell> result = new ArrayList<>();
+    public List<Model.Cell> getReferences(Model env) {
+        List<Model.Cell> result = new ArrayList<>();
         for (Formula argument : arguments) {
             result.addAll(argument.getReferences(env));
         }
@@ -129,7 +131,7 @@ class Application extends Formula {
         List<Double> result = new ArrayList<>();
         for (Formula f : args) {
             if (f instanceof Range) {
-                for (Cell c : f.getReferences(env)) {
+                for (Model.Cell c : f.getReferences(env)) {
                     result.add(c.getValue());
                 }
             } else {

@@ -17,14 +17,14 @@ public class SpreadSheet extends HBox {
         super();
         Model model = new Model(height, width);
 
-        TableView<ObservableList<Cell>> table = new TableView<>();
+        TableView<ObservableList<Model.Cell>> table = new TableView<>();
         table.setEditable(true);
         table.setItems(model.getCellsAsObservableList());
 
         // The following is very very JavaFX specific.
 
         for (char w = 'A'; w < 'A'+width; w++) {
-            TableColumn<ObservableList<Cell>, String> column = new TableColumn<>(w+"");
+            TableColumn<ObservableList<Model.Cell>, String> column = new TableColumn<>(w+"");
             column.setSortable(false);
             column.setMinWidth(50);
             column.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -33,7 +33,7 @@ public class SpreadSheet extends HBox {
             column.setOnEditStart(event -> {
                 int row = event.getTablePosition().getRow();
                 int col = event.getTablePosition().getColumn();
-                Cell c = model.getCells()[row][col];
+                Model.Cell c = model.getCells()[row][col];
                 c.setShowUserData(true);
             });
             // A minefield of weird behavior...
@@ -45,7 +45,7 @@ public class SpreadSheet extends HBox {
             column.setOnEditCommit(event -> {
                 int row = event.getTablePosition().getRow();
                 int col = event.getTablePosition().getColumn();
-                Cell c = model.getCells()[row][col];
+                Model.Cell c = model.getCells()[row][col];
                 c.setUserData(event.getNewValue());
                 Formula formula = null;
                 try {
