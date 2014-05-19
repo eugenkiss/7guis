@@ -9,9 +9,11 @@ import scalafx.geometry.{Pos, Insets}
 import scalafx.event.ActionEvent
 import scalafx.Includes._
 import javafx.beans.value.ObservableValue
-import javafx.collections.FXCollections
+import javafx.collections.{ListChangeListener, FXCollections}
 import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
+import javafx.collections.ListChangeListener.Change
+import java.util.function.Predicate
 
 object CRUD extends JFXApp {
   val prefix = new TextField() { prefWidth = 60 }
@@ -23,18 +25,40 @@ object CRUD extends JFXApp {
   val entries = new ListView[String]()
   entries.getSelectionModel.selectionMode = SelectionMode.SINGLE
 
-  val database = ArrayBuffer[String]("Emil, Hans", "Mustermann, Max", "Tisch, Roman")
-  val filterableView = new FilterableView(database)
-  entries.setItems(filterableView.filteredDatabase)
+  val externDb = ArrayBuffer[String]("Emil, Hans", "Mustermann, Max", "Tisch, Roman")
+  val db = FXCollections.observableArrayList(externDb.asJava)
+  db.addListener(new ListChangeListener[String] {
+    override def onChanged(c: Change[_ <: String]): Unit = {
+      while (c.next) {
+        if (c.wasReplaced()) externDb.update(c.getFrom, c.getAddedSubList.get(0))
+        else {
+          if (c.wasAdded()) externDb.append(c.getAddedSubList.get(0))
+          if (c.wasRemoved()) externDb.remove(c.getFrom)
+        }
+      }
+    }
+  })
+  val dbView = db.filtered(new Predicate[String] {
+    override def or(other: Predicate[_ >: String]): Predicate[String] = ???
+    override def and(other: Predicate[_ >: String]): Predicate[String] = ???
+    override def negate(): Predicate[String] = ???
+    override def test(t: String): Boolean = true
+  })
+  entries.setItems(dbView)
 
   // The following doesn't work: val fullname = surname.text + ", " + name.text
   val fullname = surname.textProperty.concat(", ").concat(name.textProperty)
   val selectedIndex = entries.getSelectionModel.selectedIndexProperty()
   prefix.text.addListener((v: ObservableValue[_ <: String], o: String, n: String) =>
-    filterableView.filterByPrefix(n))
-  create.onAction = (event: ActionEvent) => filterableView.create(fullname.get)
-  delete.onAction = (event: ActionEvent) => filterableView.delete(selectedIndex.get)
-  update.onAction = (event: ActionEvent) => filterableView.update(fullname.get, selectedIndex.get)
+    dbView.setPredicate(new Predicate[String] {
+      override def or(other: Predicate[_ >: String]): Predicate[String] = ???
+      override def and(other: Predicate[_ >: String]): Predicate[String] = ???
+      override def negate(): Predicate[String] = ???
+      override def test(t: String): Boolean = t.startsWith(n)
+    }))
+  create.onAction = (event: ActionEvent) => db.add(fullname.get)
+  delete.onAction = (event: ActionEvent) => db.remove(dbView.getSourceIndex(selectedIndex.get))
+  update.onAction = (event: ActionEvent) => db.set(dbView.getSourceIndex(selectedIndex.get), fullname.get)
   delete.disable <== selectedIndex === -1
   update.disable <== selectedIndex === -1
 
@@ -67,31 +91,3 @@ object CRUD extends JFXApp {
   }
 }
 
-class FilterableView(val database: ArrayBuffer[String]) {
-  val filteredDatabase = FXCollections.observableArrayList[String](database.asJava)
-  var filteredOriginalMap = Seq.range(0, database.size-1)
-  var cachedPrefix = ""
-
-  def filterByPrefix(prefix: String = cachedPrefix) = {
-    cachedPrefix = prefix
-    val (filteredDb, filteredIs) = database.zip(0 to database.size-1).filter(_._1.startsWith(prefix)).unzip
-    filteredDatabase.clear()
-    filteredDatabase.addAll(filteredDb.asJava)
-    filteredOriginalMap = filteredIs
-  }
-
-  def create(newEntry: String) = {
-    database += newEntry
-    filterByPrefix()
-  }
-
-  def update(newEntry: String, index: Int) = {
-    database.update(filteredOriginalMap(index), newEntry)
-    filterByPrefix()
-  }
-
-  def delete(index: Int) = {
-    database.remove(filteredOriginalMap(index))
-    filterByPrefix()
-  }
-}

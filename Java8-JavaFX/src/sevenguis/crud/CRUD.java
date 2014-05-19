@@ -3,6 +3,10 @@ package sevenguis.crud;
 import javafx.application.Application;
 import javafx.beans.binding.IntegerExpression;
 import javafx.beans.binding.StringExpression;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -32,19 +36,29 @@ public class CRUD extends Application {
         ListView<String> entries = new ListView<>();
         entries.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        List<String> database = new ArrayList<>();
-        database.add("Emil, Hans");
-        database.add("Musterman, Max");
-        database.add("Tisch, Roman");
-        FilterableView filterableView = new FilterableView(database);
-        entries.setItems(filterableView);
+        List<String> externDb = new ArrayList<>();
+        externDb.add("Emil, Hans");
+        externDb.add("Musterman, Max");
+        externDb.add("Tisch, Roman");
+        ObservableList<String> db = FXCollections.observableArrayList(externDb);
+        db.addListener((ListChangeListener<String>) c -> {
+            while (c.next()) {
+                if (c.wasReplaced()) externDb.set(c.getFrom(), c.getAddedSubList().get(0));
+                else {
+                    if (c.wasAdded()) externDb.add(c.getAddedSubList().get(0));
+                    if (c.wasRemoved()) externDb.remove(c.getFrom());
+                }
+            }
+        });
+        FilteredList<String> dbView = db.filtered(item -> true);
+        entries.setItems(dbView);
 
         StringExpression fullname = surname.textProperty().concat(", ").concat(name.textProperty());
         IntegerExpression selectedIndex = entries.getSelectionModel().selectedIndexProperty();
-        prefix.textProperty().addListener((v, o, n) -> filterableView.filterByPrefix(n));
-        create.setOnAction(e -> filterableView.create(fullname.get()));
-        delete.setOnAction(e -> filterableView.delete(selectedIndex.get()));
-        update.setOnAction(e -> filterableView.update(fullname.get(), selectedIndex.get()));
+        prefix.textProperty().addListener((v, o, n) -> dbView.setPredicate(item -> item.startsWith(n)));
+        create.setOnAction(e -> db.add(fullname.get()));
+        delete.setOnAction(e -> db.remove(dbView.getSourceIndex(selectedIndex.get())));
+        update.setOnAction(e -> db.set(dbView.getSourceIndex(selectedIndex.get()), fullname.get()));
         delete.disableProperty().bind(selectedIndex.isEqualTo(-1));
         update.disableProperty().bind(selectedIndex.isEqualTo(-1));
 
