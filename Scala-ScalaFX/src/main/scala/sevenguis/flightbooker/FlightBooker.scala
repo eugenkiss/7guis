@@ -9,42 +9,36 @@ import scalafx.geometry.Insets
 import java.time.format.DateTimeFormatter
 import java.time.LocalDate
 import scalafx.Includes._
-import javafx.beans.value.{ObservableValue, ChangeListener}
+import javafx.beans.value.{ObservableValue}
+import javafx.beans.binding.Bindings
+import java.util.concurrent.Callable
+import java.lang.Boolean
 
 object FlightBooker extends JFXApp {
   val flightType = new ComboBox[String](Seq("one-way flight", "return flight"))
+  flightType.value = "one-way flight"
   val startDate = new TextField{text=dateToString(LocalDate.now)}
   val returnDate = new TextField{text=dateToString(LocalDate.now)}
   val book = new Button("Book")
 
   returnDate.disable <== flightType.value === "one-way flight"
-  // Ideally, I'd write it the following way but that would mean a lot of boilerplate code
-  // to make an observable value from 'isDateString(startDate.text))'.
+  // Ideally, I'd write it the following way
   //startDate.style <==
   //  when (isDateString(startDate.text)) choose "" otherwise "-fx-background-color: lightcoral"
-  startDate.text.addListener((v: ObservableValue[_ <: String], o: String, n: String) =>
-    startDate.style = if (isDateString(n)) "" else "-fx-background-color: lightcoral")
+  startDate.style <== Bindings.createStringBinding(new Callable[String] { override def call(): String =
+    if (isDateString(startDate.text.value)) "" else "-fx-background-color: lightcoral"
+  }, startDate.text)
+  // For comparison, a callback based approach
   returnDate.text.addListener((v: ObservableValue[_ <: String], o: String, n: String) =>
     returnDate.style = if (isDateString(n)) "" else "-fx-background-color: lightcoral")
-  // Ideally, I would describe a binding expression such that 'book.disableProperty'
-  // would be on the left side and the switch condition on the right side and the system
-  // would figure out when and how to update the enabled status of 'book' (see FlightBookerRx).
-  // The current version blurs the data flow with imperative details.
-  // Again, it would be possible to achieve this somewhat passably in pure JavaFX or ScalaFX
-  // but it would mean to write a lot of new property classes which is probably so much
-  // overhead that it wouldn't be done in practice.
-  val bookEnabledAction: ChangeListener[String] = (v: ObservableValue[_ <: String], o: String, n: String) =>
-      flightType.value.value match {
-        case "one-way flight" => book.disable = !isDateString(startDate.text.value)
-        case "return flight" => book.disable =
-          !isDateString(startDate.text.value) ||
-            !isDateString(returnDate.text.value) ||
-            stringToDate(startDate.text.value).compareTo(stringToDate(returnDate.text.value)) > 0
-      }
-  flightType.value.addListener(bookEnabledAction)
-  startDate.text.addListener(bookEnabledAction)
-  returnDate.text.addListener(bookEnabledAction)
-  flightType.value = "one-way flight"
+  book.disable <==  Bindings.createBooleanBinding(new Callable[Boolean] { override def call(): Boolean =
+    flightType.value.value match {
+      case "one-way flight" => !isDateString(startDate.text.value)
+      case "return flight" =>
+        !isDateString(startDate.text.value) || !isDateString(returnDate.text.value) ||
+        stringToDate(startDate.text.value).compareTo(stringToDate(returnDate.text.value)) > 0
+    }
+  }, flightType.value, startDate.text, returnDate.text)
 
   stage = new PrimaryStage {
     title = "FlightBooker"

@@ -14,11 +14,7 @@ more succinct due to bindings, tree-like layout definitions, succinct
 anonymous function syntax and in general better API design. But compared to
 JavaFX 8 the distinction is not so great anymore as JavaFX also introduced
 bindings, Java 8 has a succinct anonymous function syntax and JavaFX has a
-much better API design than Swing. Bindings in Seesaw are more powerful than
-bindings in JavaFX due to operations like funneling and transformation but
-they are less powerful than reactive definitions as in Scala.Rx (if they were
-properly integrated into ScalaFX). There are of course more differences
-between Seesaw and JavaFX. However, the main distinction is basically the
+much better API design than Swing. The main distinction is basically the
 language as Clojure is obviously a wholly different language from Java. Still,
 it is again apparent that the toolkit plays an important role when it comes to
 pure GUI programming as JavaFX essentially closes the gap to Seesaw without a

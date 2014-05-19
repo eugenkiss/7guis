@@ -3,6 +3,7 @@ package sevenguis.timer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -25,7 +26,10 @@ public class Timer extends Application {
 
         SimpleDoubleProperty elapsed = new SimpleDoubleProperty(0);
         progress.progressProperty().bind(elapsed.divide(slider.valueProperty()));
-        elapsed.addListener((v, o, n) -> numericProgress.setText(formatElapsed(n.intValue())));
+        numericProgress.textProperty().bind(Bindings.createStringBinding(() ->
+            formatElapsed(elapsed.intValue()), elapsed));
+        // Callback based approach is shorter, ideally the opposite would be the case.
+//        elapsed.addListener((v, o, n) -> numericProgress.setText(formatElapsed(n.intValue())));
         reset.setOnAction(event -> elapsed.set(0));
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), event -> {

@@ -12,6 +12,8 @@ import scalafx.beans.property.DoubleProperty
 import javafx.beans.value.ObservableValue
 import scalafx.animation.{KeyFrame, Timeline}
 import scalafx.util.Duration
+import javafx.beans.binding.Bindings
+import java.util.concurrent.Callable
 
 object Timer extends JFXApp {
   val progress = new ProgressBar()
@@ -22,8 +24,9 @@ object Timer extends JFXApp {
   val elapsed = DoubleProperty(0)
   progress.progress <== elapsed / slider.value
   // Ideally: numericProgress.text <== formatElapsed(elapsed)
-  elapsed.addListener((v: ObservableValue[_ <: Number], o: Number, n: Number) =>
-    numericProgress.text = formatElapsed(n.intValue))
+  numericProgress.text <== Bindings.createStringBinding(new Callable[String] { override def call(): String =
+    formatElapsed(elapsed.toInt)
+  }, elapsed)
   reset.onAction = (event: ActionEvent) =>  elapsed.value = 0
 
   val timeline = Timeline(KeyFrame(Duration(100), "", (e: ActionEvent) =>
