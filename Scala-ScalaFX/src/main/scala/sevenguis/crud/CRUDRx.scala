@@ -37,13 +37,13 @@ object CRUDRx extends JFXApp {
 
   val fullname = Rx{ s"${surname.text.rx()()}, ${name.text.rx()()}" }
   val selectedIndex = entries.getSelectionModel.selectedIndexProperty().rx()
-  val selectedOrigIndex = Rx{ dbView()_2 selectedIndex().intValue }
+  val sourceIndex = Rx{ dbView()_2 selectedIndex().intValue }
   // Ideally, I would write database() += fullname()
   create.onAction = (event: ActionEvent) => { db() = db() += fullname() }
   // Ideally, I would not need database.update(database())
-  delete.onAction = (event: ActionEvent) => { db().remove(selectedOrigIndex()); db.update(db()) }
+  delete.onAction = (event: ActionEvent) => { db().remove(sourceIndex()); db.update(db()) }
   // Ideally, I would not need database.update(database())
-  update.onAction = (event: ActionEvent) => { db().update(selectedOrigIndex(), fullname()); db.update(db()) }
+  update.onAction = (event: ActionEvent) => { db().update(sourceIndex(), fullname()); db.update(db()) }
   delete.disable |= selectedIndex().intValue == -1
   update.disable |= selectedIndex().intValue == -1
 
