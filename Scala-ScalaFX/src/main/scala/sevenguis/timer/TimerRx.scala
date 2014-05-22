@@ -8,12 +8,12 @@ import scalafx.scene.layout.{VBox, HBox}
 import scalafx.geometry.Insets
 import scalafx.event.ActionEvent
 import scalafx.Includes._
-import javafx.beans.value.ObservableValue
 import scala.concurrent.duration._
 
 import rx._
 import rx.ops._
 import scala.concurrent.ExecutionContext.Implicits.global
+import sevenguis.RxIntegration._
 
 object TimerRx extends JFXApp {
   val progress = new ProgressBar()
@@ -22,27 +22,14 @@ object TimerRx extends JFXApp {
   val reset = new Button("Reset")
 
   val elapsed = Var(0)
-  val slider_value = Var(200)
-          val o0 = Obs(slider_value) { slider.value = slider_value() }
-          slider.value.addListener((v: ObservableValue[_ <: Number], o: Number, n: Number) =>
-            slider_value() = n.intValue())
-  val progress_progress = Rx{ elapsed().toDouble / slider_value().toDouble }
-          val o1 = Obs(progress_progress) { progress.progress = progress_progress() }
-  val numericProgress_text = Rx{ formatElapsed(elapsed()) }
-          val o2 = Obs(numericProgress_text) { numericProgress.text = numericProgress_text() }
+  progress.progress |= elapsed() / slider.value.rx()()
+  numericProgress.text |= formatElapsed(elapsed())
   reset.onAction = (event: ActionEvent) =>  elapsed() = 0
 
   implicit val scheduler = new AkkaScheduler(akka.actor.ActorSystem())
   val t = rx.ops.Timer(100 millis)
   // If JavaFX was thread-safe (pipe-dream?) then `Platform.runLater` would be unnecessary.
-  val o = Obs(t) { Platform.runLater(if (elapsed() < slider_value()) elapsed() += 1) }
-
-  // An ideal solution would look something like the following:
-  //val elapsed = Var(0)
-  //progress.progress = Rx{ elapsed() / slider.value() }
-  //numericProgress.text = Rx{ formatElapsed(elapsed()) }
-  //Obs(reset.onAction) { elapsed() = 0 }
-  //Obs(Timer(100 millis)) { if (elapsed() < slider.value()) elapsed() += 1 }
+  val o = Obs(t) { Platform.runLater(if (elapsed() < slider.value.rx()()) elapsed() += 1) }
 
   stage = new PrimaryStage {
     title = "Timer"

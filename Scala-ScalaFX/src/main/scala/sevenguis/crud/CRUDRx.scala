@@ -8,16 +8,12 @@ import scalafx.scene.layout.{GridPane, BorderPane, HBox}
 import scalafx.geometry.{Pos, Insets}
 import scalafx.event.ActionEvent
 import scalafx.Includes._
-import javafx.beans.value.ObservableValue
 import javafx.collections.FXCollections
 import scala.collection.JavaConverters._
 import scala.collection.mutable.ArrayBuffer
 
 import rx._
-
-// Somewhat similar to the Clojure/Seesaw solution in terms of the watches.
-// The FilterableView class is not really beneficial anymore because the logic is simpler now.
-// The prefix.text listener is not necessary anymore as well.
+import sevenguis.RxIntegration._
 
 object CRUDRx extends JFXApp {
   val prefix = new TextField() { prefWidth = 60 }
@@ -29,39 +25,28 @@ object CRUDRx extends JFXApp {
   val entries = new ListView[String]()
   entries.getSelectionModel.selectionMode = SelectionMode.SINGLE
 
-  val database = Var(ArrayBuffer[String]("Emil, Hans", "Mustermann, Max", "Tisch, Roman"))
-  val prefix_text = Var("")
-          val o0 = Obs(prefix_text) { prefix.text = prefix_text() }
-          prefix.text.addListener((v: ObservableValue[_ <: String], o: String, n: String) =>
-            prefix_text() = n.toString)
-  val filteredView = Rx{ database().zip(0 to database().size-1).filter(_._1.startsWith(prefix_text())).unzip }
-  val o = Obs(filteredView) { entries.setItems(FXCollections.observableArrayList(filteredView()._1.asJava)) }
-
-  // These properties were not transformed into Rxs as they are clear as is.
-  val fullname = surname.textProperty.concat(", ").concat(name.textProperty)
-  val selectedIndex = entries.getSelectionModel.selectedIndexProperty()
-  def selectedOrigIndex = filteredView()_2 selectedIndex.get
-  // Ideally, I would not have to write 'database.update(database())'.
-  // ScalaRx needs an updateInplace function or something similar.
-  create.onAction = (event: ActionEvent) => { database() += fullname.get; database.update(database()) }
-  delete.onAction = (event: ActionEvent) => { database().remove(selectedOrigIndex); database.update(database()) }
-  update.onAction = (event: ActionEvent) => { database().update(selectedOrigIndex, fullname.get); database.update(database()) }
-  delete.disable <== selectedIndex === -1
-  update.disable <== selectedIndex === -1
-
   // An ideal solution would look something like the following.
   //val database = Var(ArrayBuffer[String]("Emil, Hans", "Mustermann, Max", "Tisch, Roman"))
-  //val filteredView = Rx{ database().zip(0 to database().size-1).filter(_._1.startsWith(prefix_text())).unzip }
-  //entries.setItems(filteredView._1) // setItems automatically does the right thing when given an Rx
-  //
-  //val fullname = Rx{ s"${surname.text()}, ${name.text()}" }
-  //val selectedIndex = entries.getSelectionModel.selectedIndex
-  //val selectedOrigIndex = Rx{ filteredView()_2 selectedIndex() }
-  //Obs(create.onAction) { database() += fullname.get }
-  //Obs(delete.onAction) { database().remove(selectedOrigIndex) }
-  //Obs(update.onAction) { database().update(selectedOrigIndex, fullname() }
-  //delete.disable = Rx{ selectedIndex == -1 }
-  //update.disable = Rx{ selectedIndex == -1 }
+  //val dbView = Rx{ db().zip(0 to db().size-1).filter(_._1.startsWith(prefix.text())).unzip }
+  //entries.setItems(dbView._1) // setItems automatically does the right thing when given an Rx[Collection]
+
+  val externDb = ArrayBuffer[String]("Emil, Hans", "Mustermann, Max", "Tisch, Roman")
+  val db = Var(externDb)
+  val dbView = Rx{ db().zip(0 to db().size-1).filter(_._1.startsWith(prefix.text.rx()())).unzip }
+  val o = Obs(dbView) { entries.setItems(FXCollections.observableArrayList(dbView()._1.asJava)) }
+
+  val fullname = Rx{ s"${surname.text.rx()()}, ${name.text.rx()()}" }
+  val selectedIndex = entries.getSelectionModel.selectedIndexProperty().rx()
+  val selectedOrigIndex = Rx{ dbView()_2 selectedIndex().intValue }
+  // Ideally, I would write database() += fullname()
+  create.onAction = (event: ActionEvent) => { db() = db() += fullname() }
+  // Ideally, I would not need database.update(database())
+  delete.onAction = (event: ActionEvent) => { db().remove(selectedOrigIndex()); db.update(db()) }
+  // Ideally, I would not need database.update(database())
+  update.onAction = (event: ActionEvent) => { db().update(selectedOrigIndex(), fullname()); db.update(db()) }
+  delete.disable |= selectedIndex().intValue == -1
+  update.disable |= selectedIndex().intValue == -1
+
 
   stage = new PrimaryStage {
     title = "CRUD"
