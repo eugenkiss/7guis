@@ -8,7 +8,6 @@ import scalafx.scene.layout.VBox
 import scalafx.geometry.Insets
 import java.time.format.DateTimeFormatter
 import java.time.LocalDate
-import scalafx.Includes._
 import javafx.beans.value.{ChangeListener, ObservableValue}
 
 import rx._
@@ -17,8 +16,9 @@ object Ext {
   val observers: scala.collection.mutable.Buffer[Obs] = scala.collection.mutable.Buffer()
 
   implicit class PropertyExtensions[T,J](p: scalafx.beans.property.Property[T,J]) {
-    def <~(x: Rx[T]) {
-      observers += Obs(x) { p() = x() }
+    def |=(x: => T) {
+      val rx = Rx{x}
+      observers += Obs(rx) { p() = rx() }
     }
     def rx(): Rx[T] = {
       val v = Var(p.value)
@@ -41,10 +41,12 @@ object FlightBookerRx2 extends JFXApp {
   val returnDate = new TextField {text=dateToString(LocalDate.now)}
   val book = new Button("Book")
 
-  returnDate.disable <~ Rx { flightType.value.rx()() == "one-way flight" }
-  startDate.style <~ Rx { if (isDateString(startDate.text.rx()())) "" else "-fx-background-color: lightcoral" }
-  returnDate.style <~ Rx { if (isDateString(returnDate.text.rx()())) "" else "-fx-background-color: lightcoral" }
-  book.disable <~ Rx{
+  // TODO: Way to eliminate the need for { } altogether?
+  // TODO: .rx()() ~> ()
+  returnDate.disable |= flightType.value.rx()() == "one-way flight"
+  startDate.style  |= { if (isDateString(startDate.text.rx()()))  "" else "-fx-background-color: lightcoral" }
+  returnDate.style |= { if (isDateString(returnDate.text.rx()())) "" else "-fx-background-color: lightcoral" }
+  book.disable |= {
     flightType.value.rx()() match {
       case "one-way flight" => !isDateString(startDate.text.rx()())
       case "return flight" =>
