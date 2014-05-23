@@ -13,26 +13,9 @@ import scalafx.Includes._
 import scala.math._
 import scalafx.scene.input.MouseEvent
 import scalafx.stage.{Popup, WindowEvent, Stage}
-import javafx.beans.value.ObservableValue
+
 import rx._
-
-/*
-I think if one refactored the code drastically one could benefit from the reactive approach
-(e.g. make `hovered` a reactive variable etc.). A lot of events and callbacks in this example
-would stay though as they are already conceptually the right abstraction (e.g. all the mouse
-events).
-A more interesting question is how to use reactivity while refactoring the code as little
-as possible (e.g. `Circle` stays as is). To achieve this I believe one would need additional
-reactive constructs (by using a macro?) to keep the refactorings at a minimum and only introduce
-reactive concepts exactly where they make sense. For example, to connect the diameter of the
-selected circle with the slider it would be good to just write
-
-  Rx{ selected.d = slider.value() }
-
-I did not really introduce much reactivity here because I am not sure yet what the best
-approach would be here. Maybe this kind of application specifically does not benefit much
-from reactivity.
-*/
+import sevenguis.RxIntegration._
 
 object CircleDrawerRx extends JFXApp {
   val undo = new Button("Undo")
@@ -59,6 +42,19 @@ object CircleDrawerRx extends JFXApp {
 
 class CircleDrawerCanvasRx extends Canvas(400, 400) {
   var circles = Seq[CircleRx]()
+  // It would be better to express the dependency between `hovered`
+  // and `onMouseMoved` directly without callbacks like this:
+  //   hover = Rx{ getNearestCircleAt(mouse.x, mouse.y) }
+  //   Obs(hover) { draw() }
+  // But I could not find a way to make it work with ScalaRx.
+  // Even if I hypothetically defined `hovered` as
+  //   def hovered = getNearestCircleAt(mouse.x, mouse.y)
+  // and as such didn't care about efficiency, I'd still need
+  // to get the mouse position from somewhere. Getting it as
+  // arguments would go against the purpose of the definition.
+  // Getting it globally and somehow transforming it into relative
+  // positions would surely work, but this would require a lot of
+  // overhead.
   var hovered: CircleRx = null
 
   val diameter = new Button("Diameter...")
@@ -67,7 +63,7 @@ class CircleDrawerCanvasRx extends Canvas(400, 400) {
 
   diameter.onAction = (e: ActionEvent) => {
     popup.hide()
-    showDialog(hovered)
+    showDialog(Var(hovered))
   }
   onMousePressed = (e: MouseEvent) => {
     if (e.isPrimaryButtonDown && hovered == null) {
@@ -119,23 +115,30 @@ class CircleDrawerCanvasRx extends Canvas(400, 400) {
     circle
   }
 
-  def showDialog(selected: CircleRx) {
+  def showDialog(selected0: Rx[CircleRx]) {
+    var selected = selected0
     val dialog = new Stage()
-    val info = new Label(s"Adjust diameter of circle at (${selected.x}, ${selected.y})")
-    val slider = new Slider(10, 50, selected.d)
+    val info = new Label(s"Adjust diameter of circle at (${selected().x}, ${selected().y})")
+    val slider = new Slider(10, 50, selected().d)
 
-    // Note: Possibly dangerous because the GC could in principal remove the observers afaik.
-    val slider_value = Var(slider.value.get)
-            val o0 = Obs(slider_value) { slider.value = slider_value() }
-            slider.value.addListener((v: ObservableValue[_ <: Number], o: Number, n: Number) =>
-              slider_value() = n.intValue())
-    // Ideally, I would just do: Rx{ selected.d = slider.value() }
-    val selected_d = Rx{ slider_value() }
-            val o1 = Obs(selected_d) { selected.d = selected_d() }
+    // Note: Dangerous because the GC could remove the observers before the dialog is closed.
+    // (Which indeed happens sometimes)
+
+    // The following "binding expression" is not ideal.
+    // It would be clearer if I made `d` an Rx so then I would write:
+    //   selected().d = slider.value
+    // And later to forget the slider to let it be gc-ed:
+    //   dialog.onCloseRequest = () => selected().d = Var(selected().d()); addSnapshot()
+    // But I don't want to change the CircleRx class as I don't want to assume I can
+    // change the model.
+    selected = Rx{ selected().d = slider.value.rx()(); selected() }
+    // Of course, I could have used an observer but then we have inversion of control again
+    //   Obs(slider.value.rx) { selected().d = slider.value() }
+
     // Ideally, the circles list would be reactive and on any change the canvas is redrawn
     // automatically (by registering an observer on list changes). Then the following
     // observer be unnecessary.
-    val o2 = Obs(slider_value) { draw() }
+    Obs(slider.value.rx) { draw() }
     dialog.onCloseRequest = (e: WindowEvent) => addSnapshot()
 
     dialog.scene = new Scene() {
