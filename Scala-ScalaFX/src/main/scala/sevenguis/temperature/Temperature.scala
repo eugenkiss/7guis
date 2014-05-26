@@ -14,9 +14,9 @@ object Temperature extends JFXApp {
 
   celsius.text.bindBidirectional[String](fahrenheit.text, new StringConverter[String] {
     override def fromString(c: String): String =
-      if (isNumeric(c)) cToF(c) else fahrenheit.text.value
+      if (isNumeric(c)) cToF(c) else fahrenheit.text()
     override def toString(f: String): String =
-      if (isNumeric(f)) fToC(f) else celsius.text.value
+      if (isNumeric(f)) fToC(f) else celsius.text()
   })
 
   stage = new PrimaryStage {
