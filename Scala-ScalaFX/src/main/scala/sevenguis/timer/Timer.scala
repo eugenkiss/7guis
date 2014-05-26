@@ -25,12 +25,12 @@ object Timer extends JFXApp {
   progress.progress <== elapsed / slider.value
   // Ideally: numericProgress.text <== formatElapsed(elapsed)
   numericProgress.text <== Bindings.createStringBinding(new Callable[String] { override def call(): String =
-    formatElapsed(elapsed.toInt)
+    formatElapsed(elapsed())
   }, elapsed)
-  reset.onAction = (event: ActionEvent) =>  elapsed.value = 0
+  reset.onAction = (event: ActionEvent) =>  elapsed() = 0
 
   val timeline = Timeline(KeyFrame(Duration(100), "", (e: ActionEvent) =>
-    if (elapsed.value < slider.value.get) elapsed.value = elapsed.value + 1))
+    if (elapsed() < slider.value()) elapsed() = elapsed() + 1))
   timeline.setCycleCount(Timeline.INDEFINITE)
   timeline.play()
 
@@ -48,7 +48,7 @@ object Timer extends JFXApp {
     }
   }
 
-  def formatElapsed(elapsed: Int): String = {
+  def formatElapsed(elapsed: Double): String = {
     val seconds = (elapsed / 10.0).floor
     val dezipart = elapsed % 10
     seconds.toInt + "." + dezipart.toInt + "s"
