@@ -115,8 +115,7 @@ class CircleDrawerCanvasRx extends Canvas(400, 400) {
     circle
   }
 
-  def showDialog(selected0: Rx[CircleRx]) {
-    var selected = selected0
+  def showDialog(selected: Rx[CircleRx]) {
     val dialog = new Stage()
     val info = new Label(s"Adjust diameter of circle at (${selected().x}, ${selected().y})")
     val slider = new Slider(10, 50, selected().d)
@@ -131,7 +130,7 @@ class CircleDrawerCanvasRx extends Canvas(400, 400) {
     //   dialog.onCloseRequest = () => selected().d = Var(selected().d()); addSnapshot()
     // But I don't want to change the CircleRx class as I don't want to assume I can
     // change the model.
-    selected = Rx{ selected().d = slider.value.rx()(); selected() }
+    Rx{ selected().d = slider.value.rx()() }
     // Of course, I could have used an observer but then we have inversion of control again
     //   Obs(slider.value.rx) { selected().d = slider.value() }
 
