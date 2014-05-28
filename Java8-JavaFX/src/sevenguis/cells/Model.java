@@ -43,7 +43,6 @@ class Model {
         private double value = 0;
 
         public final StringProperty text = new SimpleStringProperty("");
-        public StringProperty textProperty() {return text;}
 
         public String toString() {
             if (formula instanceof Textual) {
@@ -57,17 +56,9 @@ class Model {
             userData = s;
         }
 
-        public String getUserDate() {
-            return userData;
-        }
-
         public void setShowUserData(Boolean b) {
             if (b)  text.setValue(userData);
             else text.setValue(this.toString());
-        }
-
-        public Formula getFormula() {
-            return formula;
         }
 
         public void setFormula(Formula formula) {
