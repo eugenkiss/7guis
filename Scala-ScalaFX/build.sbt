@@ -11,6 +11,10 @@ scalaVersion := "2.10.3"
 //   assert(specVersion >= 1.8, "Java 8 or above required")
 //}
 
+resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+
+libraryDependencies += "org.reactfx" % "reactfx" % "1.1.0-SNAPSHOT"
+
 libraryDependencies += "org.scalafx" %% "scalafx" % "8.0.0-R4"
 
 libraryDependencies += "com.scalarx" % "scalarx_2.10" % "0.2.3"
