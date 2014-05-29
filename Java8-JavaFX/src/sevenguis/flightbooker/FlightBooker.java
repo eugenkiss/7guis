@@ -29,16 +29,12 @@ public class FlightBooker extends Application {
         Button book = new Button("Book");
 
         returnDate.disableProperty().bind(flightType.valueProperty().isEqualTo("one-way flight"));
-        // Ideally:
-        //startDate.styleProperty().bind(
-        //        new When(isDateString(startDate.getText())).then("")
-        //                .otherwise("-fx-background-color: lightcoral"));
         startDate.styleProperty().bind(Bindings.createStringBinding(() ->
-            isDateString(startDate.getText()) ? "" : "-fx-background-color: lightcoral"
-        , startDate.textProperty()));
-        // For comparison, a callback based approach
-        returnDate.textProperty().addListener((v, o, n) ->
-            returnDate.setStyle(isDateString(n) ? "" : "-fx-background-color: lightcoral"));
+                isDateString(startDate.getText()) ? "" : "-fx-background-color: lightcoral"
+                , startDate.textProperty()));
+        returnDate.styleProperty().bind(Bindings.createStringBinding(() ->
+                isDateString(returnDate.getText()) ? "" : "-fx-background-color: lightcoral"
+                , returnDate.textProperty()));
         book.disableProperty().bind(Bindings.createBooleanBinding(() -> {
             if (flightType.getValue().equals("one-way flight")) {
                 return !isDateString(startDate.getText());
