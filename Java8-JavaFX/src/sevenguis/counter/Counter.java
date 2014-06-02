@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 public class Counter extends Application {
 
-    public void start(Stage stage) throws Exception{
+    public void start(Stage stage) {
         TextField count = new TextField("0");
         count.setEditable(false);
         count.setPrefWidth(50);

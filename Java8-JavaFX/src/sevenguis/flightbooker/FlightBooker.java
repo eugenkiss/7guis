@@ -20,7 +20,7 @@ import static sevenguis.flightbooker.Util.*;
 
 public class FlightBooker extends Application {
 
-    public void start(Stage stage) throws Exception{
+    public void start(Stage stage) {
         ComboBox<String> flightType = new ComboBox<>();
         flightType.getItems().addAll("one-way flight", "return flight");
         flightType.setValue("one-way flight");

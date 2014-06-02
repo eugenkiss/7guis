@@ -18,7 +18,7 @@ import static sevenguis.flightbooker.Util.*;
 
 public class FlightBookerReactFX extends Application {
 
-    public void start(Stage stage) throws Exception{
+    public void start(Stage stage) {
         ComboBox<String> flightType = new ComboBox<>();
         flightType.getItems().addAll("one-way flight", "return flight");
         TextField startDate = new TextField(dateToString(LocalDate.now()));

@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 
 public class Cells extends Application {
 
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         stage.setScene(new Scene(new SpreadSheet(100, 26)));
         stage.setTitle("Cells");
         stage.setWidth(400);

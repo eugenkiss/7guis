@@ -18,7 +18,7 @@ import javafx.util.Duration;
 
 public class Timer extends Application {
 
-    public void start(Stage stage) throws Exception{
+    public void start(Stage stage) {
         ProgressBar progress = new ProgressBar();
         Label numericProgress = new Label();
         Slider slider = new Slider(1, 400, 200);

@@ -13,7 +13,7 @@ import static sevenguis.temperature.Util.*;
 
 public class TemperatureConverterCallback extends Application {
 
-    public void start(Stage stage) throws Exception{
+    public void start(Stage stage) {
         TextField celsius = new TextField();
         TextField fahrenheit = new TextField();
 

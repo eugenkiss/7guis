@@ -21,7 +21,7 @@ import java.util.List;
 
 public class CRUD extends Application {
 
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         TextField prefix = new TextField();
         prefix.setPrefWidth(60);
         TextField name = new TextField();

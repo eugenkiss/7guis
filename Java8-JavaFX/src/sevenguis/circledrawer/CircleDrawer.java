@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 public class CircleDrawer extends Application {
 
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         Button undo = new Button("Undo");
         Button redo = new Button("Redo");
         CircleDrawerCanvas canvas = new CircleDrawerCanvas();
