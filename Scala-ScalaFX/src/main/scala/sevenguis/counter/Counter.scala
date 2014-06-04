@@ -18,7 +18,7 @@ object Counter extends JFXApp {
   val countUp = new Button("Count")
 
   countUp.onAction = (event: ActionEvent) => {
-    count.text = (1 + count.text.value.toInt).toString
+    count.text = (1 + count.text().toInt).toString
   }
 
   stage = new PrimaryStage {

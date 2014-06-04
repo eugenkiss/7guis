@@ -31,7 +31,7 @@ public class FlightBookerReactFX extends Application {
         EventStream<String> startDateStream = EventStreams.valuesOf(startDate.textProperty());
         EventStream<String> returnDateStream = EventStreams.valuesOf(returnDate.textProperty());
         returnDate.disableProperty().bind(
-                flightTypeStream.map(s -> s != null && s.equals("one-way flight")).toBinding(true));
+                flightTypeStream.map("one-way flight"::equals).toBinding(true));
         // Using binding support of ReactFX
         startDate.styleProperty().bind(startDateStream.map( s ->
                 isDateString(startDate.getText()) ? "" : "-fx-background-color: lightcoral"
@@ -42,7 +42,7 @@ public class FlightBookerReactFX extends Application {
                 ).subscribe(returnDate::setStyle);
         // Combinators come into play (iov) (somewhat similar to Seesaw's funneling)
         EventStreams.combine(flightTypeStream, startDateStream, returnDateStream).by((f, s, r) -> {
-            if (f != null && f.equals("one-way flight")) {
+            if ("one-way flight".equals(f)) {
                 return !isDateString(s);
             } else {
                 return !isDateString(s) ||
