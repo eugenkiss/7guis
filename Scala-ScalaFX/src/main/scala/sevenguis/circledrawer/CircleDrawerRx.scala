@@ -42,20 +42,12 @@ object CircleDrawerRx extends JFXApp {
 
 class CircleDrawerCanvasRx extends Canvas(400, 400) {
   var circles = Seq[CircleRx]()
-  // It would be better to express the dependency between `hovered`
-  // and `onMouseMoved` directly without callbacks like this:
-  //   hover = Rx{ getNearestCircleAt(mouse.x, mouse.y) }
-  //   Obs(hover) { draw() }
-  // But I could not find a way to make it work with ScalaRx.
-  // Even if I hypothetically defined `hovered` as
-  //   def hovered = getNearestCircleAt(mouse.x, mouse.y)
-  // and as such didn't care about efficiency, I'd still need
-  // to get the mouse position from somewhere. Getting it as
-  // arguments would go against the purpose of the definition.
-  // Getting it globally and somehow transforming it into relative
-  // positions would surely work, but this would require a lot of
-  // overhead.
-  var hovered: CircleRx = null
+
+  val mouse_x = Var(0.0)
+  val mouse_y = Var(0.0)
+  onMouseMoved = (e: MouseEvent) => { mouse_x() = e.x; mouse_y() = e.y }
+  val hovered = Rx{ getNearestCircleAt(mouse_x(), mouse_y()) }
+  val o = Obs(hovered) { draw() }
 
   val diameter = new Button("Diameter...")
   val popup = new Popup()
@@ -63,20 +55,16 @@ class CircleDrawerCanvasRx extends Canvas(400, 400) {
 
   diameter.onAction = (e: ActionEvent) => {
     popup.hide()
-    showDialog(Var(hovered))
+    showDialog(hovered)
   }
   onMousePressed = (e: MouseEvent) => {
-    if (e.isPrimaryButtonDown && hovered == null) {
+    if (e.isPrimaryButtonDown && hovered() == null) {
       addCircle(new CircleRx(e.x, e.y))
       onMouseMoved.get.handle(e)
     }
     if (popup.isShowing) popup.hide()
-    if (e.isPopupTrigger && hovered != null)
+    if (e.isPopupTrigger && hovered() != null)
       popup.show(this, e.screenX, e.screenY)
-  }
-  onMouseMoved = (e: MouseEvent) => {
-    hovered = getNearestCircleAt(e.x, e.y)
-    draw()
   }
   draw()
 
