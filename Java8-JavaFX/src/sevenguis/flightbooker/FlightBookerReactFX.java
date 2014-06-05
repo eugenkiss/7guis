@@ -41,7 +41,7 @@ public class FlightBookerReactFX extends Application {
                 isDateString(startDate.getText()) ? "" : "-fx-background-color: lightcoral"
                 ).subscribe(returnDate::setStyle);
         // Combinators come into play (iov) (somewhat similar to Seesaw's funneling)
-        EventStreams.combine(flightTypeStream, startDateStream, returnDateStream).by((f, s, r) -> {
+        EventStreams.combine(flightTypeStream, startDateStream, returnDateStream).map((f, s, r) -> {
             if ("one-way flight".equals(f)) {
                 return !isDateString(s);
             } else {

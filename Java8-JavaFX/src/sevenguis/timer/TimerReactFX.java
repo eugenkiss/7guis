@@ -1,11 +1,7 @@
 package sevenguis.timer;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.binding.Binding;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,12 +12,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import org.reactfx.EventSource;
 import org.reactfx.EventStream;
 import org.reactfx.EventStreams;
+import org.reactfx.util.FxTimer;
 
-import java.util.stream.Stream;
+import java.time.Duration;
 
 public class TimerReactFX extends Application {
 
@@ -35,18 +31,15 @@ public class TimerReactFX extends Application {
         Binding<Double> elapsedBinding = elapsedStream.toBinding(0.0);
         EventStream<Double> sliderStream = EventStreams.valuesOf(slider.valueProperty().asObject());
         Binding<Double> sliderBinding = sliderStream.toBinding(200.0);
-        EventStreams.combine(elapsedStream, sliderStream).by((e, s) -> e/s)
+        EventStreams.combine(elapsedStream, sliderStream).map((e, s) -> e/s)
                 .subscribe(progress::setProgress);
         elapsedStream.subscribe(v -> numericProgress.setText(formatElapsed(v)));
         EventStreams.eventsOf(reset, MouseEvent.MOUSE_CLICKED).subscribe(click -> elapsedStream.push(0.0));
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), event -> {
+        FxTimer.runPeriodically(Duration.ofMillis(100), () -> {
             double e = elapsedBinding.getValue();
-            if (e < sliderBinding.getValue())
-                elapsedStream.push(e + 1);
-        }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+            if (e < sliderBinding.getValue()) elapsedStream.push(e + 1);
+        });
 
         VBox root = new VBox(10, new HBox(10, new Label("Elapsed Time: "), progress),
                                  numericProgress,
