@@ -43,8 +43,7 @@ object CircleDrawerRx extends JFXApp {
 class CircleDrawerCanvasRx extends Canvas(400, 400) {
   var circles = Seq[CircleRx]()
 
-  val mouse_x = Var(0.0)
-  val mouse_y = Var(0.0)
+  val mouse_x = Var(0.0); val mouse_y = Var(0.0)
   onMouseMoved = (e: MouseEvent) => { mouse_x() = e.x; mouse_y() = e.y }
   val hovered = Rx{ getNearestCircleAt(mouse_x(), mouse_y()) }
   val o = Obs(hovered) { draw() }
