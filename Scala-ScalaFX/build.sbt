@@ -2,7 +2,9 @@ name := "Scala-ScalaFX"
 
 version := "1.0"
 
-scalaVersion := "2.11.0"
+scalaVersion := "2.10.3"
+
+//scalaVersion := "2.11.0"
 
 // http://stackoverflow.com/questions/19208942/enforcing-java-version-for-scala-project-in-sbt
 //initialize := {
@@ -13,7 +15,7 @@ scalaVersion := "2.11.0"
 
 resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
-libraryDependencies += "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.1"
+//libraryDependencies += "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.1"
 
 libraryDependencies += "org.reactfx" % "reactfx" % "1.2.0-SNAPSHOT"
 

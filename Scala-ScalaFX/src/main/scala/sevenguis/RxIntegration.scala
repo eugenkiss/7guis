@@ -11,16 +11,8 @@ object RxIntegration {
       val rx = Rx{x}
       observers += Obs(rx) { p() = rx() }
     }
-//    def rx(): Rx[T] = {
-//      val v = Var(p.value)
-//      p.addListener(new ChangeListener[J] {
-//        override def changed(observable: ObservableValue[_ <: J], oldValue: J, newValue: J): Unit = {
-//          v.update(p.value)
-//        }
-//      })
-//      v
-//    }
   }
+
   implicit class ReadOnlyPropertyExtensions[T,J](p: scalafx.beans.property.ReadOnlyProperty[T,J]) {
     def rx(): Rx[T] = {
       val v = Var(p.value)
@@ -32,6 +24,7 @@ object RxIntegration {
       v
     }
   }
+
   implicit class ReadOnlyPropertyExtensionsJ[T](p: javafx.beans.property.ReadOnlyProperty[T]) {
     def rx(): Rx[T] = {
       val v = Var(p.getValue)

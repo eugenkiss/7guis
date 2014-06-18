@@ -1,6 +1,7 @@
 package sevenguis.counter;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,8 +20,12 @@ public class CounterReactFX extends Application {
         count.setPrefWidth(50);
         Button countUp = new Button("Count");
 
+//        EventStream<MouseEvent> clicks = EventStreams.eventsOf(countUp, MouseEvent.MOUSE_CLICKED);
+//        clicks.subscribe(click -> count.setText(1+Integer.parseInt(count.getText())+""));
+
         EventStream<MouseEvent> clicks = EventStreams.eventsOf(countUp, MouseEvent.MOUSE_CLICKED);
-        clicks.subscribe(click -> count.setText(1+Integer.parseInt(count.getText())+""));
+        EventStream<Integer> summed = clicks.accumulate(0, (n, x) -> n + 1);
+        summed.subscribe(v -> count.textProperty().setValue(v.toString()));
 
         HBox root = new HBox(10, count, countUp);
         root.setPadding(new Insets(10));
