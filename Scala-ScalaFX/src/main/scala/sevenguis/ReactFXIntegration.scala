@@ -1,15 +1,17 @@
 package sevenguis
 
-import java.util.Objects
-import java.util.function.Consumer
+import java.util.function.{Function, BiFunction, Consumer}
 
 import org.reactfx.util.TriFunction
 import org.reactfx.{Subscription, EventStreams, EventStream}
-import rx._
-import Scala2Java8._
 
 
 object ReactFXIntegration {
+  implicit def bifunction[A, B, R](f: (A, B) => R): BiFunction[A, B, R] = new BiFunction[A, B, R]{
+    override def apply(a: A, b: B): R = f(a, b)
+    override def andThen[V](after: Function[_ >: R, _ <: V]): BiFunction[A, B, V] = super.andThen(after)
+  }
+
   implicit def trifunction[A, B, C, R](f: (A, B, C) => R): TriFunction[A, B, C, R] = new TriFunction[A, B, C, R]{
     override def apply(a: A, b: B, c: C): R = f(a, b, c)
   }

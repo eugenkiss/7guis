@@ -9,10 +9,10 @@ trait Scala2Java8{
     override def accept(a: A, b: B) = f(a, b)
     override def andThen(after: BiConsumer[_ >: A, _ >: B]): BiConsumer[A, B] = super.andThen(after)
   }
-  implicit def biFunction[A, B, C](f: (A, B) => C): BiFunction[A, B, C] = new BiFunction[A, B, C]{
-    override def apply(a: A, b: B) = f(a, b)
-    override def andThen[V](after: Function[_ >: C, _ <: V]): BiFunction[A, B, V] = super.andThen(after)
-  }
+//  implicit def biFunction[A, B, C](f: (A, B) => C): BiFunction[A, B, C] = new BiFunction[A, B, C]{
+//    override def apply(a: A, b: B) = f(a, b)
+//    override def andThen[V](after: Function[_ >: C, _ <: V]): BiFunction[A, B, V] = super.andThen(after)
+//  }
   implicit def binaryOperator [A](f: (A, A) => A): BinaryOperator[A] = new BinaryOperator[A]{
     override def apply(a: A, b: A) = f(a, b)
     override def andThen[V](after: Function[_ >: A, _ <: V]): BiFunction[A, A, V] = super.andThen(after)
