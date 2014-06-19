@@ -1,24 +1,24 @@
 package sevenguis.timer;
 
 import javafx.application.Application;
-import javafx.beans.binding.Binding;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.reactfx.EventSource;
 import org.reactfx.EventStream;
 import org.reactfx.EventStreams;
-import org.reactfx.util.FxTimer;
 
 import java.time.Duration;
 
+import static org.reactfx.EventStreams.*;
+
+// https://gist.github.com/TomasMikula/1013e56be2f282416274
 public class TimerReactFX extends Application {
 
     public void start(Stage stage) {
@@ -27,19 +27,15 @@ public class TimerReactFX extends Application {
         Slider slider = new Slider(1, 400, 200);
         Button reset = new Button("Reset");
 
-        EventSource<Double> elapsedStream = new EventSource<>();
-        Binding<Double> elapsedBinding = elapsedStream.toBinding(0.0);
-        EventStream<Double> sliderStream = EventStreams.valuesOf(slider.valueProperty().asObject());
-        Binding<Double> sliderBinding = sliderStream.toBinding(200.0);
-        EventStreams.combine(elapsedStream, sliderStream).map((e, s) -> e/s)
-                .subscribe(progress::setProgress);
-        elapsedStream.subscribe(v -> numericProgress.setText(formatElapsed(v)));
-        EventStreams.eventsOf(reset, MouseEvent.MOUSE_CLICKED).subscribe(click -> elapsedStream.push(0.0));
+        EventStream<ActionEvent> resets = EventStreams.eventsOf(reset, ActionEvent.ACTION);
+        EventStream<?> ticks = EventStreams.ticks(Duration.ofMillis(100));
+        EventStream<Double> elapsed = combine(
+                    resets.or(ticks).accumulate(0, (e, ev) -> ev.unify(r -> 0, t -> e + 1)),
+                    valuesOf(slider.valueProperty())
+                ).map((e, s) -> Math.min(e, s.doubleValue()));
 
-        FxTimer.runPeriodically(Duration.ofMillis(100), () -> {
-            double e = elapsedBinding.getValue();
-            if (e < sliderBinding.getValue()) elapsedStream.push(e + 1);
-        });
+        combine(elapsed, valuesOf(slider.valueProperty())).map((e, s) -> e / s.doubleValue()).subscribe(progress::setProgress);
+        elapsed.map(TimerReactFX::formatElapsed).subscribe(numericProgress::setText);
 
         VBox root = new VBox(10, new HBox(10, new Label("Elapsed Time: "), progress),
                                  numericProgress,
