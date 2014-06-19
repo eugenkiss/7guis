@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import org.reactfx.EventStream;
 import org.reactfx.EventStreams;
 
+// https://gist.github.com/TomasMikula/d0c5bd845b2a5db32cd2
 public class CounterReactFX extends Application {
 
     public void start(Stage stage) {

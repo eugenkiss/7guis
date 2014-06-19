@@ -9,13 +9,14 @@ import scalafx.scene.Scene
 import scalafx.scene.control.{Button, TextField}
 import scalafx.scene.layout.HBox
 import scalafx.geometry.Insets
-import org.reactfx.EventStreams
+import org.reactfx.{EventStream, EventStreams}
 import scalafx.scene.input.MouseEvent
 import javafx.scene.input
 
 import sevenguis.ReactFXIntegration._
 import sevenguis.Scala2Java8._
 
+// https://gist.github.com/TomasMikula/d0c5bd845b2a5db32cd2
 object CounterReactFX extends JFXApp {
   val count = new TextField {
     text      = "0"
@@ -41,7 +42,7 @@ object CounterReactFX extends JFXApp {
     scene = new Scene {
       content = new HBox(10) {
         padding = Insets(10)
-        content = Seq(count, countUp)
+        content = Seq(count, new Button(countUp))
       }
     }
   }
