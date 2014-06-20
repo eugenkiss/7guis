@@ -26,7 +26,7 @@ public class CircleDrawer extends Application {
         root.setCenter(canvas);
 
         stage.setScene(new Scene(root));
-        stage.setTitle("Counter");
+        stage.setTitle("Circle Drawer");
         stage.show();
     }
 

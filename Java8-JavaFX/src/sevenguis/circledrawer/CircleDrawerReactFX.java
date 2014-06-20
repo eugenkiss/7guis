@@ -1,6 +1,7 @@
 package sevenguis.circledrawer;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -15,15 +16,16 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
-import org.reactfx.EventSource;
 import org.reactfx.EventStream;
-import org.reactfx.EventStreams;
 import sevenguis.circledrawer.undo.UndoManager;
 import sevenguis.circledrawer.undo.UndoableEdit;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.reactfx.EventStreams.*;
+
+// https://gist.github.com/TomasMikula/b04dd89da1584597fa14
 public class CircleDrawerReactFX extends Application {
 
     public void start(Stage stage) {
@@ -42,7 +44,7 @@ public class CircleDrawerReactFX extends Application {
         root.setCenter(canvas);
 
         stage.setScene(new Scene(root));
-        stage.setTitle("Counter");
+        stage.setTitle("Circle Drawer");
         stage.show();
     }
 
@@ -54,7 +56,6 @@ public class CircleDrawerReactFX extends Application {
 class CircleDrawerCanvasReactFX extends Canvas {
 
     private List<Circle> circles;
-    private Circle hovered;
     private UndoManager undoManager;
 
     public CircleDrawerCanvasReactFX() {
@@ -62,37 +63,35 @@ class CircleDrawerCanvasReactFX extends Canvas {
         circles = new ArrayList<>();
         undoManager = new UndoManager();
 
-        // The following is not enough as I have to be able to manually
-        // push into mouseMovedStream inside setOnMousePressed.
-        //EventStream<MouseEvent> mouseMovedStream = EventStreams.eventsOf(this, MouseEvent.MOUSE_MOVED);
-        EventSource<MouseEvent> mouseMovedStream = new EventSource<>();
-        EventStreams.eventsOf(this, MouseEvent.MOUSE_MOVED).subscribe(mouseMovedStream::push);
-        EventStream<Circle> hoveredStream = mouseMovedStream.map(moved -> getNearestCircleAt((int) moved.getX(), (int) moved.getY()));
-        hoveredStream.subscribe(c -> hovered = c);
-        hoveredStream.subscribe(c -> draw());
+        EventStream<MouseEvent> leftPressesToVoid = eventsOf(this, MouseEvent.MOUSE_PRESSED).filter(MouseEvent::isPrimaryButtonDown)
+                .filter(e -> getNearestCircleAt(e.getX(), e.getY()) == null);
+        EventStream<Circle> addedCircles = leftPressesToVoid.map(e -> new Circle((int)e.getX(), (int)e.getY()))
+                .hook(this::addCircle);
+        EventStream<Circle> hoveredCircles = eventsOf(this, MouseEvent.MOUSE_MOVED).map(e -> getNearestCircleAt(e.getX(), e.getY()));
+        merge(addedCircles, hoveredCircles).subscribe(this::draw);
 
         Button diameterEntry = new Button("Diameter...");
         Popup popup = new Popup();
         popup.getContent().add(diameterEntry);
 
-        diameterEntry.setOnAction(e -> {
+        eventsOf(this, MouseEvent.MOUSE_PRESSED).subscribe(e -> { if (popup.isShowing()) popup.hide(); });
+        EventStream<MouseEvent> rightPressesToCircle = eventsOf(this, MouseEvent.MOUSE_PRESSED)
+                .filter(MouseEvent::isPopupTrigger)
+                .filter(e -> getNearestCircleAt(e.getX(), e.getY()) != null);
+        rightPressesToCircle.subscribe(e -> popup.show(this, e.getScreenX(), e.getScreenY()));
+        EventStream<Circle> selectedCircles = rightPressesToCircle.map(e -> getNearestCircleAt(e.getX(), e.getY()));
+        EventStream<ActionEvent> diameterEntryClicks = eventsOf(diameterEntry, ActionEvent.ACTION);
+        selectedCircles.emitOn(diameterEntryClicks).subscribe(c -> {
             popup.hide();
-            showDialog(hovered);
+            showDialog(c);
         });
-        setOnMousePressed((MouseEvent e) -> {
-            if (e.isPrimaryButtonDown() && hovered == null) {
-                addCircle(new Circle((int) e.getX(), (int) e.getY()));
-                // Another change
-                mouseMovedStream.push(e);
-            }
-            if (popup.isShowing()) popup.hide();
-            if (e.isPopupTrigger() && hovered != null)
-                popup.show(this, e.getScreenX(), e.getScreenY());
-        });
+
         draw();
     }
 
-    void draw() {
+    void draw() { draw(null); }
+
+    void draw(Circle hovered) {
         GraphicsContext g = getGraphicsContext2D();
         g.setFill(Color.WHITE);
         g.setStroke(Color.BLACK);
@@ -114,7 +113,7 @@ class CircleDrawerCanvasReactFX extends Canvas {
         circles.add(circle);
     }
 
-    public Circle getNearestCircleAt(int x, int y) {
+    public Circle getNearestCircleAt(double x, double y) {
         Circle circle = null;
         double minDist = Double.MAX_VALUE;
         for (Circle c : circles) {
@@ -127,7 +126,6 @@ class CircleDrawerCanvasReactFX extends Canvas {
         return circle;
     }
 
-    // TODO
     void showDialog(Circle selected) {
         Stage dialog = new Stage();
         Label info = new Label(String.format("Adjust diameter of circle at (%s, %s)",
