@@ -46,7 +46,6 @@ object CircleDrawerFX extends JFXApp {
 
 class CircleDrawerCanvasFX extends Canvas(400, 400) {
   var circles = Seq[CircleFX]()
-  var hovered: CircleFX = null
 
   val diameter = new Button("Diameter...")
   val popup = new Popup()
