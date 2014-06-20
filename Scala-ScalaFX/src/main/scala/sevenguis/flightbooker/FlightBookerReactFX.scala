@@ -19,9 +19,6 @@ import sevenguis.Scala2Java8._
 // https://gist.github.com/TomasMikula/613af9b7ca6b147e9b0b
 object FlightBookerReactFX extends JFXApp {
   val flightType = new ComboBox[String](Seq("one-way flight", "return flight"))
-  // If I don't set flightType's value to return flight here,
-  // the later setting to one-way flight is not picked up apparently...
-  flightType.value = "return flight"
   val startDate = new TextField()
   val returnDate = new TextField()
   val book = new Button("Book")
