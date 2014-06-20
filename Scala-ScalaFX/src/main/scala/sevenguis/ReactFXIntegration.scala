@@ -39,10 +39,18 @@ object ReactFXIntegration {
   implicit class NodeExtensions(n: scalafx.scene.Node) {
     def actions: EventStream[javafx.event.ActionEvent] =
       EventStreams.eventsOf(n.delegate, javafx.event.ActionEvent.ACTION)
+    def mousePresses: EventStream[javafx.scene.input.MouseEvent] =
+      EventStreams.eventsOf(n.delegate, javafx.scene.input.MouseEvent.MOUSE_PRESSED)
+    def mouseMoves: EventStream[javafx.scene.input.MouseEvent] =
+      EventStreams.eventsOf(n.delegate, javafx.scene.input.MouseEvent.MOUSE_MOVED)
   }
 
   implicit class NodeExtensionsJ(n: javafx.scene.Node) {
     def actions: EventStream[javafx.event.ActionEvent] =
       EventStreams.eventsOf(n, javafx.event.ActionEvent.ACTION)
+    def mousePresses: EventStream[javafx.scene.input.MouseEvent] =
+      EventStreams.eventsOf(n, javafx.scene.input.MouseEvent.MOUSE_PRESSED)
+    def mouseMoves: EventStream[javafx.scene.input.MouseEvent] =
+      EventStreams.eventsOf(n, javafx.scene.input.MouseEvent.MOUSE_MOVED)
   }
 }

@@ -44,7 +44,7 @@ public class CircleDrawerReactFX extends Application {
         root.setCenter(canvas);
 
         stage.setScene(new Scene(root));
-        stage.setTitle("Circle Drawer");
+        stage.setTitle("Circle Drawer ReactFX");
         stage.show();
     }
 
@@ -63,16 +63,19 @@ class CircleDrawerCanvasReactFX extends Canvas {
         circles = new ArrayList<>();
         undoManager = new UndoManager();
 
-        EventStream<MouseEvent> leftPressesToVoid = eventsOf(this, MouseEvent.MOUSE_PRESSED).filter(MouseEvent::isPrimaryButtonDown)
-                .filter(e -> getNearestCircleAt(e.getX(), e.getY()) == null);
-        EventStream<Circle> addedCircles = leftPressesToVoid.map(e -> new Circle((int)e.getX(), (int)e.getY()))
-                .hook(this::addCircle);
-        EventStream<Circle> hoveredCircles = eventsOf(this, MouseEvent.MOUSE_MOVED).map(e -> getNearestCircleAt(e.getX(), e.getY()));
-        merge(addedCircles, hoveredCircles).subscribe(this::draw);
-
         Button diameterEntry = new Button("Diameter...");
         Popup popup = new Popup();
         popup.getContent().add(diameterEntry);
+
+        EventStream<MouseEvent> leftPressesToVoid = eventsOf(this, MouseEvent.MOUSE_PRESSED)
+                .filter(MouseEvent::isPrimaryButtonDown)
+                .filter(e -> getNearestCircleAt(e.getX(), e.getY()) == null);
+        EventStream<Circle> addedCircles = leftPressesToVoid
+                .map(e -> new Circle((int)e.getX(), (int)e.getY()))
+                .hook(this::addCircle);
+        EventStream<Circle> hoveredCircles = eventsOf(this, MouseEvent.MOUSE_MOVED)
+                .map(e -> getNearestCircleAt(e.getX(), e.getY()));
+        merge(addedCircles, hoveredCircles).subscribe(this::draw);
 
         eventsOf(this, MouseEvent.MOUSE_PRESSED).subscribe(e -> { if (popup.isShowing()) popup.hide(); });
         EventStream<MouseEvent> rightPressesToCircle = eventsOf(this, MouseEvent.MOUSE_PRESSED)

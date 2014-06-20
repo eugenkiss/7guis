@@ -17,7 +17,7 @@ resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repos
 
 libraryDependencies += "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.1"
 
-libraryDependencies += "org.reactfx" % "reactfx" % "1.2.0-SNAPSHOT"
+libraryDependencies += "org.reactfx" % "reactfx" % "1.2.0"
 
 libraryDependencies += "org.scalafx" %% "scalafx" % "8.0.0-R4"
 
