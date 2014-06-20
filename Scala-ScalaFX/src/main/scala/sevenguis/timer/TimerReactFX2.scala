@@ -16,9 +16,9 @@ import org.reactfx.EventStreams._
 import sevenguis.ReactFXIntegration._
 import sevenguis.Scala2Java8._
 
-// This one does not have the same semantics as Timer.scala
+// This one has the same semantics as Timer.java
 // https://gist.github.com/TomasMikula/1013e56be2f282416274
-object TimerReactFX extends JFXApp {
+object TimerReactFX2 extends JFXApp {
   val progress = new ProgressBar()
   val numericProgress = new Label()
   val slider = new Slider(1, 400, 200)
@@ -29,8 +29,7 @@ object TimerReactFX extends JFXApp {
   val resets = reset.actions
   val ticks: EventStream[Double] = EventStreams.ticks(Duration.ofMillis(100)).asInstanceOf[EventStream[Double]]
   val x: EitherEventStream[A, Double] = resets.or(ticks)
-  val y: EventStream[Double] = x.accumulate(0.0, ((e, ev) => ev.unify((r => 0): (A => Double), (t => e + 1): (Double => Double))): ((Double, T) => Double))
-  val elapsed: EventStream[Double] = combine(y, slider.value).map(((e, s) => Math.min(e, s.doubleValue())): ((Double, Number) => Double))
+  val elapsed: EventStream[Double] = x.accumulate(0.0, ((e, ev) => ev.unify((r => 0): (A => Double), (t => if (e < slider.value()) e + 1 else e): (Double => Double))): ((Double, T) => Double))
 
   progress.progress |= combine(elapsed, slider.value).map(((e, s) => e / s.doubleValue()): ((Double, Number) => Number))
   numericProgress.text |= elapsed.map((e => formatElapsed(e)): (Double => String))

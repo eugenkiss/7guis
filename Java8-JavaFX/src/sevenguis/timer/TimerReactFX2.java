@@ -15,12 +15,14 @@ import org.reactfx.EventStream;
 import org.reactfx.EventStreams;
 
 import java.time.Duration;
+import java.util.function.BiFunction;
 
-import static org.reactfx.EventStreams.*;
+import static org.reactfx.EventStreams.combine;
+import static org.reactfx.EventStreams.valuesOf;
 
-// This one does not have the same semantics as Timer.java
+// This one has the same semantics as Timer.java
 // https://gist.github.com/TomasMikula/1013e56be2f282416274
-public class TimerReactFX extends Application {
+public class TimerReactFX2 extends Application {
 
     public void start(Stage stage) {
         ProgressBar progress = new ProgressBar();
@@ -30,13 +32,11 @@ public class TimerReactFX extends Application {
 
         EventStream<ActionEvent> resets = EventStreams.eventsOf(reset, ActionEvent.ACTION);
         EventStream<?> ticks = EventStreams.ticks(Duration.ofMillis(100));
-        EventStream<Double> elapsed = combine(
-                    resets.or(ticks).accumulate(0, (e, ev) -> ev.unify(r -> 0, t -> e + 1)),
-                    valuesOf(slider.valueProperty())
-                ).map((e, s) -> Math.min(e, s.doubleValue()));
+        // I'd like to get the slider value somehow into the following stream without accessing it from outside
+        EventStream<Double> elapsed = resets.or(ticks).accumulate(0.0, (e, ev) -> ev.unify(r -> 0.0, t -> e < slider.getValue() ? e + 1 : e));
 
         combine(elapsed, valuesOf(slider.valueProperty())).map((e, s) -> e / s.doubleValue()).subscribe(progress::setProgress);
-        elapsed.map(TimerReactFX::formatElapsed).subscribe(numericProgress::setText);
+        elapsed.map(TimerReactFX2::formatElapsed).subscribe(numericProgress::setText);
 
         VBox root = new VBox(10, new HBox(10, new Label("Elapsed Time: "), progress),
                                  numericProgress,
