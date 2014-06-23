@@ -1,9 +1,8 @@
 package sevenguis.timer
 
 import java.time.Duration
-import java.util.function.{Function, BiFunction}
 
-import org.reactfx.{EventStreams, EitherEventStream, EventStream}
+import org.reactfx.{StateMachine, EventStreams, EventStream}
 
 import scalafx.application.JFXApp
 import scalafx.application.JFXApp.PrimaryStage
@@ -16,7 +15,6 @@ import org.reactfx.EventStreams._
 import sevenguis.ReactFXIntegration._
 import sevenguis.Scala2Java8._
 
-// This one does not have the same semantics as Timer.scala
 // https://gist.github.com/TomasMikula/1013e56be2f282416274
 object TimerReactFX extends JFXApp {
   val progress = new ProgressBar()
@@ -27,10 +25,12 @@ object TimerReactFX extends JFXApp {
   type A = javafx.event.ActionEvent
   type T = org.reactfx.util.Either[A, Double]
   val resets = reset.actions
-  val ticks: EventStream[Double] = EventStreams.ticks(Duration.ofMillis(100)).asInstanceOf[EventStream[Double]]
-  val x: EitherEventStream[A, Double] = resets.or(ticks)
-  val y: EventStream[Double] = x.accumulate(0.0, ((e, ev) => ev.unify((r => 0): (A => Double), (t => e + 1): (Double => Double))): ((Double, T) => Double))
-  val elapsed: EventStream[Double] = combine(y, slider.value).map(((e, s) => Math.min(e, s.doubleValue())): ((Double, Number) => Double))
+  val ticks: EventStream[javafx.event.ActionEvent] = EventStreams.ticks(Duration.ofMillis(100)).asInstanceOf[EventStream[javafx.event.ActionEvent]]
+  val elapsed: EventStream[Double] = StateMachine.init((0.0, slider.value()))
+          .on(resets).transition(((tup_es, r) => (0.0, tup_es._2)): (((Double, Double), javafx.event.ActionEvent) => ((Double, Double))))
+          .on(ticks).transition (((tup_es, t) => (tup_es._1 + (if (tup_es._1 < tup_es._2) 1 else 0), tup_es._2)): (((Double, Double), javafx.event.ActionEvent) => ((Double, Double))))
+          .on(slider.value).transition (((tup_es, s1) => (tup_es._1, s1.doubleValue())): (((Double, Double), Number) => ((Double, Double))))
+          .toStateStream.map((tup_es => tup_es._1): (((Double, Double)) => Double))
 
   progress.progress |= combine(elapsed, slider.value).map(((e, s) => e / s.doubleValue()): ((Double, Number) => Number))
   numericProgress.text |= elapsed.map((e => formatElapsed(e)): (Double => String))

@@ -13,12 +13,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.reactfx.EventStream;
 import org.reactfx.EventStreams;
+import org.reactfx.StateMachine;
+import org.reactfx.util.Tuples;
 
 import java.time.Duration;
 
 import static org.reactfx.EventStreams.*;
 
-// This one does not have the same semantics as Timer.java
 // https://gist.github.com/TomasMikula/1013e56be2f282416274
 public class TimerReactFX extends Application {
 
@@ -30,10 +31,11 @@ public class TimerReactFX extends Application {
 
         EventStream<ActionEvent> resets = EventStreams.eventsOf(reset, ActionEvent.ACTION);
         EventStream<?> ticks = EventStreams.ticks(Duration.ofMillis(100));
-        EventStream<Double> elapsed = combine(
-                    resets.or(ticks).accumulate(0, (e, ev) -> ev.unify(r -> 0, t -> e + 1)),
-                    valuesOf(slider.valueProperty())
-                ).map((e, s) -> Math.min(e, s.doubleValue()));
+        EventStream<Double> elapsed = StateMachine.init(Tuples.t(0.0, slider.getValue()))
+                .on(resets).transition((tup_es, r) -> Tuples.t(0.0, tup_es._2))
+                .on(ticks).transition((tup_es, t) -> Tuples.t(tup_es._1 + (tup_es._1 < tup_es._2 ? 1 : 0), tup_es._2))
+                .on(EventStreams.valuesOf(slider.valueProperty())).transition((tup_es, s1) -> Tuples.t(tup_es._1, s1.doubleValue()))
+                .toStateStream().map(tup_es -> tup_es._1);
 
         combine(elapsed, valuesOf(slider.valueProperty())).map((e, s) -> e / s.doubleValue()).subscribe(progress::setProgress);
         elapsed.map(TimerReactFX::formatElapsed).subscribe(numericProgress::setText);
@@ -45,7 +47,7 @@ public class TimerReactFX extends Application {
         root.setPadding(new Insets(10));
 
         stage.setScene(new Scene(root));
-        stage.setTitle("Timer");
+        stage.setTitle("Timer ReactFX");
         stage.show();
     }
 
