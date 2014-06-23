@@ -22,13 +22,11 @@ object TimerReactFX extends JFXApp {
   val slider = new Slider(1, 400, 200)
   val reset = new Button("Reset")
 
-  type A = javafx.event.ActionEvent
-  type T = org.reactfx.util.Either[A, Double]
   val resets = reset.actions
-  val ticks: EventStream[javafx.event.ActionEvent] = EventStreams.ticks(Duration.ofMillis(100)).asInstanceOf[EventStream[javafx.event.ActionEvent]]
+  val ticks: EventStream[_] = EventStreams.ticks(Duration.ofMillis(100))
   val elapsed: EventStream[Double] = StateMachine.init((0.0, slider.value()))
           .on(resets).transition({case ((e, s), r) => (0.0, s)}: (((Double, Double), javafx.event.ActionEvent) => ((Double, Double))))
-          .on(ticks).transition ({case ((e, s), t) => (e + (if (e < s) 1 else 0), s)}: (((Double, Double), javafx.event.ActionEvent) => ((Double, Double))))
+          .on(ticks).transition ({case ((e, s), t) => (e + (if (e < s) 1 else 0), s)}: (((Double, Double), Any) => ((Double, Double))))
           .on(slider.value).transition ({case ((e, s), s1) => (e, s1.doubleValue())}: (((Double, Double), Number) => ((Double, Double))))
           .toStateStream.map({case (e, s) => e}: (((Double, Double)) => Double))
 
