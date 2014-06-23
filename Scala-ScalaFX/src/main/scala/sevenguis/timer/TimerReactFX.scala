@@ -22,13 +22,19 @@ object TimerReactFX extends JFXApp {
   val slider = new Slider(1, 400, 200)
   val reset = new Button("Reset")
 
+  type ES = (Double, Double)
+  val onReset: Function2[ES, Any, ES] = {case ((_, s), _) => (0.0, s)}
+  val onTick: Function2[ES, Any, ES] = {case ((e, s), _) => (e + (if (e < s) 1 else 0), s)}
+  val onSlide: Function2[ES, Number, ES] = {case ((e, _), s1) => (e, s1.doubleValue())}
+  val pickElapsed: Function1[ES, Double] = {case (e, _) => e}
+
   val resets = reset.actions
   val ticks: EventStream[_] = EventStreams.ticks(Duration.ofMillis(100))
   val elapsed: EventStream[Double] = StateMachine.init((0.0, slider.value()))
-          .on(resets).transition({case ((e, s), r) => (0.0, s)}: (((Double, Double), javafx.event.ActionEvent) => ((Double, Double))))
-          .on(ticks).transition ({case ((e, s), t) => (e + (if (e < s) 1 else 0), s)}: (((Double, Double), Any) => ((Double, Double))))
-          .on(slider.value).transition ({case ((e, s), s1) => (e, s1.doubleValue())}: (((Double, Double), Number) => ((Double, Double))))
-          .toStateStream.map({case (e, s) => e}: (((Double, Double)) => Double))
+          .on(resets).transition(onReset)
+          .on(ticks).transition(onTick)
+          .on(slider.value).transition(onSlide)
+          .toStateStream.map(pickElapsed)
 
   progress.progress |= combine(elapsed, slider.value).map(((e, s) => e / s.doubleValue()): ((Double, Number) => Number))
   numericProgress.text |= elapsed.map((e => formatElapsed(e)): (Double => String))
