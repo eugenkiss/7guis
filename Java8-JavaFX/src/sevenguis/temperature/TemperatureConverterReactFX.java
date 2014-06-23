@@ -24,12 +24,6 @@ public class TemperatureConverterReactFX extends Application {
                 EventStreams.valuesOf(fahrenheit.textProperty()).filter(Util::isNumeric);
         fahrenheitStream.map(Util::fToC).subscribe(celsius::setText);
 
-        // Better would be (without inversion of control) the following but it doesn't work.
-        //fahrenheit.textProperty().bind(celsiusStream.map(Util::cToF).toBinding(""));
-        // I tried to somehow integrate the focusness of the
-        // fields like in TemperatureConverterCallback but it didn't work either.
-        // Maybe guardedBy would make sense but I don't quite understand it.
-
         HBox root = new HBox(10, celsius, new Label("Celsius ="), fahrenheit, new Label("Fahrenheit"));
         root.setPadding(new Insets(10));
 
