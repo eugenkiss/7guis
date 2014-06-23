@@ -27,10 +27,10 @@ object TimerReactFX extends JFXApp {
   val resets = reset.actions
   val ticks: EventStream[javafx.event.ActionEvent] = EventStreams.ticks(Duration.ofMillis(100)).asInstanceOf[EventStream[javafx.event.ActionEvent]]
   val elapsed: EventStream[Double] = StateMachine.init((0.0, slider.value()))
-          .on(resets).transition(((tup_es, r) => (0.0, tup_es._2)): (((Double, Double), javafx.event.ActionEvent) => ((Double, Double))))
-          .on(ticks).transition (((tup_es, t) => (tup_es._1 + (if (tup_es._1 < tup_es._2) 1 else 0), tup_es._2)): (((Double, Double), javafx.event.ActionEvent) => ((Double, Double))))
-          .on(slider.value).transition (((tup_es, s1) => (tup_es._1, s1.doubleValue())): (((Double, Double), Number) => ((Double, Double))))
-          .toStateStream.map((tup_es => tup_es._1): (((Double, Double)) => Double))
+          .on(resets).transition({case ((e, s), r) => (0.0, s)}: (((Double, Double), javafx.event.ActionEvent) => ((Double, Double))))
+          .on(ticks).transition ({case ((e, s), t) => (e + (if (e < s) 1 else 0), s)}: (((Double, Double), javafx.event.ActionEvent) => ((Double, Double))))
+          .on(slider.value).transition ({case ((e, s), s1) => (e, s1.doubleValue())}: (((Double, Double), Number) => ((Double, Double))))
+          .toStateStream.map({case (e, s) => e}: (((Double, Double)) => Double))
 
   progress.progress |= combine(elapsed, slider.value).map(((e, s) => e / s.doubleValue()): ((Double, Number) => Number))
   numericProgress.text |= elapsed.map((e => formatElapsed(e)): (Double => String))
