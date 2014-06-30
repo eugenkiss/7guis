@@ -15,7 +15,6 @@ import java.time.LocalDate;
 import static sevenguis.flightbooker.Util.*;
 import static org.reactfx.EventStreams.*;
 
-// https://gist.github.com/TomasMikula/613af9b7ca6b147e9b0b
 public class FlightBookerReactFX extends Application {
 
     public void start(Stage stage) {

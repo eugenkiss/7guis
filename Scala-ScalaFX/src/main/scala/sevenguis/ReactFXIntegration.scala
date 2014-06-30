@@ -27,6 +27,12 @@ object ReactFXIntegration {
       override def accept(t: J): Unit = p.setValue(t)
       override def andThen(after: Consumer[_ >: J]): Consumer[J] = super.andThen(after)
     })
+    def ====(v: J): EventStream[java.lang.Boolean] =
+      EventStreams.valuesOf(p).map(new Function[J, java.lang.Boolean]() {
+        override def apply(t: J): java.lang.Boolean = t == v
+        override def compose[V](before: Function[_ >: V, _ <: J]): Function[V, java.lang.Boolean] = super.compose(before)
+        override def andThen[V](after: Function[_ >: java.lang.Boolean, _ <: V]): Function[J, V] = super.andThen(after)
+      })
   }
 
   implicit class PropertyExtensionsJ[T](p: javafx.beans.property.Property[T]) {
@@ -34,6 +40,15 @@ object ReactFXIntegration {
       override def accept(t: T): Unit = p.setValue(t)
       override def andThen(after: Consumer[_ >: T]): Consumer[T] = super.andThen(after)
     })
+  }
+
+  implicit class EventStreamExtensions[T](e: EventStream[T]) {
+    def ====(v: T): EventStream[java.lang.Boolean] =
+      e.map(new Function[T, java.lang.Boolean]() {
+        override def apply(t: T): java.lang.Boolean = t == v
+        override def compose[V](before: Function[_ >: V, _ <: T]): Function[V, java.lang.Boolean] = super.compose(before)
+        override def andThen[V](after: Function[_ >: java.lang.Boolean, _ <: V]): Function[T, V] = super.andThen(after)
+      })
   }
 
   implicit class NodeExtensions(n: scalafx.scene.Node) {

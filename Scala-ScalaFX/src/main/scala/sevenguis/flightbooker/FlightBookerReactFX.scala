@@ -1,5 +1,7 @@
 package sevenguis.flightbooker
 
+import java.util.function.Consumer
+
 import org.reactfx.EventStream
 
 import scalafx.application.JFXApp
@@ -16,36 +18,21 @@ import org.reactfx.EventStreams._
 import sevenguis.ReactFXIntegration._
 import sevenguis.Scala2Java8._
 
-// https://gist.github.com/TomasMikula/613af9b7ca6b147e9b0b
 object FlightBookerReactFX extends JFXApp {
   val flightType = new ComboBox[String](Seq("one-way flight", "return flight"))
-  val startDate = new TextField()
-  val returnDate = new TextField()
+  flightType.value() = "one-way flight"
+  val startDate = new TextField{text=dateToString(LocalDate.now)}
+  val returnDate = new TextField{text=dateToString(LocalDate.now)}
   val book = new Button("Book")
 
-  // The expressions need to be massaged with generous type annotations to make the Scala compiler happy.
-  val oneWay: EventStream[Boolean] = flightType.value.map((v => v == "one-way flight"): (String => Boolean))
-  val startDateDate: EventStream[LocalDate] = startDate.text
-          .map((txt => if (isDateString(txt)) stringToDate(txt) else null): (String => LocalDate))
-  val returnDateDate: EventStream[LocalDate] = returnDate.text
-          .map((txt => if (isDateString(txt)) stringToDate(txt) else null): (String => LocalDate))
-  val startDateValid: EventStream[Boolean] = startDateDate.map((v => v != null): (LocalDate => Boolean))
-  val returnDateValid: EventStream[Boolean] = returnDateDate.map((v => v != null): (LocalDate => Boolean))
-  val dateRangeValid: EventStream[Boolean] = combine(startDateDate, returnDateDate)
-          .map(((s, r) => s != null && r != null && s.compareTo(r) <= 0 ): ((LocalDate, LocalDate) => Boolean))
-  val datesValid: EventStream[Boolean] = combine(oneWay, startDateValid, dateRangeValid)
-          .map(((o, s, r) => o && s || r): ((Boolean, Boolean, Boolean) => Boolean))
-
-  returnDate.disable |= oneWay
-  startDate.style |= startDateValid.map((v => if (v) "" else "-fx-background-color: lightcoral"): (Boolean => String))
-  returnDate.style |= returnDateValid.map((v => if (v) "" else "-fx-background-color: lightcoral"): (Boolean => String))
-  book.disable |= datesValid.map((v => !v): (Boolean => Boolean))
-
-  // It is very important to initialize the values of the widgets *after* the definition of the
-  // functional dependencies due to combine's semantics!
-  flightType.value() = "one-way flight"
-  startDate.text() = dateToString(LocalDate.now)
-  returnDate.text() = dateToString(LocalDate.now)
+  returnDate.disable |= flightType.value ==== "one-way flight"
+  startDate.style |= startDate.text.map((t => if (isDateString(t)) "" else "-fx-background-color: lightcoral") : (String => String))
+  returnDate.style |= returnDate.text.map((t => if (isDateString(t)) "" else "-fx-background-color: lightcoral") : (String => String))
+  book.disable |= combine(flightType.value, startDate.text, returnDate.text)
+    .map({case (ft, sd, rd) => ft match {
+      case "one-way flight" => !isDateString(sd)
+      case "return flight" => !isDateString(sd) || !isDateString(rd) || stringToDate(sd).compareTo(stringToDate(rd)) > 0
+  }} : ((String, String, String) => Boolean))
 
   stage = new PrimaryStage {
     title = "FlightBooker"
