@@ -1,5 +1,6 @@
 package sevenguis.cells;
 
+import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.binding.ObjectBinding;
@@ -53,22 +54,25 @@ class Model {
         ObservableValue<Double>[] toArray(List<ObservableValue<Double>> l) {
               return l.toArray(new ObservableValue[l.size()]);
         }
-        public ObservableValue<Double> value = EasyBind.map(userData, Parser::parse)
-                .flatMap(f -> Bindings.createObjectBinding(() -> f.eval(Model.this), toArray(f.getReferences(Model.this))));
         // Has same problem
-//        public ObservableDoubleValue value =
-//                Bindings.createDoubleBinding(() -> {
-//                    System.out.println(System.currentTimeMillis());
-//                    Formula f = Parser.parse(userData.get());
-//                    List<ObservableDoubleValue> fs = f.getReferences(Model.this);
-//                    ObservableDoubleValue[] fs0 = fs.toArray(new ObservableDoubleValue[fs.size()]);
-//                    DoubleBinding d = Bindings.createDoubleBinding(() -> {
-//                        double v = f.eval(Model.this);
+//        public ObservableValue<Double> value = EasyBind.map(userData, Parser::parse)
+//                .flatMap(f -> Bindings.createObjectBinding(() -> f.eval(Model.this), toArray(f.getReferences(Model.this))));
+        // Has same problem
+        public ObservableValue<Double> value =
+                Bindings.createObjectBinding(() -> {
+                    System.out.println(System.currentTimeMillis());
+                    Formula f = Parser.parse(userData.get());
+                    ObservableValue<Double>[] fs = toArray(f.getReferences(Model.this));
+                    Binding<Double> d = Bindings.createObjectBinding(() -> {
+                        double v = f.eval(Model.this);
 //                        text.set(String.valueOf(v));
-//                        return v;
-//                    }, fs0);
-//                    return d.get();
-//                }, userData);
+                        return v;
+                    }, fs);
+                    d.addListener((v, o, n) -> {
+                        // ???
+                    });
+                    return d.getValue();
+                }, userData);
 
 
         public void setShowUserData(Boolean b) {
