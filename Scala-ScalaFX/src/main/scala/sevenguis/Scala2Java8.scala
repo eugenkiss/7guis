@@ -1,6 +1,8 @@
 package sevenguis
 
 // https://github.com/xuwei-k/Scala2Java8/blob/master/Scala2Java8.scala
+
+import java.util.concurrent.Callable
 import java.util.function._
 //import scala.language.implicitConversions
 
@@ -114,6 +116,8 @@ trait Scala2Java8{
 //    override def compose[V](before: Function[_ >: V, _ <: A]): Function[V, A] = super.compose(before)
 //    override def andThen[V](after: Function[_ >: A, _ <: V]): Function[A, V] = super.andThen(after)
 //  }
+  implicit def fun2Call[R](f: () => R) = new Callable[R] { def call : R = f() }
+
 }
 
 object Scala2Java8 extends Scala2Java8
