@@ -1,7 +1,6 @@
 -- This is a solution by Evan Czaplicki,
 -- see https://groups.google.com/forum/?fromgroups#!topic/elm-discuss/B8Y91uvoZcs
 -- Comments are provided by me.
--- I changed display, temperature and main a tiny bit.
 
 import String
 import Window
@@ -66,28 +65,27 @@ numerical again.
 This was an explanation for the direction from Celsius to Fahrenheit. The other
 direction is analogous.
 --}
-temperature : Signal Content -> (Float -> Float) -> Signal Content -> Signal Content
+temperature : Input Content -> (Float -> Float) -> Input Content -> Signal Content
 temperature normal f other =
-    let conversions : Signal (Content -> Content)
-        conversions = merge (always <~ normal) (convert f <~ other)
+    let f' = (lift f)
+        conversions : Signal (Content -> Content)
+        conversions = merge (always <~ normal.signal) (convert <~ f' ~ other.signal)
     in
-        --foldp (<|) Field.noContent conversions -- (<|) corresponds to “apply”
-        (<|) <~ conversions ~ normal -- this is not enough, observe nonnumeric case
+        foldp (<|) Field.noContent conversions -- (<|) corresponds to “apply”
 
 
 {-- View --------------------------------------------------------------------------}
 
-display cHandle fHandle c f =
+display c f =
   hbox 5
-  [ field cHandle id "Celsius" c
+  [ field celsius.handle id "Celsius" c
   , label 10 "Celsius ="
-  , field fHandle id "Fahrenheit" f
+  , field fahrenheit.handle id "Fahrenheit" f
   , label 10 "Fahrenheit"
   ]
 
 main =
-  let fields = display celsius.handle fahrenheit.handle
-                       <~ temperature celsius.signal fToC fahrenheit.signal
-                        ~ temperature fahrenheit.signal cToF celsius.signal
+  let fields = display <~ temperature celsius fToC fahrenheit
+                        ~ temperature fahrenheit cToF celsius
   in
       frame "Temperature Converter" <~ Window.dimensions ~ fields

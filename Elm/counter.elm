@@ -9,5 +9,7 @@ display count =
         b = button clicks.handle (count + 1) "Count"
     in hbox 5 [l, b]
 
-main = frame "Counter" <~ Window.dimensions
-                        ~ (display <~ clicks.signal)
+--main = frame "Counter" <~ Window.dimensions
+--                        ~ (display <~ clicks.signal)
+
+main = lift (frame2 "Counter" . display) clicks.signal
