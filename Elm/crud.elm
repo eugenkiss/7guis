@@ -65,9 +65,9 @@ displayNameInputs name surname =
   ]
 
 displayEntry entry index selected =
-  let box x = container 200 22 midLeft x
+  let box x     = container 200 22 midLeft x
       blueBox x = color (Color.rgb 230 230 255) (box x)
-      txt = plainText entry
+      txt       = plainText entry
   in
     if Just index == selected
       then blueBox txt |> clickable selectedInput.handle Nothing
@@ -83,22 +83,22 @@ displayEntries filtered selected =
            ]
 
 display prefix name surname selected state =
-  let fullname = surname.string ++ ", " ++ name.string
-      filtered = filter (\(i,e) -> startsWith prefix.string e) (Array.toIndexedList state)
+  let fullname    = surname.string ++ ", " ++ name.string
+      filtered    = filter (\(i,e) -> startsWith prefix.string e) (Array.toIndexedList state)
       filtIndices = Array.fromList <| fst (unzip filtered)
       filt2orig x = Array.get x filtIndices
-      index = Maybe.maybe Nothing filt2orig selected
+      index       = Maybe.maybe Nothing filt2orig selected
+      disButton handle operation title =
+        case index of
+          Nothing -> label 22 ("No " ++ title)
+          Just i  -> button handle (operation i) title
   in
     vbox 5
     [ hbox 5 [ label 5 "Filter prefix: ", field prefixInput.handle id "" prefix ]
     , hbox 5 [ displayEntries filtered selected, displayNameInputs name surname ]
-    , hbox 5 [ button actionInput.handle (Create fullname) "Create"
-             , case index of
-                  Nothing -> label 22 "No Update"
-                  Just i  -> button actionInput.handle (Update i fullname) "Update"
-             , case index of
-                  Nothing -> label 22 "No Delete"
-                  Just i  -> button actionInput.handle (Delete i) "Delete"
+    , hbox 5 [ button    actionInput.handle (Create fullname)         "Create"
+             , disButton actionInput.handle (\i -> Update i fullname) "Update"
+             , disButton actionInput.handle (\i -> Delete i)          "Delete"
              ]
     ]
 
