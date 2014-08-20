@@ -76,7 +76,7 @@ class CircleDrawerCanvasRx extends Canvas(400, 400) {
 
     for (c <- circles) {
       val offset = c.d / 2
-      if (c == hovered) {
+      if (c == hovered()) {
         g.setFill(Color.LIGHTGRAY)
         g.fillOval(c.x-offset, c.y-offset, c.d, c.d)
       }
