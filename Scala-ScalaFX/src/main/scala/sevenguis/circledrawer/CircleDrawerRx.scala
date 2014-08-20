@@ -54,7 +54,7 @@ class CircleDrawerCanvasRx extends Canvas(400, 400) {
 
   diameter.onAction = (e: ActionEvent) => {
     popup.hide()
-    showDialog(hovered)
+    showDialog(Var(hovered()))
   }
   onMousePressed = (e: MouseEvent) => {
     if (e.isPrimaryButtonDown && hovered() == null) {
