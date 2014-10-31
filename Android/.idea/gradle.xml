@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/counter" />
             <option value="$PROJECT_DIR$/flightbooker" />
             <option value="$PROJECT_DIR$/temperature" />
+            <option value="$PROJECT_DIR$/timer" />
           </set>
         </option>
       </GradleProjectSettings>

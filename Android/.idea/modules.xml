@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/counter/counter.iml" filepath="$PROJECT_DIR$/counter/counter.iml" />
       <module fileurl="file://$PROJECT_DIR$/flightbooker/flightbooker.iml" filepath="$PROJECT_DIR$/flightbooker/flightbooker.iml" />
       <module fileurl="file://$PROJECT_DIR$/temperature/temperature.iml" filepath="$PROJECT_DIR$/temperature/temperature.iml" />
+      <module fileurl="file://$PROJECT_DIR$/timer/timer.iml" filepath="$PROJECT_DIR$/timer/timer.iml" />
     </modules>
   </component>
 </project>
