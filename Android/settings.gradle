@@ -1,1 +1,1 @@
-include ':app', ':counter', ':temperature', ':flightbooker', ':timer'
+include ':app', ':counter', ':temperature', ':flightbooker', ':timer', ':crud'
