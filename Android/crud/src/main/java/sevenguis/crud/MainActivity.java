@@ -31,6 +31,9 @@ Notes:
 - Keeping the state during configuration changes is somewhat involved
   and intricate because one has to be careful not to retain references to
   old activities
+- In general, fragments and not accidently keeping references to stale
+  activities is very intricate
+- Creating a non-trivial modal dialog is quite intricate
 - Persistently highlighting the selected entry is quite hard due to some
   of Android's design decisions (e.g. touch mode)
 - Intricate to express the functional dependency that the update and
@@ -170,44 +173,61 @@ public class MainActivity extends Activity {
     private View.OnClickListener nameDialogListener(final boolean update) {
         return new View.OnClickListener() {
             public void onClick(View view) {
-                new DialogFragment() {
-                    @Override
-                    public Dialog onCreateDialog(Bundle savedInstanceState) {
-                        LayoutInflater inflater = getActivity().getLayoutInflater();
-                        View nameDialog = inflater.inflate(R.layout.name_dialog, null);
-                        final EditText name = (EditText) nameDialog.findViewById(R.id.name);
-                        final EditText surname = (EditText) nameDialog.findViewById(R.id.surname);
-                        if (update) {
-                            String[] fullname = state.filteredView.get(state.selectedIndex.value).split(",");
-                            name.setText(fullname[1].trim());
-                            surname.setText(fullname[0].trim());
-                        }
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setTitle("Create Entry")
-                                .setView(nameDialog)
-                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        String fullname = surname.getText().toString() + ", " +
-                                                          name.getText().toString();
-                                        if (update) {
-                                            state.filteredView.update(fullname, state.selectedIndex.value);
-                                        } else {
-                                            state.filteredView.create(fullname);
-                                        }
-                                        adapter.notifyDataSetChanged();
-                                    }
-                                })
-                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // Do nothing
-                                    }
-                                });
-                        return builder.create();
-                    }
-                }.show(getFragmentManager(), update ? "UpdateDialog" : "CreateDialog");
+                Bundle args = new Bundle();
+                args.putBoolean("update", update);
+                NameDialog nd = new NameDialog();
+                nd.setArguments(args);
+                nd.show(getFragmentManager(), update ? "UpdateDialog" : "CreateDialog");
             }
         };
+    }
+
+    // It is very important that you do not create an anonymous DialogFragment!
+    // As I understand: An anonymous inner class (just like a non-static inner class) retains
+    // a reference to the enclosing activity (and does not have an empty constructor?).
+    // When a configuration change occurs the old activity is destroyed but the dialog fragment
+    // still has a reference to it and that leads to a crash when the dialog fragment is open.
+    // See: http://corner.squareup.com/2014/10/advocating-against-android-fragments.html
+    public static class NameDialog extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final boolean update = getArguments().getBoolean("update");
+            final MainActivity activity = (MainActivity) getActivity();
+            final FilteredList<String> filteredView = activity.state.filteredView;
+            final IntHolder selectedIndex = activity.state.selectedIndex;
+            final ArrayAdapter<String> adapter = activity.adapter;
+            final LayoutInflater inflater = activity.getLayoutInflater();
+            final View nameDialog = inflater.inflate(R.layout.name_dialog, null);
+            final EditText name = (EditText) nameDialog.findViewById(R.id.name);
+            final EditText surname = (EditText) nameDialog.findViewById(R.id.surname);
+            if (update) {
+                String[] fullname = filteredView.get(selectedIndex.value).split(",");
+                name.setText(fullname[1].trim());
+                surname.setText(fullname[0].trim());
+            }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Create Entry")
+                    .setView(nameDialog)
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            String fullname = surname.getText().toString() + ", " +
+                                    name.getText().toString();
+                            if (update) {
+                                filteredView.update(fullname, selectedIndex.value);
+                            } else {
+                                filteredView.create(fullname);
+                            }
+                            adapter.notifyDataSetChanged();
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // Do nothing
+                        }
+                    });
+            return builder.create();
+        }
     }
 
     // To prevent code duplication
