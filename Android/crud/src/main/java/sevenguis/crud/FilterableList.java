@@ -3,7 +3,7 @@ package sevenguis.crud;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilteredList<T> {
+public class FilterableList<T> {
     public static interface Predicate<T> {
         boolean f(T element);
     }
@@ -12,7 +12,7 @@ public class FilteredList<T> {
     private List<Integer> filteredToOriginal;
     private Predicate<T> cachedPredicate;
 
-    public FilteredList(List<T> dataBase) {
+    public FilterableList(List<T> dataBase) {
         cachedPredicate = new Predicate<T>() {
             public boolean f(T element) { return true; }
         };
@@ -25,7 +25,7 @@ public class FilteredList<T> {
         }
     }
 
-    public void filterByPredicate(Predicate<T> predicate) {
+    public void filter(Predicate<T> predicate) {
         cachedPredicate = predicate;
         filteredDb.clear();
         filteredToOriginal.clear();

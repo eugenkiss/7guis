@@ -43,7 +43,7 @@ Notes:
   forced to make the scope of some variables bigger than otherwise
   necessary
 - Creating a modal dialog is really involved code-wise
-- It was tried to make FilteredList an Adapter but it appeared too
+- It was tried to make FilterableList an Adapter but it appeared too
   complicated for not much benefit
 - In contrast to the Filter class filtering is not asynchronous
 
@@ -60,8 +60,9 @@ public class MainActivity extends Activity {
         public IntHolder(int v) { value = v; }
     }
 
+    // http://developer.android.com/guide/topics/resources/runtime-changes.html#RetainingAnObject
     public static class StateFragment extends Fragment {
-        FilteredList<String> filteredView;
+        FilterableList<String> filterableList;
         // Refers to the original indices in the database and not necessarily to the visible
         // and possibly filtered list
         IntHolder selectedIndex;
@@ -74,7 +75,23 @@ public class MainActivity extends Activity {
     }
 
     // To reduce object creation
-    private static class PrefixPredicate implements FilteredList.Predicate<String> {
+    //
+    // Why is this a static class instead of an anonymous class defined where 'predicate'
+    // is initialized in the onCreate method? Because an anonymous class retains an implicit
+    // reference to its enclosing class. That's a problem.
+    // If an anonymous class were used then 'predicate' would have a reference to the
+    // enclosing activity. As 'predicate' is cached inside 'state.filterableList' and it
+    // itself is retained in 'state' during configuration changes, the old activity
+    // would not be garbage collected as there still would be a reference to it.
+    // Although in this case it would not be a real problem because as soon as the user
+    // filtered the list once again after a configuration change the cached predicate
+    // would be replaced with a new one that does not have a reference to the old
+    // activity, it is still a problem in general for Android and one should be very
+    // careful with anonymous classes.
+    // For more information:
+    //   http://www.androiddesignpatterns.com/2013/01/inner-class-handler-memory-leak.html
+    //   http://stackoverflow.com/questions/5054360/do-anonymous-classes-always-maintain-a-reference-to-their-enclosing-instance
+    private static class PrefixPredicate implements FilterableList.Predicate<String> {
         String prefix;
         PrefixPredicate(String prefix) { this.prefix = prefix; }
         @Override
@@ -109,17 +126,17 @@ public class MainActivity extends Activity {
             externDb.add("Emil, Hans");
             externDb.add("Mustermann, Max");
             externDb.add("Tisch, Roman");
-            state.filteredView = new FilteredList<String>(externDb);
+            state.filterableList = new FilterableList<String>(externDb);
             state.selectedIndex = new IntHolder(-1);
         }
 
         updateButtonState();
 
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, state.filteredView.getFiltered()) {
+        adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, state.filterableList.getFiltered()) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View itemView = super.getView(position, convertView, parent);
-                if (state.selectedIndex.value == state.filteredView.orig(position))
+                if (state.selectedIndex.value == state.filterableList.orig(position))
                     itemView.setBackgroundColor(Color.CYAN);
                 else
                     itemView.setBackgroundColor(Color.TRANSPARENT);
@@ -129,13 +146,14 @@ public class MainActivity extends Activity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         entries.setAdapter(adapter);
 
+        // To reduce object creation
         final PrefixPredicate predicate = new PrefixPredicate(prefix.getText().toString());
         prefix.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {  }
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
                 predicate.prefix = s.toString();
-                state.filteredView.filterByPredicate(predicate);
+                state.filterableList.filter(predicate);
                 adapter.notifyDataSetChanged();
                 updateButtonState();
             }
@@ -143,10 +161,10 @@ public class MainActivity extends Activity {
 
         entries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (state.selectedIndex.value == state.filteredView.orig(i)) {
+                if (state.selectedIndex.value == state.filterableList.orig(i)) {
                     state.selectedIndex.value = -1;
                 } else {
-                    state.selectedIndex.value = state.filteredView.orig(i);
+                    state.selectedIndex.value = state.filterableList.orig(i);
                 }
                 // I actually only want to refresh the highlighted index but to achieve it
                 // it seems I need to express that the data changed (i.e. more than needed)
@@ -157,7 +175,7 @@ public class MainActivity extends Activity {
 
         delete.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                state.filteredView.delete(state.selectedIndex.value);
+                state.filterableList.delete(state.selectedIndex.value);
                 adapter.notifyDataSetChanged();
                 state.selectedIndex.value = -1;
                 update.setEnabled(false);
@@ -193,7 +211,7 @@ public class MainActivity extends Activity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final boolean update = getArguments().getBoolean("update");
             final MainActivity activity = (MainActivity) getActivity();
-            final FilteredList<String> filteredView = activity.state.filteredView;
+            final FilterableList<String> filteredView = activity.state.filterableList;
             final IntHolder selectedIndex = activity.state.selectedIndex;
             final ArrayAdapter<String> adapter = activity.adapter;
             final LayoutInflater inflater = activity.getLayoutInflater();
@@ -232,7 +250,7 @@ public class MainActivity extends Activity {
 
     // To prevent code duplication
     private void updateButtonState() {
-        if (state.filteredView.filt(state.selectedIndex.value) == -1) {
+        if (state.filterableList.filt(state.selectedIndex.value) == -1) {
             update.setEnabled(false);
             delete.setEnabled(false);
         } else {
