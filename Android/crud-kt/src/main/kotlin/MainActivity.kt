@@ -26,7 +26,9 @@ Sometimes you just want to avoid the over-strictness of a static typing regime b
 you know more than the compiler and you value convenience for certain situations
 higher than convincing a machine.
 (In general, I'm more and more of the opinion that static null checking should be
-opt-in instead of opt-out...)
+opt-in instead of opt-out... For example MyType is like in Java no checks, MyType!
+means that compiler should check that it is never null and MyType? means that compiler
+analyzes nullability)
 
 So using Kotlin without annotations one could (almost) achieve the convenience of
 Butterknife for Java. Kotlin's general good features (e.g. extension functions)
@@ -42,7 +44,7 @@ public class MainActivity : Activity() {
     class State : StateFragment() {
         // Can't we just do FilterableList<String>! as a shortcut?
         var filterableList: FilterableList<String> by Delegates.notNull()
-        val selectedIndex = IntHolder(-1)
+        var selectedIndex = -1
     }
 
     var state: State by Delegates.notNull()
@@ -64,7 +66,7 @@ public class MainActivity : Activity() {
             state = State()
             val externDb = arrayListOf("Emil, Hans", "Mustermann, Max", "Tisch, Roman")
             state.filterableList = FilterableList(externDb)
-            state.selectedIndex.v = -1
+            state.selectedIndex = -1
             fm.beginTransaction().add(state, "state").commit()
         } else {
             state = s
@@ -78,7 +80,7 @@ public class MainActivity : Activity() {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
                 val itemView = super.getView(position, convertView, parent) as TextView
                 itemView.setTextColor(Color.BLACK)
-                if (state.selectedIndex.v == state.filterableList.orig(position))
+                if (state.selectedIndex == state.filterableList.orig(position))
                     itemView.setBackgroundColor(Color.CYAN)
                 else
                     itemView.setBackgroundColor(Color.TRANSPARENT)
@@ -101,10 +103,10 @@ public class MainActivity : Activity() {
         }
 
         entries onItemClick { pos ->
-            if (state.selectedIndex.v == state.filterableList.orig(pos)) {
-                state.selectedIndex.v = -1
+            if (state.selectedIndex == state.filterableList.orig(pos)) {
+                state.selectedIndex = -1
             } else {
-                state.selectedIndex.v = state.filterableList.orig(pos)
+                state.selectedIndex = state.filterableList.orig(pos)
             }
             adapter.notifyDataSetChanged()
             updateButtonState()
@@ -113,9 +115,9 @@ public class MainActivity : Activity() {
         create onClick { showNameDialog(false) }
         update onClick { showNameDialog(true) }
         delete onClick {
-            state.filterableList.delete(state.selectedIndex.v)
+            state.filterableList.delete(state.selectedIndex)
             adapter.notifyDataSetChanged()
-            state.selectedIndex.v = -1
+            state.selectedIndex = -1
             updateButtonState()
         }
     }
@@ -129,7 +131,7 @@ public class MainActivity : Activity() {
     }
 
     fun updateButtonState() {
-        if (state.filterableList.filt(state.selectedIndex.v) == -1) {
+        if (state.filterableList.filt(state.selectedIndex) == -1) {
             update.setEnabled(false)
             delete.setEnabled(false)
         } else {
@@ -150,7 +152,7 @@ public class MainActivity : Activity() {
             val name = view.findViewById(R.id.name) as EditText
             val surname = view.findViewById(R.id.surname) as EditText
             if (update) {
-                val fullname = filterableList[selectedIndex.v].split(",")
+                val fullname = filterableList[selectedIndex].split(",")
                 name.setText(fullname[1].trim())
                 surname.setText(fullname[0].trim())
             }
@@ -161,7 +163,7 @@ public class MainActivity : Activity() {
                 .setPositiveButton("Ok") { dialog, id ->
                     val fullname = "${surname.getText()}, ${name.getText()}"
                     if (update)
-                        filterableList.update(fullname, selectedIndex.v)
+                        filterableList.update(fullname, selectedIndex)
                     else
                         filterableList.create(fullname)
                     adapter.notifyDataSetChanged()
@@ -178,5 +180,4 @@ public class MainActivity : Activity() {
         fun invoke(s: String): Boolean = s.toLowerCase().startsWith(prefix)
     }
 
-    class IntHolder(var v: Int)
 }

@@ -30,12 +30,14 @@ import static butterknife.ButterKnife.findById;
 
 /*
 Refer to the crud subproject for various comments.
+
+Butterknife definitely improves the code.
  */
 public class MainActivity extends Activity {
 
     public static class State extends StateFragment {
         FilterableList<String> filterableList;
-        IntHolder selectedIndex;
+        int selectedIndex = -1;
     }
 
     private State state;
@@ -65,7 +67,7 @@ public class MainActivity extends Activity {
             externDb.add("Mustermann, Max");
             externDb.add("Tisch, Roman");
             state.filterableList = new FilterableList<String>(externDb);
-            state.selectedIndex = new IntHolder(-1);
+            state.selectedIndex = -1;
         }
 
         updateButtonState();
@@ -76,8 +78,8 @@ public class MainActivity extends Activity {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 TextView itemView = (TextView) super.getView(position, convertView, parent);
-                itemView.setTextColor(Color.BLACK); // Interestingly, this is not needed without ButterKnife...
-                if (state.selectedIndex.value == state.filterableList.orig(position))
+                itemView.setTextColor(Color.BLACK);
+                if (state.selectedIndex == state.filterableList.orig(position))
                     itemView.setBackgroundColor(Color.CYAN);
                 else
                     itemView.setBackgroundColor(Color.TRANSPARENT);
@@ -96,10 +98,10 @@ public class MainActivity extends Activity {
     }
 
     @OnItemClick(R.id.entries) void select(int pos) {
-        if (state.selectedIndex.value == state.filterableList.orig(pos)) {
-            state.selectedIndex.value = -1;
+        if (state.selectedIndex == state.filterableList.orig(pos)) {
+            state.selectedIndex = -1;
         } else {
-            state.selectedIndex.value = state.filterableList.orig(pos);
+            state.selectedIndex = state.filterableList.orig(pos);
         }
         adapter.notifyDataSetChanged();
         updateButtonState();
@@ -108,9 +110,9 @@ public class MainActivity extends Activity {
     @OnClick(R.id.create) void create() { showNameDialog(false); }
     @OnClick(R.id.update) void update() { showNameDialog(true); }
     @OnClick(R.id.delete) void delete() {
-        state.filterableList.delete(state.selectedIndex.value);
+        state.filterableList.delete(state.selectedIndex);
         adapter.notifyDataSetChanged();
-        state.selectedIndex.value = -1;
+        state.selectedIndex = -1;
         updateButtonState();
     }
 
@@ -123,7 +125,7 @@ public class MainActivity extends Activity {
     }
 
     private void updateButtonState() {
-        if (state.filterableList.filt(state.selectedIndex.value) == -1) {
+        if (state.filterableList.filt(state.selectedIndex) == -1) {
             update.setEnabled(false);
             delete.setEnabled(false);
         } else {
@@ -138,14 +140,14 @@ public class MainActivity extends Activity {
             final boolean update = getArguments().getBoolean("update");
             final MainActivity activity = (MainActivity) getActivity();
             final FilterableList<String> filterableList = activity.state.filterableList;
-            final IntHolder selectedIndex = activity.state.selectedIndex;
+            final int selectedIndex = activity.state.selectedIndex;
             final ArrayAdapter<String> adapter = activity.adapter;
             final LayoutInflater inflater = activity.getLayoutInflater();
             final View nameDialog = inflater.inflate(R.layout.name_dialog, null);
             final EditText name = findById(nameDialog, R.id.name);
             final EditText surname = findById(nameDialog, R.id.surname);
             if (update) {
-                String[] fullname = filterableList.get(selectedIndex.value).split(",");
+                String[] fullname = filterableList.get(selectedIndex).split(",");
                 name.setText(fullname[1].trim());
                 surname.setText(fullname[0].trim());
             }
@@ -158,7 +160,7 @@ public class MainActivity extends Activity {
                             String fullname = surname.getText().toString() + ", " +
                                     name.getText().toString();
                             if (update) {
-                                filterableList.update(fullname, selectedIndex.value);
+                                filterableList.update(fullname, selectedIndex);
                             } else {
                                 filterableList.create(fullname);
                             }
@@ -172,11 +174,6 @@ public class MainActivity extends Activity {
                     });
             return builder.create();
         }
-    }
-
-    private static class IntHolder {
-        public int value;
-        public IntHolder(int v) { value = v; }
     }
 
     private static class PrefixPredicate implements FilterableList.Predicate<String> {

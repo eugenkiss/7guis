@@ -55,17 +55,12 @@ public class MainActivity extends Activity {
     @SuppressWarnings("UnusedDeclaration")
     private static final String TAG = "CRUD";
 
-    private static class IntHolder {
-        public int value;
-        public IntHolder(int v) { value = v; }
-    }
-
     // http://developer.android.com/guide/topics/resources/runtime-changes.html#RetainingAnObject
     public static class StateFragment extends Fragment {
         FilterableList<String> filterableList;
         // Refers to the original indices in the database and not necessarily to the visible
         // and possibly filtered list
-        IntHolder selectedIndex;
+        int selectedIndex = -1;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -127,7 +122,7 @@ public class MainActivity extends Activity {
             externDb.add("Mustermann, Max");
             externDb.add("Tisch, Roman");
             state.filterableList = new FilterableList<String>(externDb);
-            state.selectedIndex = new IntHolder(-1);
+            state.selectedIndex = -1;
         }
 
         updateButtonState();
@@ -135,8 +130,9 @@ public class MainActivity extends Activity {
         adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, state.filterableList.getFiltered()) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                View itemView = super.getView(position, convertView, parent);
-                if (state.selectedIndex.value == state.filterableList.orig(position))
+                TextView itemView = (TextView) super.getView(position, convertView, parent);
+                itemView.setTextColor(Color.BLACK);
+                if (state.selectedIndex == state.filterableList.orig(position))
                     itemView.setBackgroundColor(Color.CYAN);
                 else
                     itemView.setBackgroundColor(Color.TRANSPARENT);
@@ -161,10 +157,10 @@ public class MainActivity extends Activity {
 
         entries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (state.selectedIndex.value == state.filterableList.orig(i)) {
-                    state.selectedIndex.value = -1;
+                if (state.selectedIndex == state.filterableList.orig(i)) {
+                    state.selectedIndex = -1;
                 } else {
-                    state.selectedIndex.value = state.filterableList.orig(i);
+                    state.selectedIndex = state.filterableList.orig(i);
                 }
                 // I actually only want to refresh the highlighted index but to achieve it
                 // it seems I need to express that the data changed (i.e. more than needed)
@@ -175,9 +171,9 @@ public class MainActivity extends Activity {
 
         delete.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                state.filterableList.delete(state.selectedIndex.value);
+                state.filterableList.delete(state.selectedIndex);
                 adapter.notifyDataSetChanged();
-                state.selectedIndex.value = -1;
+                state.selectedIndex = -1;
                 updateButtonState();
             }
         });
@@ -211,14 +207,14 @@ public class MainActivity extends Activity {
             final boolean update = getArguments().getBoolean("update");
             final MainActivity activity = (MainActivity) getActivity();
             final FilterableList<String> filterableList = activity.state.filterableList;
-            final IntHolder selectedIndex = activity.state.selectedIndex;
+            final int selectedIndex = activity.state.selectedIndex;
             final ArrayAdapter<String> adapter = activity.adapter;
             final LayoutInflater inflater = activity.getLayoutInflater();
             final View nameDialog = inflater.inflate(R.layout.name_dialog, null);
             final EditText name = (EditText) nameDialog.findViewById(R.id.name);
             final EditText surname = (EditText) nameDialog.findViewById(R.id.surname);
             if (update) {
-                String[] fullname = filterableList.get(selectedIndex.value).split(",");
+                String[] fullname = filterableList.get(selectedIndex).split(",");
                 name.setText(fullname[1].trim());
                 surname.setText(fullname[0].trim());
             }
@@ -231,7 +227,7 @@ public class MainActivity extends Activity {
                             String fullname = surname.getText().toString() + ", " +
                                     name.getText().toString();
                             if (update) {
-                                filterableList.update(fullname, selectedIndex.value);
+                                filterableList.update(fullname, selectedIndex);
                             } else {
                                 filterableList.create(fullname);
                             }
@@ -249,7 +245,7 @@ public class MainActivity extends Activity {
 
     // To prevent code duplication
     private void updateButtonState() {
-        if (state.filterableList.filt(state.selectedIndex.value) == -1) {
+        if (state.filterableList.filt(state.selectedIndex) == -1) {
             update.setEnabled(false);
             delete.setEnabled(false);
         } else {
