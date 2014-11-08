@@ -24,8 +24,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import sevenguis.crudng.R;
-
 /*
 Additional implemented requirement: The selection is kept even when filtering.
 
@@ -212,7 +210,7 @@ public class MainActivity extends Activity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final boolean update = getArguments().getBoolean("update");
             final MainActivity activity = (MainActivity) getActivity();
-            final FilterableList<String> filteredView = activity.state.filterableList;
+            final FilterableList<String> filterableList = activity.state.filterableList;
             final IntHolder selectedIndex = activity.state.selectedIndex;
             final ArrayAdapter<String> adapter = activity.adapter;
             final LayoutInflater inflater = activity.getLayoutInflater();
@@ -220,12 +218,12 @@ public class MainActivity extends Activity {
             final EditText name = (EditText) nameDialog.findViewById(R.id.name);
             final EditText surname = (EditText) nameDialog.findViewById(R.id.surname);
             if (update) {
-                String[] fullname = filteredView.get(selectedIndex.value).split(",");
+                String[] fullname = filterableList.get(selectedIndex.value).split(",");
                 name.setText(fullname[1].trim());
                 surname.setText(fullname[0].trim());
             }
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             builder.setTitle("Create Entry")
                     .setView(nameDialog)
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -233,9 +231,9 @@ public class MainActivity extends Activity {
                             String fullname = surname.getText().toString() + ", " +
                                     name.getText().toString();
                             if (update) {
-                                filteredView.update(fullname, selectedIndex.value);
+                                filterableList.update(fullname, selectedIndex.value);
                             } else {
-                                filteredView.create(fullname);
+                                filterableList.create(fullname);
                             }
                             adapter.notifyDataSetChanged();
                         }

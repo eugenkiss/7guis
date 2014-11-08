@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/counter" />
             <option value="$PROJECT_DIR$/crud" />
+            <option value="$PROJECT_DIR$/crud-kt" />
             <option value="$PROJECT_DIR$/crud-ng" />
             <option value="$PROJECT_DIR$/flightbooker" />
             <option value="$PROJECT_DIR$/temperature" />
