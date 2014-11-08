@@ -24,6 +24,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import sevenguis.crudng.R;
+
 /*
 Additional implemented requirement: The selection is kept even when filtering.
 
@@ -178,8 +180,7 @@ public class MainActivity extends Activity {
                 state.filterableList.delete(state.selectedIndex.value);
                 adapter.notifyDataSetChanged();
                 state.selectedIndex.value = -1;
-                update.setEnabled(false);
-                delete.setEnabled(false);
+                updateButtonState();
             }
         });
 
