@@ -1,0 +1,28 @@
+object Form1: TForm1
+  Left = 802
+  Height = 54
+  Top = 186
+  Width = 223
+  Caption = 'Counter'
+  ClientHeight = 54
+  ClientWidth = 223
+  LCLVersion = '1.3'
+  object Edit1: TEdit
+    Left = 16
+    Height = 24
+    Top = 16
+    Width = 80
+    ReadOnly = True
+    TabOrder = 0
+    Text = '0'
+  end
+  object Button1: TButton
+    Left = 128
+    Height = 25
+    Top = 17
+    Width = 75
+    Caption = 'Count'
+    OnClick = Button1Click
+    TabOrder = 1
+  end
+end
