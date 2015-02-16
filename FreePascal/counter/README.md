@@ -5,5 +5,3 @@ The typed code in the editor is:
     Edit1.Caption:=inttostr(Counter);
 
 To test it in Lazarus/CodeTyphon you have to open counter.lpi
-
-The file "counter" (without extension) is a linux64/gtk2 executable, to test if you want. If i have time will make one with fpgui or mse widgetset (that only requires X11).
