@@ -15,6 +15,7 @@ type
     Button1: TButton;
     Edit1: TEdit;
     procedure Button1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { private declarations }
   public
@@ -35,6 +36,11 @@ procedure TForm1.Button1Click(Sender: TObject);
 begin
    inc(Counter);
    Edit1.Caption:=inttostr(Counter);
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+   Edit1.ReadOnly:=True;
 end;
 
 end.

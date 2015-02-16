@@ -6,13 +6,13 @@ object Form1: TForm1
   Caption = 'Counter'
   ClientHeight = 54
   ClientWidth = 223
+  OnCreate = FormCreate
   LCLVersion = '1.3'
   object Edit1: TEdit
     Left = 16
     Height = 24
     Top = 16
     Width = 80
-    ReadOnly = True
     TabOrder = 0
     Text = '0'
   end

@@ -21,6 +21,7 @@ type
     Timer1: TTimer;
     TrackBar1: TTrackBar;
     procedure Button1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure TrackBar1Change(Sender: TObject);
   private
@@ -56,6 +57,13 @@ begin
    i:=0;
    Label2.Caption:='0';
    Timer1.Enabled:=True;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+   TrackBar1.Max:=40;
+   TrackBar1.Position:=20;
+   Timer1.Interval:=100;
 end;
 
 end.
