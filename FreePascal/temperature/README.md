@@ -26,4 +26,3 @@ end;
 </code></pre>
 
 In Lazarus/codetyphon open temperature.lpi
-The file "temperature" (without extension) is a linux64/gtk2 executable.If i have time will make one with fpgui or mse widgetset (that only requires X11).
