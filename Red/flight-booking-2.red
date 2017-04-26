@@ -16,7 +16,7 @@ book-ticket: has [str] [
 	str: form reduce ["You have booked a" flight-desc "on" flight-date]
 	view/flags [below  text str  button "OK" [unview]] [modal popup]
 ]
-parse-date: func [input /local dig sep yr mo dy][
+parse-date: func [input [string! object!] /local dig sep yr mo dy][
 	dig: charset [#"0" - #"9"]
 	sep: charset "/-."
 	if object? input [input: input/text]
