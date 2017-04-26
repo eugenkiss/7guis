@@ -32,7 +32,7 @@ parse-date: func [input /local dig sep yr mo dy][
 date-valid?: func [input][block? parse-date input]
 both-dates-OK?: does [all [dates/depart dates/return]]	; OK as long as they're not none
 ok-to-book?: does [
-	book-it/enable?: to logic! either one-way? [dates/depart][
+	to logic! either one-way? [dates/depart][
 		all [both-dates-OK? depart-before-return?]
 	]	
 ]
@@ -40,12 +40,12 @@ view [
 	style field: field 150 "2017-12-24" on-change [
 		face/color: either any [date-valid? face  empty? face/text] [none][red]
 		dates/(face/extra): parse-date face
-		ok-to-book? 
+		book-it/enable?: ok-to-book? 
 	]
 	below
 	flight-type: drop-list 150 data ["one-way flight" "return flight"] select 1 on-change [
 		return-date/enable?: not one-way?
-		ok-to-book?
+		book-it/enable?: ok-to-book?
 	]
 	text italic snow navy "Enter dates in yyyy-mm-dd format"
 	depart-date: field extra 'depart hint "depart date"
