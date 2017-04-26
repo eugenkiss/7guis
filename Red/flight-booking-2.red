@@ -12,7 +12,7 @@ one-way?:              does [flight-type/selected = 1]
 flight-desc:           does [pick flight-type/data flight-type/selected]
 flight-date:           does [either one-way? [depart-date/text][return-date/text]]
 
-book-ticket: function [] [
+book-ticket: has [str] [
 	str: form reduce ["You have booked a" flight-desc "on" flight-date]
 	view/flags [below  text str  button "OK" [unview]] [modal popup]
 ]
