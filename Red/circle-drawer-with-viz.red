@@ -16,7 +16,7 @@ selected-circle: none
 circle-selected?: does [not none? selected-circle]
 
 distance: func [a [pair!] b [pair!]][
-	square-root add ((a/1 - b/1) ** 2) ((a/2 - b/2) ** 2)
+	square-root add ((a/x - b/x) ** 2) ((a/y - b/y) ** 2)
 ]
 
 in-circle?: func [c [block!] "Circle draw cmd block" pos [pair!]][
@@ -24,12 +24,13 @@ in-circle?: func [c [block!] "Circle draw cmd block" pos [pair!]][
 ]
 
 ; Because of undo/redo, clear any possible selection. If we wanted
-; to remember selections, we could do that as well, but we don't.
+; to remember selections, we could do that as well, but we don't
+; for this small example.
 clear-selection: does [
 	foreach cmd draw-blk [set-circle-color cmd DEF_FCOLOR]
 	selected-circle: none
 ]
-select-circle: func [pos "mouse position"][
+select-circle: func [pos [pair!] "mouse position"][
 	cmds: reverse copy draw-blk						; Check in reverse, for z-order; don't deep copy
 	clear-selection
 	foreach cmd cmds [
@@ -53,13 +54,13 @@ update-history: func [state][
 	history: back insert/only clear next history copy/deep state
 ]
 add-circle: func [c] [
-	append/only draw-blk c
-	update-history draw-blk
-	select-circle c/:C_CENTER
+	append/only draw-blk c						; Add to our current state
+	update-history draw-blk						; Remember it, so we can undo
+	select-circle c/:C_CENTER					; Auto-select new circles
 	update-viz
 ]
 change-circle: does [
-	update-history draw-blk
+	update-history draw-blk						; Remember it, so we can undo
 	update-viz
 ]
 

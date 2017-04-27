@@ -16,7 +16,7 @@ selected-circle: none
 circle-selected?: does [not none? selected-circle]
 
 distance: func [a [pair!] b [pair!]][
-	square-root add ((a/1 - b/1) ** 2) ((a/2 - b/2) ** 2)
+	square-root add ((a/x - b/x) ** 2) ((a/y - b/y) ** 2)
 ]
 
 in-circle?: func [c [block!] "Circle draw cmd block" pos [pair!]][
