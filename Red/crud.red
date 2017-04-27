@@ -1,4 +1,4 @@
-Red []
+Red [author: "Gregg Irwin"]
 
 db: sort copy [
 	"Rakocevic, Nenad"

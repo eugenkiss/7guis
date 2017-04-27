@@ -1,4 +1,4 @@
-Red []
+Red [author: "Gregg Irwin"]
 
 data: [max 0:0:30 dur 0:0:15 lap 0:0:0]
 count-time: does [data/lap: data/lap + (1.0 / ticker/rate)]

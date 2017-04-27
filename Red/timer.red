@@ -1,4 +1,4 @@
-Red []
+Red [author: "Gregg Irwin"]
 
 max-time: 0:0:30
 duration: 0:0:15

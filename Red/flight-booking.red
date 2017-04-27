@@ -1,4 +1,4 @@
-Red []
+Red [author: "Gregg Irwin"]
 
 ; Really needs date! type, which isn't implemented in Red yet.
 
