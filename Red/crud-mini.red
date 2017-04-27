@@ -1,6 +1,6 @@
 Red [Author: "Gregg Irwin"]
 
-db: copy ["Rakocevic, Nenad" "Xie, Qingtian" "Wooster, Bertie" "Wood, Peter"]
+db: sort copy ["Rakocevic, Nenad" "Xie, Qingtian" "Wooster, Bertie" "Wood, Peter"]
 
 cmd-filter: refresh: does [	; 2 names for clearer meaning in use
 	lst/data: copy db

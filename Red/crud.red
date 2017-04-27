@@ -1,6 +1,6 @@
 Red []
 
-db: copy [
+db: sort copy [
 	"Rakocevic, Nenad"
 	"Xie, Qingtian"
 	"Wooster, Bertie"
