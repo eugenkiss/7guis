@@ -7,8 +7,8 @@ draw-blk: copy []	; Current state
 history:  copy []	; History of all states
 
 DEF_RADIUS: 25
-MIN_RADIUS: 10
-MAX_RADIUS: 200
+MIN_RADIUS: 10.0
+MAX_RADIUS: 200.0
 DEF_FCOLOR: white	; Default fill color
 SEL_FCOLOR: gray	; Selected circle fill color
 
@@ -98,7 +98,7 @@ undo: does [
 
 redo: does [
 	if tail? history [exit]
-	if not tail? next history [history: next history]
+	if not tail? next history [history: next history]			; don't move past last cmd
 	if not tail? history [draw-blk: copy/deep first history]
 	clear-selection
 	redraw
@@ -106,13 +106,13 @@ redo: does [
 ]
 
 adjust-diameter: func [circ "(modified)" sld-data][
-	set-circle-size circ max MIN_RADIUS 200 * sld-data
+	set-circle-size circ max MIN_RADIUS MAX_RADIUS * sld-data
 	redraw
 ]
 
 show-dialog: function [][
 	str: form reduce ["Adjust diameter of circle at" selected-circle/:C_CENTER]
-	val: selected-circle/:C_RADIUS / 200.0
+	val: selected-circle/:C_RADIUS / MAX_RADIUS
 	view/flags [
 		below  text str  s: slider data val [adjust-diameter selected-circle face/data]
 	][modal popup]

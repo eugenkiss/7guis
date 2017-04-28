@@ -7,16 +7,22 @@ draw-blk: copy []	; Current state
 history:  copy []	; History of all states
 
 DEF_RADIUS: 25
-MIN_RADIUS: 10
-MAX_RADIUS: 200
-DEF_FCOLOR: white	; Default fill color
-SEL_FCOLOR: gray	; Selected circle fill color
+MIN_RADIUS: 10.0
+MAX_RADIUS: 200.0
 
 selected-circle: none
 circle-selected?: does [not none? selected-circle]
 
 distance: func [a [pair!] b [pair!]][
 	square-root add ((a/x - b/x) ** 2) ((a/y - b/y) ** 2)
+]
+
+; Field offsets in a circle command
+C_FCOLOR: 4		; Fill color
+C_CENTER: 6		
+C_RADIUS: 7
+new-circle: func [center [pair!]] [
+	compose [pen black fill-pen white circle (center) (DEF_RADIUS)]
 ]
 
 in-circle?: func [c [block!] "Circle draw cmd block" pos [pair!]][
@@ -26,7 +32,7 @@ in-circle?: func [c [block!] "Circle draw cmd block" pos [pair!]][
 ; Because of undo/redo, clear any possible selection. If we wanted
 ; to remember selections, we could do that as well, but we don't.
 clear-selection: does [
-	foreach cmd draw-blk [set-circle-color cmd DEF_FCOLOR]
+	foreach cmd draw-blk [set-circle-color cmd white]
 	selected-circle: none
 ]
 select-circle: func [pos "mouse position"][
@@ -34,7 +40,7 @@ select-circle: func [pos "mouse position"][
 	clear-selection
 	foreach cmd cmds [
 		if in-circle? cmd pos [
-			set-circle-color cmd SEL_FCOLOR			; Mods cmd in draw-blk
+			set-circle-color cmd gray				; Mods cmd in draw-blk
 			return selected-circle: cmd				; Set new selection
 		]
 	]
@@ -54,14 +60,6 @@ add-circle: func [c] [
 ]
 change-circle: does [
 	update-history draw-blk
-]
-
-; Field offsets in a circle command
-C_FCOLOR: 4		; Fill color
-C_CENTER: 6		
-C_RADIUS: 7
-new-circle: func [center [pair!]] [
-	compose [pen black fill-pen (DEF_FCOLOR) circle (center) (DEF_RADIUS)]
 ]
 
 set-circle-color: func [c [block!] color][poke c C_FCOLOR color]
@@ -96,13 +94,13 @@ redo: does [
 ]
 
 adjust-diameter: func [circ "(modified)" sld-data][
-	set-circle-size circ max MIN_RADIUS 200 * sld-data
+	set-circle-size circ max MIN_RADIUS MAX_RADIUS * sld-data
 	redraw
 ]
 
 show-dialog: function [][
 	str: form reduce ["Adjust diameter of circle at" selected-circle/:C_CENTER]
-	val: selected-circle/:C_RADIUS / 200.0
+	val: selected-circle/:C_RADIUS / MAX_RADIUS
 	view/flags [
 		below  text str  s: slider data val [adjust-diameter selected-circle face/data]
 	][modal popup]
