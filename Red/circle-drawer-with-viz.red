@@ -98,7 +98,7 @@ undo: does [
 
 redo: does [
 	if tail? history [exit]
-	history: next history
+	if not tail? next history [history: next history]
 	if not tail? history [draw-blk: copy/deep first history]
 	clear-selection
 	redraw
