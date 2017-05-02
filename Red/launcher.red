@@ -1,18 +1,21 @@
-Red [author: "Gregg Irwin"]
+Red [author: ["Gregg Irwin" "Maxim Velesyuk"]]
 
-github-repo: https://raw.githubusercontent.com/eugenkiss/7guis/master/Red/
-do-or-load: func [file] [ either exists? file [ do file ] [ do load read github-repo/(file) ] ]
+repo: https://raw.githubusercontent.com/greggirwin/7guis/master/Red/
+
+; You don't want to `do` untrusted code, but this shows how you can
+; easily access remote code. In this case, trust depends on the repo.
+run-demo: func [file][do either exists? file [file][read repo/(file)]]
 
 view [
 	below
 	space 2x2
 	style button: button 125
-	button "Counter"        [do-or-load %counter.red]
-	button "Temperature"    [do-or-load %temperature.red]
-	button "Timer"          [do-or-load %timer.red]
-	button "CRUD"           [do-or-load %crud.red]
-	button "Flight Booking" [do-or-load %flight-booking.red]
-	button "Circle Drawer"  [do-or-load %circle-drawer.red]
+	button "Counter"        [run-demo %counter.red]
+	button "Temperature"    [run-demo %temperature.red]
+	button "Timer"          [run-demo %timer.red]
+	button "CRUD"           [run-demo %crud.red]
+	button "Flight Booking" [run-demo %flight-booking.red]
+	button "Circle Drawer"  [run-demo %circle-drawer.red]
 	button "Cells"          ;[do %cells.red]
 	pad 0x15
 	button "Quit"           [quit]
