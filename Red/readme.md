@@ -5,3 +5,9 @@ approaches look like. To that end, there may be more than one implementation
 of each task.
 
 Red is available at http://red-lang.org
+
+You can check out all examples with just
+
+```
+do load read https://raw.githubusercontent.com/eugenkiss/7guis/master/Red/launcher.red
+```
