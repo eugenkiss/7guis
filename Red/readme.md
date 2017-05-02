@@ -6,8 +6,9 @@ of each task.
 
 Red is available at http://red-lang.org
 
-You can check out all examples with just
+If you install Red (single EXE, just drop in a folder), you can run all task
+demos from the launcher. The following will run the launcher from the repo.
 
 ```
-do load read https://raw.githubusercontent.com/eugenkiss/7guis/master/Red/launcher.red
+do read https://raw.githubusercontent.com/greggirwin/7guis/master/Red/launcher.red
 ```
