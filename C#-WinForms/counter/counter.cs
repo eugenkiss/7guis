@@ -12,21 +12,30 @@ namespace Counter
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var textBox = new TextBox();
-            textBox.Location = new Point(12, 14);
-            textBox.Text = "0";
-            textBox.ReadOnly = true;
+            var textBox = new TextBox
+            {
+                Location = new Point(12, 14),
+                Text = "0",
+                ReadOnly = true,
+                TextAlign = HorizontalAlignment.Right,
+                Anchor = AnchorStyles.Left | AnchorStyles.Right
+            };
 
-            var button = new Button();
-            button.Location = new Point(121, 12);
-            button.Text = "Count";
-            button.Click += (sender, args) => { textBox.Text = (int.Parse(textBox.Text) + 1).ToString(); };
+            var button = new Button
+            {
+                Location = new Point(121, 12),
+                Text = "Count",
+                Anchor = AnchorStyles.Right
+            };
 
-            var form = new Form();
-            form.ClientSize = new Size(208, 46);
-            form.Text = "Counter";
-            form.Controls.Add(textBox);
-            form.Controls.Add(button);
+            button.Click += delegate { textBox.Text = (int.Parse(textBox.Text) + 1).ToString(); };
+
+            var form = new Form
+            {
+                ClientSize = new Size(208, 46),
+                Text = "Counter",
+                Controls = { textBox, button }
+            };
 
             Application.Run(form);
         }
