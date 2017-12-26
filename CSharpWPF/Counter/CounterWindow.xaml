@@ -1,0 +1,25 @@
+﻿<Window x:Class="Counter.CounterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="CounterWindow" Width="200" Height="70">
+    <Grid>
+        <WrapPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBox Margin="3" MinWidth="70" Name="value">0</TextBox>
+            <Button Margin="3" MinWidth="70" Click="Button_Click">Count</Button>
+        </StackPanel>
+        </WrapPanel>
+        <x:Code>
+            <![CDATA[
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+           var current = Int32.Parse(value.Text);
+           value.Text = (current + 1).ToString();
+        }
+            ]]>
+        </x:Code>
+    </Grid>
+</Window>

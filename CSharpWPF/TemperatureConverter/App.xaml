@@ -1,0 +1,7 @@
+﻿<Application x:Class="TemperatureConverter.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="TemperatureConverterWindow.xaml">
+    <Application.Resources>         
+    </Application.Resources>
+</Application>
