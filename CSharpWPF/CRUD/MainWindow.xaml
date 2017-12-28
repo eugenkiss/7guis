@@ -15,7 +15,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition MinHeight="30" Height="1*"></RowDefinition>
-            <RowDefinition Height="50*"></RowDefinition>
+            <RowDefinition Height="30*"></RowDefinition>
             <RowDefinition MinHeight="30" Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel VerticalAlignment="Top" Grid.Row="0" Orientation="Horizontal">
