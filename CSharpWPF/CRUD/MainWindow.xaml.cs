@@ -16,6 +16,14 @@ using System.Windows.Shapes;
 
 namespace CRUD
 {
+    public class Person
+    {
+        public string Name { get; set; }
+        public string Surname { get; set; }
+    }
+
+    public class Persons : System.Collections.ObjectModel.ObservableCollection<Person> { }
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -24,7 +32,10 @@ namespace CRUD
         public MainWindow()
         {
             InitializeComponent();
-            
         }
+
+        private void CreateClick(object sender, RoutedEventArgs e)
+            => ((Persons)this.Resources["persons"]).Add(new Person { Name = name.Text, Surname = surname.Text });
+
     }
 }

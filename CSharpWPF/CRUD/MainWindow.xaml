@@ -8,7 +8,12 @@
 
         Title="MainWindow" Height="350" Width="525">
     <Window.Resources>
-        <Style TargetType="Button">
+        <local:Persons x:Key="persons">
+            <local:Person Name="Hans" Surname="Emil"/>
+            <local:Person Name="Max" Surname="Mustermann"/>
+            <local:Person Name="Tisch" Surname="Roman"/>
+        </local:Persons>
+        <Style TargetType="{x:Type Button}">
             <Setter Property="Margin" Value="5"></Setter>
         </Style>
     </Window.Resources>
@@ -27,16 +32,33 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <ListBox Grid.Column="0">
-               
+            <ListBox Grid.Column="0" ItemsSource="{Binding Source={StaticResource persons}}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=Surname}"/>
+                            <TextBlock Text=", "/>
+                            <TextBlock Text="{Binding Path=Name}"/>                            
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
             </ListBox>
             <Grid Grid.Column="1">
+                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>Name:</TextBlock>
+                        <TextBox x:Name="name" MinWidth="100">John</TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>Name:</TextBlock>
+                        <TextBox x:Name="surname" MinWidth="100">Romba</TextBox>
+                    </StackPanel>
+                </StackPanel>
             </Grid>
-
         </Grid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom">
-            <Button>Create</Button>
+            <Button Click="CreateClick">Create</Button>
             <Button>Update</Button>
             <Button>Delete</Button>
         </StackPanel>
