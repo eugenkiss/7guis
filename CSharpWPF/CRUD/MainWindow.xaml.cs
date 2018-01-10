@@ -1,25 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CRUD
 {
-    public class Person
+    public class Person :INotifyPropertyChanged
     {
-        public string Name { get; set; }
-        public string Surname { get; set; }
+        string name;
+        string surname;
+
+        public string Name
+        {
+            get => name;            
+            set
+            {
+                name = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
+            }
+        }
+
+        public string Surname
+        {
+            get => surname;
+            set
+            {
+                surname = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Surname)));                
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
     public class Persons : System.Collections.ObjectModel.ObservableCollection<Person> { }
@@ -30,12 +40,22 @@ namespace CRUD
     public partial class MainWindow : Window
     {
         public MainWindow()
-        {
-            InitializeComponent();
-        }
+            => InitializeComponent();        
 
-        private void CreateClick(object sender, RoutedEventArgs e)
+        void Create(object sender, RoutedEventArgs e)
             => ((Persons)this.Resources["persons"]).Add(new Person { Name = name.Text, Surname = surname.Text });
 
+        void Update(object sender, RoutedEventArgs e)
+        {
+            var person = (Person)personsView.SelectedItem;
+            person.Name = name.Text;
+            person.Surname = surname.Text;
+        }
+
+        void Delete(object sender, RoutedEventArgs e)
+        {
+            var person = (Person)personsView.SelectedItem;
+            ((Persons)this.Resources["persons"]).Remove(person);
+        }
     }
 }

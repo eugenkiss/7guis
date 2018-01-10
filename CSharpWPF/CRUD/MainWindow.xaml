@@ -25,14 +25,14 @@
         </Grid.RowDefinitions>
         <StackPanel VerticalAlignment="Top" Grid.Row="0" Orientation="Horizontal">
             <Label>Filter prefix:</Label>
-            <TextBox HorizontalAlignment="Stretch" MinWidth="50"></TextBox>
+            <TextBox HorizontalAlignment="Stretch" MinWidth="50" x:Name="filter"></TextBox>
         </StackPanel>
         <Grid Grid.Row="1"  VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <ListBox Grid.Column="0" ItemsSource="{Binding Source={StaticResource persons}}">
+            <ListBox x:Name="personsView" Grid.Column="0" ItemsSource="{Binding Source={StaticResource persons}}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -58,9 +58,9 @@
         </Grid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom">
-            <Button Click="CreateClick">Create</Button>
-            <Button>Update</Button>
-            <Button>Delete</Button>
+            <Button Click="Create">Create</Button>
+            <Button Click="Update">Update</Button>
+            <Button Click="Delete">Delete</Button>
         </StackPanel>
     </Grid>
 </Window>
