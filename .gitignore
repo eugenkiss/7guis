@@ -60,7 +60,3 @@ Scala-ScalaFX/.idea/
 ### Elm
 Elm/cache
 Elm/build
-
-### C#/VS
-.vs
-obj
