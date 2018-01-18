@@ -13,6 +13,9 @@
             <local:Person Name="Max" Surname="Mustermann"/>
             <local:Person Name="Tisch" Surname="Roman"/>
         </local:Persons>
+        <CollectionViewSource x:Key="filteredPersons" 
+                              Filter="CollectionViewSource_Filter"
+                              Source="{StaticResource persons}" />
         <Style TargetType="{x:Type Button}">
             <Setter Property="Margin" Value="5"></Setter>
         </Style>
@@ -25,20 +28,20 @@
         </Grid.RowDefinitions>
         <StackPanel VerticalAlignment="Top" Grid.Row="0" Orientation="Horizontal">
             <Label>Filter prefix:</Label>
-            <TextBox HorizontalAlignment="Stretch" MinWidth="50" x:Name="filter"></TextBox>
+            <TextBox HorizontalAlignment="Stretch" MinWidth="50" x:Name="filter" TextChanged="filter_TextChanged"/>
         </StackPanel>
         <Grid Grid.Row="1"  VerticalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <ListBox x:Name="personsView" Grid.Column="0" ItemsSource="{Binding Source={StaticResource persons}}">
+            <ListBox x:Name="personsView" Grid.Column="0" ItemsSource="{Binding Source={StaticResource filteredPersons}}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Path=Surname}"/>
                             <TextBlock Text=", "/>
-                            <TextBlock Text="{Binding Path=Name}"/>                            
+                            <TextBlock Text="{Binding Path=Name}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
