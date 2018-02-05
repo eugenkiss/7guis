@@ -18,6 +18,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		readme.md = readme.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircleDrawer", "CircleDrawer\CircleDrawer.csproj", "{2DA5AAA9-4D9D-4B20-B225-4341754199D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cells", "Cells\Cells.csproj", "{924481D2-D884-460C-8428-1BF4DB2D38C2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +48,14 @@ Global
 		{0F657DC4-DC64-4145-9924-C3E02F47BB5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F657DC4-DC64-4145-9924-C3E02F47BB5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F657DC4-DC64-4145-9924-C3E02F47BB5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DA5AAA9-4D9D-4B20-B225-4341754199D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DA5AAA9-4D9D-4B20-B225-4341754199D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DA5AAA9-4D9D-4B20-B225-4341754199D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DA5AAA9-4D9D-4B20-B225-4341754199D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{924481D2-D884-460C-8428-1BF4DB2D38C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{924481D2-D884-460C-8428-1BF4DB2D38C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{924481D2-D884-460C-8428-1BF4DB2D38C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{924481D2-D884-460C-8428-1BF4DB2D38C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

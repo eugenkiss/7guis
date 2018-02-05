@@ -4,4 +4,4 @@ WPF solutions in C# with maximal XAML usage, but with minimal code size and othe
 
 No use of MVVM or other patterns.
 
-Coded in Visual Studio 2017.
+Coded in Visual Studio 2017 and build for .NET Framework 4.7.
