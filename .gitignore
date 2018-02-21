@@ -42,8 +42,7 @@ local.properties
 .texlipse
 
 ### Intellij
-**/.idea/workspace.xml
-**/.idea/tasks.xml
+.idea
 
 ### Scala/sbt
 .cache/
