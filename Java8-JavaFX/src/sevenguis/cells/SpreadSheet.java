@@ -46,14 +46,16 @@ public class SpreadSheet extends HBox {
                 int row = event.getTablePosition().getRow();
                 int col = event.getTablePosition().getColumn();
                 Model.Cell c = model.getCells()[row][col];
-                c.setUserData(event.getNewValue());
-                Formula formula = null;
-                try {
-                    formula = Parser.parse(event.getNewValue());
-                } catch (Exception e) {
-                    formula = new Textual(e.getMessage());
-                }
-                c.setFormula(formula);
+                System.out.println("Hello");
+                c.userData.set(event.getNewValue());
+                c.setShowUserData(false);
+//                Formula formula = null;
+//                try {
+//                    formula = Parser.parse(event.getNewValue());
+//                } catch (Exception e) {
+//                    formula = new Textual(e.getMessage());
+//                }
+//                c.setFormula(formula);
             });
             table.getColumns().add(column);
         }

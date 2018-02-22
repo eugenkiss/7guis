@@ -1,5 +1,6 @@
 package sevenguis.cells;
 
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Cell;
 
 import java.util.*;
@@ -7,7 +8,7 @@ import java.util.*;
 abstract class Formula {
     public static final Formula Empty = new Textual("");
     public double eval(Model env) { return 0.0; }
-    public List<Model.Cell> getReferences(Model env) { return Collections.emptyList(); }
+    public List<ObservableValue<Double>> getReferences(Model env) { return Collections.emptyList(); }
 }
 
 class Textual extends Formula {
@@ -51,12 +52,12 @@ class Coord extends Formula {
     }
 
     public double eval(Model env) {
-        return env.getCells()[row][column].getValue();
+        return env.getCells()[row][column].value.getValue();
     }
 
-    public List<Model.Cell> getReferences(Model env) {
-        List<Model.Cell> result = new ArrayList<>(1);
-        result.add(env.getCells()[row][column]);
+    public List<ObservableValue<Double>> getReferences(Model env) {
+        List<ObservableValue<Double>> result = new ArrayList<>(1);
+        result.add(env.getCells()[row][column].value);
         return result;
     }
 }
@@ -76,11 +77,11 @@ class Range extends Formula {
         throw new RuntimeException("Range cannot be evaluated!");
     }
 
-    public List<Model.Cell> getReferences(Model env) {
-        List<Model.Cell> result = new ArrayList<>();
+    public List<ObservableValue<Double>> getReferences(Model env) {
+        List<ObservableValue<Double>> result = new ArrayList<>();
         for (int r = coord1.row; r <= coord2.row; r++) {
             for (int c = coord1.column; c <= coord2.column; c++) {
-                result.add(env.getCells()[r][c]);
+                result.add(env.getCells()[r][c].value);
             }
         }
         return result;
@@ -118,8 +119,8 @@ class Application extends Formula {
         }
     }
 
-    public List<Model.Cell> getReferences(Model env) {
-        List<Model.Cell> result = new ArrayList<>();
+    public List<ObservableValue<Double>> getReferences(Model env) {
+        List<ObservableValue<Double>> result = new ArrayList<>();
         for (Formula argument : arguments) {
             result.addAll(argument.getReferences(env));
         }
@@ -131,7 +132,7 @@ class Application extends Formula {
         List<Double> result = new ArrayList<>();
         for (Formula f : args) {
             if (f instanceof Range) {
-                for (Model.Cell c : f.getReferences(env)) {
+                for (ObservableValue<Double> c : f.getReferences(env)) {
                     result.add(c.getValue());
                 }
             } else {

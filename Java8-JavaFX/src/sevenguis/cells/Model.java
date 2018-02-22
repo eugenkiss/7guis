@@ -1,10 +1,21 @@
 package sevenguis.cells;
 
+import javafx.beans.binding.Binding;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.binding.ObjectBinding;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableDoubleValue;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
+import org.fxmisc.easybind.EasyBind;
+import org.fxmisc.easybind.monadic.MonadicBinding;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -36,58 +47,37 @@ class Model {
         return cs;
     }
 
-    class Cell extends Observable implements Observer {
+    class Cell {
 
-        private String userData = "";
-        private Formula formula = Formula.Empty;
-        private double value = 0;
-
+        public final StringProperty userData = new SimpleStringProperty("");
         public final StringProperty text = new SimpleStringProperty("");
-
-        public String toString() {
-            if (formula instanceof Textual) {
-                Textual textual = (Textual) formula;
-                return textual.value;
-            }
-            return String.valueOf(value);
+        ObservableValue<Double>[] toArray(List<ObservableValue<Double>> l) {
+              return l.toArray(new ObservableValue[l.size()]);
         }
+        // Has same problem
+//        public ObservableValue<Double> value = EasyBind.map(userData, Parser::parse)
+//                .flatMap(f -> Bindings.createObjectBinding(() -> f.eval(Model.this), toArray(f.getReferences(Model.this))));
+        // Has same problem
+        public ObservableValue<Double> value =
+                Bindings.createObjectBinding(() -> {
+                    System.out.println(System.currentTimeMillis());
+                    Formula f = Parser.parse(userData.get());
+                    ObservableValue<Double>[] fs = toArray(f.getReferences(Model.this));
+                    Binding<Double> d = Bindings.createObjectBinding(() -> {
+                        double v = f.eval(Model.this);
+//                        text.set(String.valueOf(v));
+                        return v;
+                    }, fs);
+                    d.addListener((v, o, n) -> {
+                        // ???
+                    });
+                    return d.getValue();
+                }, userData);
 
-        public void setUserData(String s) {
-            userData = s;
-        }
 
         public void setShowUserData(Boolean b) {
-            if (b)  text.setValue(userData);
-            else text.setValue(this.toString());
-        }
-
-        public void setFormula(Formula formula) {
-            for (Cell cell : this.formula.getReferences(Model.this)) {
-                cell.deleteObserver(this);
-            }
-            this.formula = formula;
-            for (Cell cell : this.formula.getReferences(Model.this)) {
-                cell.addObserver(this);
-            }
-            setValue(this.formula.eval(Model.this));
-            text.set(this.toString());
-        }
-
-        public double getValue() {
-            return value;
-        }
-
-        private void setValue(double value) {
-            if (!(this.value == value || Double.isNaN(this.value) && Double.isNaN(value))) {
-                this.value = value;
-                text.set(this.toString());
-                setChanged();
-                notifyObservers();
-            }
-        }
-
-        public void update(Observable o, Object arg) {
-            setValue(formula.eval(Model.this));
+            if (b)  text.setValue(userData.get());
+            else text.setValue(String.valueOf(value.getValue()));
         }
 
     }
