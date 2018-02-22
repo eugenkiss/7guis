@@ -6,8 +6,6 @@
     "@fortawesome/react-fontawesome": "0.0.17",
     "emotion": "^9.0.1",
     "emotion-server": "^9.0.1",
-    "prop-types": "^15.6.0",
-    "querystring": "^0.2.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",
