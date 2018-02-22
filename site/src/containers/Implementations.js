@@ -13,8 +13,24 @@ export default () => (<Layout>
     Implementations <sup><FontAwesome size='xs' icon={faCode}/></sup>
   </h1>
 
+  <div
+    className={css`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    @media (max-width: 40rem) {
+       display: block;
+    }
+  `}>
     {implementations.sort((a, b) => a.title.localeCompare(b.title)).map((x, i) =>
-      <div key={i}><p>
+      <p
+        key={i}
+        className={css`
+        width: 47%;
+        @media (max-width: 40rem) {
+           width: 100%;
+        }
+      `}>
         <a target='_blank' href={x.link}>
           <span
             className={css`
@@ -34,8 +50,9 @@ export default () => (<Layout>
           <br/>
           Notes: {x.notes}
         </Fragment>}
-      </p></div>
+      </p>
     )}
+  </div>
 
 </Layout>)
 
