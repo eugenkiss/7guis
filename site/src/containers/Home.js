@@ -54,8 +54,7 @@ export default () => (<Layout>
     {' '}<Link to='/tasks'>seven tasks</Link>{' '}
     that represent typical challenges in GUI programming. In addition, 7GUIs
     provides a recommended
-    {' '}<Link to='/dimensions'>set of evaluation dimensions</Link>
-    . {'\u00A0'}
+    {' '}<Link to='/dimensions'>set of evaluation dimensions</Link>.
   </p>
   <p>
     One might wonder why such a project is useful. First, GUI programming is in
