@@ -16,7 +16,7 @@ build: node_modules public src .babelrc static.config.js
 	$(react-static) build
 
 serve:
-	$(react-static) build
+	$(serve) dist
 
 publish: build
 	rm -rf gh-pages
