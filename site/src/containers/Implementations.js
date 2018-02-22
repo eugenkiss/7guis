@@ -45,9 +45,9 @@ const implementations = [
     technologies: ['Java7', 'Swing'],
     author: 'Eugen Kiss',
     authorLink: 'https://github.com/eugenkiss/',
-    notes: 'Reference implementation.',
-    link: 'https://github.com/eugenkiss/7guis/tree/master/Java7-Swing/src/sevenguis',
-    src: 'https://github.com/eugenkiss/7guis/tree/master/Java7-Swing/src/sevenguis',
+    notes: 'Reference implementation',
+    link: 'https://github.com/eugenkiss/7guis-Java7-Swing',
+    src: 'https://github.com/eugenkiss/7guis-Java7-Swing',
   },
   {
     title: 'Clojure/Seesaw',
