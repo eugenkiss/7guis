@@ -35,8 +35,8 @@ export default () => (<Layout>
   <small>
     Note that in the past implementations could be merged directly into the repo.
     From now on the 7GUIs repo will contain this website and links to implementations
-    but not implementations themselves. This makes things clearer and easier to
-    maintain without any disadvantages.
+    but not implementations themselves. This makes ownership clearer and reduces
+    maintainenance effort without any downsides.
   </small>
 
 </Layout>)
