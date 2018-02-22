@@ -83,14 +83,6 @@ const implementations = [
     src: 'https://github.com/eugenkiss/7guis-Elm',
   },
   {
-    title: 'FreePascal',
-    technologies: ['FreePascal'],
-    author: 'miguel-cv',
-    authorLink: 'https://github.com/miguel-cv',
-    link: 'https://github.com/eugenkiss/7guis/tree/master/FreePascal',
-    src: 'https://github.com/eugenkiss/7guis/tree/master/FreePascal',
-  },
-  {
     title: 'ClojureScript/Om',
     technologies: ['ClojureScript', 'Om'],
     author: 'Dave Clayton',
