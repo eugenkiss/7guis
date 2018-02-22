@@ -26,10 +26,16 @@ const Img = (p) => {
     src={p.src}
     className={css`
     margin-top: -6px;
-    margin-left: -12px;
+    margin-left: -10px;
     margin-right: 8px;
     margin-bottom: -2px;
     float: left;
+    @media (max-width: 47rem) {
+      float: none;
+      max-width: 100%;
+      margin: 0;
+      margin-left: -10px;
+    }
   `}
   />
 }
