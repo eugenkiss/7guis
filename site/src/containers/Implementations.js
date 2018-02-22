@@ -70,8 +70,8 @@ const implementations = [
     technologies: ['Scala', 'ScalaFX', 'Scala.Rx', 'ReactFX'],
     author: 'Eugen Kiss',
     authorLink: 'https://github.com/eugenkiss/',
-    link: 'https://github.com/eugenkiss/7guis/tree/master/Scala-ScalaFX/src/main/scala/sevenguis',
-    src: 'https://github.com/eugenkiss/7guis/tree/master/Scala-ScalaFX/src/main/scala/sevenguis',
+    link: 'https://github.com/eugenkiss/7guis-Scala-ScalaFX',
+    src: 'https://github.com/eugenkiss/7guis-Scala-ScalaFX',
   },
   {
     title: 'FreePascal',
