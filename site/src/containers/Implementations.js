@@ -74,6 +74,15 @@ const implementations = [
     src: 'https://github.com/eugenkiss/7guis-Scala-ScalaFX',
   },
   {
+    title: 'Elm',
+    technologies: ['Elm'],
+    author: 'Eugen Kiss',
+    authorLink: 'https://github.com/eugenkiss/',
+    notes: 'Incomplete and rather old (2014)',
+    link: 'https://github.com/eugenkiss/7guis-Elm',
+    src: 'https://github.com/eugenkiss/7guis-Elm',
+  },
+  {
     title: 'FreePascal',
     technologies: ['FreePascal'],
     author: 'miguel-cv',
