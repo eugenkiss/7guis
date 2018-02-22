@@ -62,8 +62,8 @@ const implementations = [
     technologies: ['Java8', 'JavaFX', 'ReactFX'],
     author: 'Eugen Kiss',
     authorLink: 'https://github.com/eugenkiss/',
-    link: 'https://github.com/eugenkiss/7guis/tree/master/Java8-JavaFX/src/sevenguis',
-    src: 'https://github.com/eugenkiss/7guis/tree/master/Java8-JavaFX/src/sevenguis',
+    link: 'https://github.com/eugenkiss/7guis-Java8-JavaFX',
+    src: 'https://github.com/eugenkiss/7guis-Java8-JavaFX',
   },
   {
     title: 'Scala/ScalaFX|Scala.Rx|ReactFX',
