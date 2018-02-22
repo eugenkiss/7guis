@@ -89,6 +89,7 @@ small, .font_small {
 }
 
 tt, code {
+  word-break: break-all;
   font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
   font-size: 85%;
   padding: 0.2em 0.4em;
