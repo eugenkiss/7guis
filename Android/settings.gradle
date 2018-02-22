@@ -1,1 +1,0 @@
-include ':app', ':counter', ':temperature', ':flightbooker', ':timer', ':crud', ':crud-ng', ':crud-kt'

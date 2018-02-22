@@ -74,14 +74,6 @@ const implementations = [
     src: 'https://github.com/eugenkiss/7guis/tree/master/Scala-ScalaFX/src/main/scala/sevenguis',
   },
   {
-    title: 'Android',
-    technologies: ['Java', 'Android'],
-    author: 'Eugen Kiss',
-    authorLink: 'https://github.com/eugenkiss/',
-    link: 'https://github.com/eugenkiss/7guis/tree/master/Android',
-    src: 'https://github.com/eugenkiss/7guis/tree/master/Android',
-  },
-  {
     title: 'FreePascal',
     technologies: ['FreePascal'],
     author: 'miguel-cv',
