@@ -54,8 +54,8 @@ const implementations = [
     technologies: ['Clojure', 'Seesaw'],
     author: 'Eugen Kiss',
     authorLink: 'https://github.com/eugenkiss/',
-    link: 'https://github.com/eugenkiss/7guis/tree/master/Clojure-Seesaw/src/sevenguis',
-    src: 'https://github.com/eugenkiss/7guis/tree/master/Clojure-Seesaw/src/sevenguis',
+    link: 'https://github.com/eugenkiss/7guis-Clojure-Seesaw',
+    src: 'https://github.com/eugenkiss/7guis-Clojure-Seesaw',
   },
   {
     title: 'Java8/JavaFX|ReactFX',
