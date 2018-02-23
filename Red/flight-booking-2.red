@@ -37,18 +37,18 @@ ok-to-book?: does [
 	]	
 ]
 view [
-	style field: field 150 "2017-12-24" on-change [
+	style field: field 150 on-change [
 		face/color: either any [date-valid? face  empty? face/text] [none][red]
 		dates/(face/extra): parse-date face
-		book-it/enable?: ok-to-book? 
+		book-it/enabled?: ok-to-book? 
 	]
 	below
 	flight-type: drop-list 150 data ["one-way flight" "return flight"] select 1 on-change [
-		return-date/enable?: not one-way?
-		book-it/enable?: ok-to-book?
+		return-date/enabled?: not one-way?
+		book-it/enabled?: ok-to-book?
 	]
 	text italic snow navy "Enter dates in yyyy-mm-dd format"
-	depart-date: field extra 'depart hint "depart date"
-	return-date: field extra 'return hint "return date" disabled
+	depart-date: field "2017-12-24" extra 'depart hint "depart date"
+	return-date: field "2017-12-24" extra 'return hint "return date" disabled
 	book-it: button "Book" [book-ticket]
 ]
