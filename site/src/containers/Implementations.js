@@ -58,6 +58,14 @@ export default () => (<Layout>
 
 const implementations = [
   {
+    title: 'React/MobX',
+    technologies: ['React', 'TypeScript', 'MobX'],
+    author: 'Eugen Kiss',
+    authorLink: 'https://github.com/eugenkiss/',
+    link: 'https://eugenkiss.github.io/7guis-React-TypeScript-MobX/',
+    src: 'https://github.com/eugenkiss/7guis-React-TypeScript-MobX',
+  },
+  {
     title: 'Java7/Swing',
     technologies: ['Java7', 'Swing'],
     author: 'Eugen Kiss',
