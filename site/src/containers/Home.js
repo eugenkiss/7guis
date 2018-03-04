@@ -44,7 +44,7 @@ const Button = (p) => (
 
 // noinspection JSUnusedGlobalSymbols
 export default () => (<Layout>
-  <h1>7GUIs: A Notational Usability Benchmark for GUI Programming</h1>
+  <h1>7GUIs: A GUI Programming Benchmark</h1>
   <p>
     There are countless GUI toolkits in different languages and with diverse
     approaches to GUI development. Yet, diligent comparisons between them are
