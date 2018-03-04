@@ -14,7 +14,6 @@ import circleDrawerScreenshot from '../screenshots/circledraw.png'
 import cellsScreenshot from '../screenshots/cells.png'
 
 const mobxHref = 'https://eugenkiss.github.io/7guis-React-TypeScript-MobX/'
-const foamHref = 'http://foam-framework.github.io/foam/foam/js/foam/demos/sevenguis'
 const scalaTempConvHref = 'https://www.artima.com/pins1ed/gui-programming.html#32.4'
 const sodiumFlightHref = 'http://blog.reactiveprogramming.org/?p=21'
 const crossingStateLinesHref = 'http://cs.brown.edu/~sk/Publications/Papers/Published/ick-adapt-oo-fwk-frp/paper.pdf'
@@ -71,11 +70,9 @@ export default () => (<Layout toc={toc}>
     given.
   </p>
   <p>
-    For a live version of the tasks see:
-    <ul>
-      <li><a target='_blank' href={mobxHref}>React/MobX</a></li>
-      <li><a target='_blank' href={foamHref}>FOAM's implementation</a></li>
-    </ul>
+    For a live version of the tasks see my
+    {' '}<a target='_blank' href={mobxHref}>React/MobX</a>{' '}
+    implementation.
   </p>
 
   <Heading {...toc.counter}/>
