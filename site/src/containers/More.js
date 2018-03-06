@@ -1,5 +1,4 @@
-import React, {Fragment} from 'react'
-import {css} from 'emotion'
+import React from 'react'
 import FontAwesome from '@fortawesome/react-fontawesome'
 import faEllipsisH from '@fortawesome/fontawesome-free-solid/faEllipsisH'
 
@@ -14,6 +13,7 @@ const toc = {
   related: { id: 'related', name: 'Related Work'},
 }
 
+// noinspection JSUnusedGlobalSymbols
 export default () => (<Layout toc={toc}>
   <h1 id='more'>
     More <sup><FontAwesome size='xs' icon={faEllipsisH}/></sup>
@@ -67,7 +67,7 @@ export default () => (<Layout toc={toc}>
       focus lies on web-based (single-page and/or MV*) application frameworks.
     </p></li>
     <li><p>
-      <a target='_blank' href='https://github.com/staltz/flux-challenge'>
+      <a target='_blank' href='https://hnpwa.com/'>
         HNPWA
       </a>{' '}
       (Hacker News readers as Progressive Web Apps) describes itself as a
