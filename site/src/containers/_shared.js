@@ -5,12 +5,10 @@ import {css} from 'emotion'
 export const FloatClear = () => <div style={{clear: 'both'}}/>
 
 // TODO: I need the scroll hack to retain the scroll position when going back/forth
-// TODO: I need to manually put the path prefix here otherwise the client side
-// routing will give me 404s on eugenkiss.github.io/7guis/... Such a hack
 export const Link = ({children, to, ...rest}) =>
   <ReactStatic.Link
     {...rest}
-    to={`/7guis${to}`}
+    to={to}
     exact
     onClick={() => setTimeout(() => window.scrollTo(0,0), 0)}
     >

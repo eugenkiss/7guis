@@ -6,58 +6,33 @@ import {renderStylesToString} from 'emotion-server'
 export default {
   preact: true,
 
-  // TODO: Having a subpath breaks a lot of react-static...
-  siteRoot: 'https://eugenkiss.github.io/7guis/',
+  siteRoot: 'https://eugenkiss.github.io/',
+  basePath: '7guis',
 
-  // TODO: Why do I need to duplicate routes to handle the /7guis/ subpath?
   getRoutes: () => {
     return [
       {
-        path: '/',
+        path: '',
         component: 'src/containers/Home',
       },
       {
-        path: '/7guis',
-        component: 'src/containers/Home',
-      },
-      {
-        path: '/tasks',
+        path: 'tasks',
         component: 'src/containers/Tasks',
       },
       {
-        path: '/7guis/tasks',
-        component: 'src/containers/Tasks',
-      },
-      {
-        path: '/dimensions',
+        path: 'dimensions',
         component: 'src/containers/Dimensions',
       },
       {
-        path: '/7guis/dimensions',
-        component: 'src/containers/Dimensions',
-      },
-      {
-        path: '/implementations',
+        path: 'implementations',
         component: 'src/containers/Implementations',
       },
       {
-        path: '/7guis/implementations',
-        component: 'src/containers/Implementations',
-      },
-      {
-        path: '/contributing',
+        path: 'contributing',
         component: 'src/containers/Contributing',
       },
       {
-        path: '/7guis/contributing',
-        component: 'src/containers/Contributing',
-      },
-      {
-        path: '/more',
-        component: 'src/containers/More',
-      },
-      {
-        path: '/7guis/more',
+        path: 'more',
         component: 'src/containers/More',
       },
       {

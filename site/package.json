@@ -1,17 +1,17 @@
 {
   "private": true,
   "dependencies": {
-    "@fortawesome/fontawesome": "^1.1.3",
-    "@fortawesome/fontawesome-free-solid": "^5.0.6",
+    "@fortawesome/fontawesome": "^1.1.4",
+    "@fortawesome/fontawesome-free-solid": "^5.0.8",
     "@fortawesome/react-fontawesome": "0.0.17",
-    "emotion": "^9.0.1",
-    "emotion-server": "^9.0.1",
+    "emotion": "^9.0.2",
+    "emotion-server": "^9.0.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",
-    "react-static": "^5.1.14"
+    "react-static": "^5.6.0"
   },
   "devDependencies": {
-    "serve": "^6.4.11"
+    "serve": "^6.5.3"
   }
 }
