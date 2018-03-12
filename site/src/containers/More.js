@@ -33,7 +33,11 @@ export default () => (<Layout toc={toc}>
   of the Leibniz Universität Hannover in 2014.
   The GUI programming sphere has anything but stopped evolving since then. Yet,
   the holy grail appears to still be out of reach. I believe projects such as
-  7GUIs may help us find the right direction sooner.
+  7GUIs may help us find the right direction sooner. Four years after its inception
+  I have written an article about 7GUIs:{' '}
+  <a target='_blank' href='https://hackernoon.com/towards-a-better-gui-programming-benchmark-397aca3542b8'>
+    Towards a Better GUI Programming Benchmark
+  </a>.
 
   <Heading {...toc.analyses}/>
   <p>
