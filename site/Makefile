@@ -1,5 +1,4 @@
-react-static=./node_modules/react-static/bin/react-static
-serve=./node_modules/serve/bin/serve.js
+NPM_BIN=./node_modules/.bin
 
 # Smart install: Only executes if package.json's
 # modification date is later than node_module's
@@ -10,13 +9,13 @@ node_modules: package.json
 	@touch -m node_modules
 
 run: node_modules
-	$(react-static) start
+	$(NPM_BIN)/react-static start
 
 build: node_modules public src .babelrc static.config.js
-	$(react-static) build
+	$(NPM_BIN)/react-static build
 
 serve:
-	$(serve) dist
+	$(NPM_BIN)/serve dist
 
 publish: build
 	rm -rf gh-pages
