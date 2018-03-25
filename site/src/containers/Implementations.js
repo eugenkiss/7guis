@@ -205,6 +205,7 @@ const implementations = [
     link: 'https://andreasgruenh.github.io/7guis/#/counter',
     src: 'https://github.com/andreasgruenh/7guis',
   },
+  {
     title: 'Svelte',
     technologies: ['Svelte', 'JavaScript'],
     author: 'Rich Harris',
