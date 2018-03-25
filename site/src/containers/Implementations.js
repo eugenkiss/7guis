@@ -42,8 +42,10 @@ export default () => (<Layout>
         </a>
         {' — '}
         <a target='_blank' href={x.src}>source <FontAwesome size='sm' icon={faFileCode}/></a>
+        {x.author != null && <React.Fragment>
         <br/>
         Author: <a target='_blank' href={x.authorLink}>{x.author}</a>
+        </React.Fragment>}
         <br/>
         Techs: {x.technologies.join(', ')}.
         {x.notes && <Fragment>
@@ -201,6 +203,19 @@ const implementations = [
     author: 'Andrew Greenh',
     authorLink: 'https://github.com/andreasgruenh',
     link: 'https://andreasgruenh.github.io/7guis/#/counter',
-    src: 'https://github.com/andreasgruenh/7guis'
+    src: 'https://github.com/andreasgruenh/7guis',
+  },
+    title: 'Svelte',
+    technologies: ['Svelte', 'JavaScript'],
+    author: 'Rich Harris',
+    authorLink: 'https://github.com/Rich-Harris',
+    link: 'https://svelte.technology/repl',
+    src: 'https://github.com/sveltejs/svelte.technology/tree/master/content/examples',
+  },
+  {
+    title: 'Tcl/Tk',
+    technologies: ['Tcl', 'Tk'],
+    link: 'http://wiki.tcl.tk/41121',
+    src: 'http://wiki.tcl.tk/41121',
   },
 ]
