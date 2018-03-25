@@ -195,4 +195,12 @@ const implementations = [
     link: 'https://github.com/jhernancanom/7GUIs_VFP',
     src: 'https://github.com/jhernancanom/7GUIs_VFP',
   },
+  {
+    title: 'Svelte',
+    technologies: ['Svelte', 'JavaScript'],
+    author: 'Rich Harris',
+    authorLink: 'https://github.com/Rich-Harris',
+    link: 'https://svelte.technology/repl',
+    src: 'https://github.com/sveltejs/svelte.technology/tree/master/content/examples',
+  },
 ]
