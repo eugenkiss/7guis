@@ -198,6 +198,13 @@ const implementations = [
     src: 'https://github.com/jhernancanom/7GUIs_VFP',
   },
   {
+    title: 'Vanilla React',
+    technologies: ['React'],
+    author: 'Andrew Greenh',
+    authorLink: 'https://github.com/andreasgruenh',
+    link: 'https://andreasgruenh.github.io/7guis/#/counter',
+    src: 'https://github.com/andreasgruenh/7guis',
+  },
     title: 'Svelte',
     technologies: ['Svelte', 'JavaScript'],
     author: 'Rich Harris',
