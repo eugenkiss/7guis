@@ -1,0 +1,27 @@
+﻿<Window x:Class="Timer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Timer"
+        mc:Ignorable="d"
+        xmlns:WindowsThreading="clr-namespace:System.Windows.Threading;assembly=WindowsBase" 
+        Title="MainWindow" Height="150" Width="250">
+    <Window.Resources>
+        <WindowsThreading:DispatcherTimer x:Key="timer" IsEnabled="True" Interval="00:00:01" Tick="DispatcherTimer_Tick" />
+    </Window.Resources>
+    <Grid Initialized="Grid_Initialized">
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <Label>Elapsed Time:</Label>
+                <ProgressBar Name="G" Width="100" Maximum="{Binding Maximum, ElementName=S}" ></ProgressBar>
+            </StackPanel>
+            <TextBlock Name="elapsed">0.0</TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <Label>Duration:</Label>
+                <Slider ValueChanged="S_ValueChanged" Name="S" Width="100"  Value="25" Maximum="50"></Slider>
+            </StackPanel>
+            <Button Click="Button_Click">Reset</Button>
+        </StackPanel>
+    </Grid>
+</Window>

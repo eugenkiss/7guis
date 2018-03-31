@@ -1,0 +1,69 @@
+﻿<Window x:Class="CRUD.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CRUD"
+        mc:Ignorable="d"
+
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <local:Persons x:Key="persons">
+            <local:Person Name="Hans" Surname="Emil"/>
+            <local:Person Name="Max" Surname="Mustermann"/>
+            <local:Person Name="Tisch" Surname="Roman"/>
+        </local:Persons>
+        <CollectionViewSource x:Key="filteredPersons" 
+                              Filter="CollectionViewSource_Filter"
+                              Source="{StaticResource persons}" />
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Margin" Value="5"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="30" Height="1*"></RowDefinition>
+            <RowDefinition Height="30*"></RowDefinition>
+            <RowDefinition MinHeight="30" Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel VerticalAlignment="Top" Grid.Row="0" Orientation="Horizontal">
+            <Label>Filter prefix:</Label>
+            <TextBox HorizontalAlignment="Stretch" MinWidth="50" x:Name="filter" TextChanged="filter_TextChanged"/>
+        </StackPanel>
+        <Grid Grid.Row="1"  VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <ListBox x:Name="personsView" Grid.Column="0" ItemsSource="{Binding Source={StaticResource filteredPersons}}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=Surname}"/>
+                            <TextBlock Text=", "/>
+                            <TextBlock Text="{Binding Path=Name}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Grid Grid.Column="1">
+                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>Name:</TextBlock>
+                        <TextBox x:Name="name" MinWidth="100">John</TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>Name:</TextBlock>
+                        <TextBox x:Name="surname" MinWidth="100">Romba</TextBox>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom">
+            <Button Click="Create">Create</Button>
+            <Button Click="Update">Update</Button>
+            <Button Click="Delete">Delete</Button>
+        </StackPanel>
+    </Grid>
+</Window>
