@@ -186,8 +186,8 @@ const implementations = [
     technologies: ['Phix'],
     author: 'petelomax NA',
     authorLink: 'https://bitbucket.org/petelomax/',
-    link: 'https://bitbucket.org/petelomax/phix/src/06e8ba8c8c7f6beb6cf8e9a0335059906439974a/demo/rosetta/7guis/',
-    src: 'https://bitbucket.org/petelomax/phix/src/06e8ba8c8c7f6beb6cf8e9a0335059906439974a/demo/rosetta/7guis/',
+    link: 'https://bitbucket.org/petelomax/phix/src/default/demo/rosetta/7guis/',
+    src: 'https://bitbucket.org/petelomax/phix/src/default/demo/rosetta/7guis/',
   },
   {
     title: 'VFP',
