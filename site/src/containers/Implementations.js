@@ -103,11 +103,11 @@ const implementations = [
   {
     title: 'Elm',
     technologies: ['Elm'],
-    author: 'Eugen Kiss',
-    authorLink: 'https://github.com/eugenkiss/',
-    notes: 'Incomplete and rather old (2014)',
-    link: 'https://github.com/eugenkiss/7guis-Elm',
-    src: 'https://github.com/eugenkiss/7guis-Elm',
+    author: 'Joaquin Oltra',
+    authorLink: 'https://github.com/joakin/',
+    notes: 'Elm 0.19',
+    link: 'https://joakin.github.io/elm-7guis',
+    src: 'https://github.com/joakin/elm-7guis',
   },
   {
     title: 'ClojureScript/Om',
