@@ -219,4 +219,12 @@ const implementations = [
     link: 'http://wiki.tcl.tk/41121',
     src: 'http://wiki.tcl.tk/41121',
   },
+  {
+    title: 'Angular',
+    technologies: ['Angular', 'TypeScript', 'RxJs'],
+    author: 'Alex Elarbee',
+    authorLink: 'https://github.com/elarbee/',
+    link: 'https://elarbee.github.io/7guis',
+    src: 'https://github.com/elarbee/7guis-angular8',
+  },
 ]
