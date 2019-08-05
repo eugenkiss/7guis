@@ -4,7 +4,7 @@ import faEllipsisH from '@fortawesome/fontawesome-free-solid/faEllipsisH'
 
 import {Layout, Heading, Link} from './_shared'
 
-const thesisHref = 'https://eugenkiss.com/projects/thesis.pdf'
+const thesisHref = 'https://github.com/eugenkiss/7guis/raw/master/thesis.pdf'
 const hciHref = 'https://hci.uni-hannover.de/'
 
 const toc = {
@@ -21,7 +21,7 @@ export default () => (<Layout toc={toc}>
 
   <Heading {...toc.about}/>
   7GUIs has been created as a spin-off of
-  {' '}<a target='_blank' href='https://eugenkiss.com'>my</a>{' '}
+  {' '}<a target='_blank' href='https://eugenkiss.github.io/7guis/'>my</a>{' '}
   master’s thesis
   {' '}<a target='_blank' href={thesisHref}>
     Comparison of Object-Oriented and Functional Programming for GUI Development

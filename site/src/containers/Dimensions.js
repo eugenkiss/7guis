@@ -10,7 +10,7 @@ const paper1Href = 'http://www.ppig.org/papers/15th-clarke.pdf'
 const paper2Href = 'http://homepage.ntlworld.com/greenery/workStuff/Papers/AVI2000.PDF'
 const paper3Href = 'http://www.ppig.org/papers/12th-kutar.pdf'
 const paper4Href = 'http://ecs.victoria.ac.nz/foswiki/pub/Events/PLATEAU/Program/plateau2011-sadowski.pdf'
-const thesisHref = 'https://eugenkiss.com/projects/thesis.pdf'
+const thesisHref = 'https://github.com/eugenkiss/7guis/raw/master/thesis.pdf'
 const fragileHref = 'https://en.wikipedia.org/wiki/Fragile_base_class'
 
 const toc = {
