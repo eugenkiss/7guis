@@ -227,4 +227,12 @@ const implementations = [
     link: 'https://elarbee.github.io/7guis',
     src: 'https://github.com/elarbee/7guis-angular8',
   },
+  {
+    title: 'Fyne',
+    technologies: ['Fyne', 'Go'],
+    author: 'Various Contributors',
+    authorLink: 'https://github.com/fyne-io/7guis/graphs/contributors',
+    link: 'https://github.com/fyne-io/7guis/blob/master/README.md',
+    src: 'https://github.com/fyne-io/7guis',
+  },
 ]
