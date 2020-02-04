@@ -210,8 +210,8 @@ const implementations = [
     technologies: ['Svelte', 'JavaScript'],
     author: 'Rich Harris',
     authorLink: 'https://github.com/Rich-Harris',
-    link: 'https://svelte.technology/repl',
-    src: 'https://github.com/sveltejs/svelte.technology/tree/master/content/examples',
+    link: 'https://svelte.dev/examples#7guis-counter',
+    src: 'https://github.com/sveltejs/svelte/tree/master/site/content/examples/20-7guis',
   },
   {
     title: 'Tcl/Tk',
