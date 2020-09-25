@@ -182,7 +182,7 @@ const implementations = [
     src: 'https://github.com/greggirwin/7guis/tree/master/Red',
   },
   {
-    title: 'Phix',
+   title: 'Phix',
     technologies: ['Phix'],
     author: 'Pete Lomax',
     authorLink: 'https://github.com/petelomax',
