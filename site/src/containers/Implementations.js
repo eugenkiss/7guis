@@ -235,4 +235,12 @@ const implementations = [
     link: 'https://github.com/fyne-io/7guis/blob/master/README.md',
     src: 'https://github.com/fyne-io/7guis',
   },
+  {
+    title: 'Sciter',
+    technologies: ['Sciter'],
+    author: 'GirkovArpa',
+    authorLink: 'https://github.com/GirkovArpa',
+    link: 'https://github.com/GirkovArpa/sciter-7guis#sciter-7guis',
+    src: 'https://github.com/GirkovArpa/sciter-7guis',
+  },
 ]
