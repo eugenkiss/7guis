@@ -182,12 +182,12 @@ const implementations = [
     src: 'https://github.com/greggirwin/7guis/tree/master/Red',
   },
   {
-    title: 'Phix',
+   title: 'Phix',
     technologies: ['Phix'],
-    author: 'petelomax NA',
-    authorLink: 'https://bitbucket.org/petelomax/',
-    link: 'https://bitbucket.org/petelomax/phix/src/default/demo/rosetta/7guis/',
-    src: 'https://bitbucket.org/petelomax/phix/src/default/demo/rosetta/7guis/',
+    author: 'Pete Lomax',
+    authorLink: 'https://github.com/petelomax',
+    link: 'https://github.com/petelomax/Phix/tree/master/demo/rosetta/7guis',
+    src: 'https://github.com/petelomax/Phix/tree/master/demo/rosetta/7guis',
   },
   {
     title: 'VFP',
