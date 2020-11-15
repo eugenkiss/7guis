@@ -243,4 +243,12 @@ const implementations = [
     link: 'https://github.com/GirkovArpa/sciter-7guis#sciter-7guis',
     src: 'https://github.com/GirkovArpa/sciter-7guis',
   },
+  {
+    title: 'Druid',
+    technologies: ['Druid', 'Rust'],
+    author: 'MrGibus',
+    authorLink: 'https://github.com/MrGibus',
+    link: 'https://github.com/MrGibus/Druid-7guis',
+    src: 'https://github.com/MrGibus/Druid-7guis',
+  },
 ]
