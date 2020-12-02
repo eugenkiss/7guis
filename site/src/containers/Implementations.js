@@ -251,4 +251,12 @@ const implementations = [
     link: 'https://www.youtube.com/watch?v=AQAYrvcjqqw',
     src: 'https://github.com/cs-util-com/cscore/tree/master/CsCore/UnityTests/Assets/Plugins/CsCoreUnityDemoScenes/Ui24_7GUIsBechnmark',
   },
+  {
+    title: 'Clojurescript/Reagent',
+    technologies: ['Clojurescript', 'Reagent'],
+    author: 'Camilo Polymeris',
+    authorLink: 'https://github.com/polymeris',
+    link: 'https://polymeris.github.io/7guis-clojurescript/',
+    src: 'https://github.com/polymeris/7guis-clojurescript',
+  },
 ]
