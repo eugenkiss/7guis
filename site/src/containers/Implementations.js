@@ -251,4 +251,12 @@ const implementations = [
     link: 'https://www.youtube.com/watch?v=AQAYrvcjqqw',
     src: 'https://github.com/cs-util-com/cscore/tree/master/CsCore/UnityTests/Assets/Plugins/CsCoreUnityDemoScenes/Ui24_7GUIsBechnmark',
   },
+  {
+    title: 'Godot Engine',
+    technologies: ['Godot Engine', 'GDScript'],
+    author: 'Andrew Wooldridge',
+    authorLink: 'https://github.com/triptych',
+    link: 'https://github.com/triptych/sevenguis/blob/master/README.md',
+    src: 'https://github.com/triptych/sevenguis',
+  },
 ]
