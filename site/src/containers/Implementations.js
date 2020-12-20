@@ -201,9 +201,9 @@ const implementations = [
     title: 'Vanilla React',
     technologies: ['React'],
     author: 'Andrew Greenh',
-    authorLink: 'https://github.com/andreasgruenh',
-    link: 'https://andreasgruenh.github.io/7guis/#/counter',
-    src: 'https://github.com/andreasgruenh/7guis',
+    authorLink: 'https://github.com/andrewgreenh',
+    link: 'https://andrewgreenh.github.io/7guis/#/counter',
+    src: 'https://github.com/andrewgreenh/7guis',
   },
   {
     title: 'Svelte',
