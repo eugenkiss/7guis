@@ -68,6 +68,14 @@ const implementations = [
     src: 'https://github.com/eugenkiss/7guis-React-TypeScript-MobX',
   },
   {
+    title: 'ClojureScript/React/Reagent/Tailwind',
+    technologies: ['ClojureScript', 'React', 'Reagent', 'Tailwind', 'shadow-cljs'],
+    author: 'Alex Sumner',
+    authorLink: 'https://github.com/alex-sumner/',
+    link: 'http://seven-guis.s3-website.eu-west-2.amazonaws.com/',
+    src: 'https://github.com/alex-sumner/seven-guis',
+  },
+  {
     title: 'Java7/Swing',
     technologies: ['Java7', 'Swing'],
     author: 'Eugen Kiss',
