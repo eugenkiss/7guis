@@ -267,4 +267,12 @@ const implementations = [
     link: 'https://github.com/triptych/sevenguis/blob/master/README.md',
     src: 'https://github.com/triptych/sevenguis',
   },
+  {
+    title: 'React/Xstate',
+    technologies: ['React', 'XState', 'Chakra'],
+    author: 'Abhimanyu Pathania',
+    authorLink: 'https://github.com/abhimanyuPathania',
+    link: 'https://seven-guis.netlify.app/',
+    src: 'https://github.com/abhimanyuPathania/seven-guis',
+  },
 ]
