@@ -244,12 +244,12 @@ const implementations = [
     src: 'https://github.com/fyne-io/7guis',
   },
   {
-    title: 'Sciter',
-    technologies: ['Sciter'],
+    title: 'Sciter.JS',
+    technologies: ['Sciter.JS'],
     author: 'GirkovArpa',
     authorLink: 'https://github.com/GirkovArpa',
-    link: 'https://github.com/GirkovArpa/sciter-7guis#sciter-7guis',
-    src: 'https://github.com/GirkovArpa/sciter-7guis',
+    link: 'https://github.com/GirkovArpa/sciter-js-7guis#sciterjs-7guis',
+    src: 'https://github.com/GirkovArpa/sciter-js-7guis',
   },
   {
     title: 'C#/Unity',
