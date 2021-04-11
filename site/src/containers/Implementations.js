@@ -275,4 +275,12 @@ const implementations = [
     link: 'https://seven-guis.netlify.app/',
     src: 'https://github.com/abhimanyuPathania/seven-guis',
   },
+  {
+    title: 'fltk-rs',
+    technologies: ['Rust', 'fltk-rs', 'FLTK'],
+    author: 'Tom Dryer',
+    authorLink: 'https://github.com/tdryer',
+    link: 'https://github.com/tdryer/7guis-fltk-rs#7guis-fltk-rs',
+    src: 'https://github.com/tdryer/7guis-fltk-rs',
+  },
 ]
