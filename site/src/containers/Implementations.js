@@ -283,4 +283,12 @@ const implementations = [
     link: 'https://github.com/tdryer/7guis-fltk-rs#7guis-fltk-rs',
     src: 'https://github.com/tdryer/7guis-fltk-rs',
   },
+  {
+    title: 'Clojurescript/Reagent',
+    technologies: ['Clojurescript', 'Reagent'],
+    author: 'Ar Nazeh',
+    authorLink: 'https://github.com/Nazeh',
+    link: 'https://7guis-cljs.nzh.io/',
+    src: 'https://github.com/Nazeh/7guis-cljs',
+  },
 ]
