@@ -291,4 +291,12 @@ const implementations = [
     link: 'https://7guis-cljs.nzh.io/',
     src: 'https://github.com/Nazeh/7guis-cljs',
   },
+  {
+    title: 'Druid',
+    technologies: ['Druid', 'Rust'],
+    author: 'MrGibus',
+    authorLink: 'https://github.com/MrGibus',
+    link: 'https://github.com/MrGibus/Druid-7guis',
+    src: 'https://github.com/MrGibus/Druid-7guis',
+  },
 ]
