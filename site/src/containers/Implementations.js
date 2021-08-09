@@ -291,4 +291,12 @@ const implementations = [
     link: 'https://7guis-cljs.nzh.io/',
     src: 'https://github.com/Nazeh/7guis-cljs',
   },
+  {
+    title: 'gotoв',
+    technologies: ['gotoв', 'JavaScript'],
+    author: 'Federico Pereiro',
+    authorLink: 'https://github.com/fpereiro/',
+    link: 'https://altocode.nl/gotob/examples/7guis.html',
+    src: 'https://github.com/fpereiro/gotoB/blob/master/examples/7guis.js'
+  },
 ]
