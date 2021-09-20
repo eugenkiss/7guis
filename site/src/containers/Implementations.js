@@ -299,4 +299,12 @@ const implementations = [
     link: 'https://altocode.nl/gotob/examples/7guis.html',
     src: 'https://github.com/fpereiro/gotoB/blob/master/examples/7guis.js'
   },
+  {
+    title: "HTML, CSS, JavaScript",
+    technologies: ["HTML", "CSS", "JavaScript"],
+    author: "Brad Woods",
+    authorLink: "https://github.com/bradwoods/",
+    link: "https://7guis.bradwoods.io",
+    src: "https://github.com/bradwoods/7guis-html-css-js",
+  }
 ]
