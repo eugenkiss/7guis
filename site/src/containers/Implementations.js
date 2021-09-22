@@ -306,5 +306,13 @@ const implementations = [
     authorLink: "https://github.com/bradwoods/",
     link: "https://7guis.bradwoods.io",
     src: "https://github.com/bradwoods/7guis-html-css-js",
+  },
+  {
+    title: "BANG!",
+    technologies: ["BANG!", "Web Components"],
+    author: "@dosy",
+    authorLink: "https://github.com/i5ik/",
+    link: "https://i5ik.github.io/7guis-BANG/",
+    src: "https://github.com/i5ik/7guis-BANG",
   }
 ]

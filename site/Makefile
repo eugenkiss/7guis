@@ -9,7 +9,7 @@ node_modules: package.json
 	@touch -m node_modules
 
 run: node_modules
-	$(NPM_BIN)/react-static start
+	$(NPM_BIN)/react-static start  
 
 build: node_modules public src .babelrc static.config.js
 	$(NPM_BIN)/react-static build
