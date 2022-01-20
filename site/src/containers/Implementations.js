@@ -321,9 +321,4 @@ const implementations = [
     link: "https://github.com/mfelleisen/7GUI/",
     src: "https://github.com/mfelleisen/7GUI",
   }
-  
-  
-  
-  
-  https://github.com/mfelleisen/7GUI
 ]
