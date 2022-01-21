@@ -10,19 +10,18 @@ Window {
     visible: true
 
     property int counter: 0
+
     RowLayout {
-        id: layout
         anchors.fill: parent
         spacing: 6
+
         Label {
-            id: theCount
-            text: String(counterWindow.counter)
+            text: counterWindow.counter
         }
 
         Button {
-            id: theButton
             text: "Increment"
-            onClicked: theCount.text = String(++counterWindow.counter)
+            onClicked: ++counterWindow.counter
         }
     }
 }
