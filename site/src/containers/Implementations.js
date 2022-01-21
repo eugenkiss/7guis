@@ -268,6 +268,14 @@ const implementations = [
     src: 'https://github.com/triptych/sevenguis',
   },
   {
+    title: 'Druid',
+    technologies: ['Druid', 'Rust'],
+    author: 'MrGibus',
+    authorLink: 'https://github.com/MrGibus',
+    link: 'https://github.com/MrGibus/Druid-7guis',
+    src: 'https://github.com/MrGibus/Druid-7guis',
+  },
+  {
     title: 'React/Xstate',
     technologies: ['React', 'XState', 'Chakra'],
     author: 'Abhimanyu Pathania',
