@@ -236,6 +236,13 @@ const implementations = [
     src: 'https://github.com/elarbee/7guis-angular8',
   },
   {
+    title: 'Flow9',
+    technologies: ['flow', 'flow9'],
+    author: 'Asger Palm',
+    link: 'https://github.com/area9innovation/flow9/tree/master/demos/7guis',
+    src: 'https://github.com/area9innovation/flow9/tree/master/demos/7guis',
+  },
+  {
     title: 'Fyne',
     technologies: ['Fyne', 'Go'],
     author: 'Various Contributors',
