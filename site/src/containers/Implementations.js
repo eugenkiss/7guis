@@ -314,6 +314,14 @@ const implementations = [
     link: 'https://7guis-cljs.nzh.io/',
     src: 'https://github.com/Nazeh/7guis-cljs',
   },
+  {  
+    title: 'Clojurescript/Reagent/2',
+    technologies: ['Clojurescript', 'Reagent'],
+    author: 'Camilo Polymeris',
+    authorLink: 'https://github.com/polymeris',
+    link: 'https://polymeris.github.io/7guis-clojurescript/',
+    src: 'https://github.com/polymeris/7guis-clojurescript',
+  },
   {
     title: 'gotoв',
     technologies: ['gotoв', 'JavaScript'],
