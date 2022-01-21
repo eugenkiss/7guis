@@ -12,6 +12,6 @@
     "react-static": "^5.6.0"
   },
   "devDependencies": {
-    "serve": "^6.5.3"
+    "serve": "^10.1.2"
   }
 }
