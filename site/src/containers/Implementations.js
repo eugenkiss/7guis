@@ -236,6 +236,14 @@ const implementations = [
     src: 'https://github.com/elarbee/7guis-angular8',
   },
   {
+    title: 'Vue, Angular, React, Svelte',
+    technologies: ['Vue', 'Angular', 'React', 'Svelte'],
+    author: 'Lars Kappert',
+    authorLink: 'https://github.com/webpro',
+    link: 'https://github.com/webpro/vars',
+    src: 'https://github.com/webpro/vars',
+  },
+  {
     title: 'Flow9',
     technologies: ['flow', 'flow9'],
     author: 'Asger Palm',
