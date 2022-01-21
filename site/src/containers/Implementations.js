@@ -314,5 +314,19 @@ const implementations = [
     authorLink: "https://github.com/i5ik/",
     link: "https://i5ik.github.io/_____/7guis/",
     src: "https://github.com/i5ik/_____/tree/main/docs/7guis",
-  }
+  },
+  {
+    title: "Racket",
+    technologies: ["Racket", "racket/gui"],
+    link: "https://github.com/mfelleisen/7GUI/",
+    src: "https://github.com/mfelleisen/7GUI",
+  },
+  {
+    title: "GUI-Easy declarative GUI",
+    technologies: ["GUI-Easy", "Racket", "racket/gui"],
+    author: "Bogdan Popa",
+    authorLink: "https://github.com/Bogdanp/",
+    link: "https://github.com/Bogdanp/racket-gui-easy/tree/master/examples",
+    src: "https://github.com/Bogdanp/racket-gui-easy/tree/master/examples",
+  }  
 ]
