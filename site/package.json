@@ -9,7 +9,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router": "^4.2.0",
-    "react-static": "^5.6.0"
+    "react-static": "^7.6.2"
   },
   "devDependencies": {
     "serve": "^10.1.2"
