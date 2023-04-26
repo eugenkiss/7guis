@@ -142,6 +142,14 @@ const implementations = [
     src: 'https://github.com/eugenkiss/7guis/tree/master/C%23-WinForms',
   },
   {
+    title: 'OCaml/LabGtk3',
+    technologies: ['OCaml', 'LablGtk3'],
+    author: 'Frédéric Loyer',
+    authorLink: 'https://github.com/F-loyer/',
+    link: 'https://github.com/F-loyer/7guis-ocaml-lablgtk3',
+    src: 'https://github.com/F-loyer/7guis-ocaml-lablgtk3',
+  },
+  {
     title: 'Kotlin/TornadoFX',
     technologies: ['Kotlin', 'TornadoFX'],
     author: 'Karl',
