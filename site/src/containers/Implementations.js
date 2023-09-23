@@ -68,6 +68,14 @@ const implementations = [
     src: 'https://github.com/eugenkiss/7guis-React-TypeScript-MobX',
   },
   {
+    title: 'PureBasic',
+    technologies: ['Purebasic'],
+    author: 'Kai Peters',
+    authorLink: 'https://github.com/kpeters58/',
+    link: 'https://github.com/kpeters58/7guis-Purebasic',
+    src: 'https://github.com/kpeters58/7guis-Purebasic',
+  },  
+  {
     title: 'ClojureScript/React/Reagent/Tailwind',
     technologies: ['ClojureScript', 'React', 'Reagent', 'Tailwind', 'shadow-cljs'],
     author: 'Alex Sumner',
